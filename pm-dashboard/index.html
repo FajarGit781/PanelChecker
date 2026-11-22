@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self'; connect-src https://*.supabase.co; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>Dashboard PM · Panel Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* Panel Tracker — bahasa visual "ruang relay" (sama dengan aplikasi laptop & HP) */
+:root {
+  color-scheme: light;
+  --bg: #dfe2df; --sheet: #fbfbfa; --rule: #d2d6d2; --grid: #e6e9e6;
+  --ink: #16191b; --muted: #586064; --faint: #656c6f;
+  --plate: #1e2225; --engrave: #f2f3f1; --signal: #f5b300;
+  /* status (hasil cek & punch) — selalu disertai label */
+  --ok: #1e8e3e; --ng: #d7261e; --na: #8c9396; --todo: #d2d6d2; --warn: #e08a00; --blue: #1f6fb2;
+  --ok-t: #166a2f; --ng-t: #b51f18; --warn-t: #8a5200;
+  /* seri kategorikal (dibuka vs ditutup) — palet tervalidasi, slot 1 & 2 */
+  --series-1: #2a78d6; --series-2: #eb6834;
+  --sans: "IBM Plex Sans", system-ui, sans-serif; --cond: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); min-height: 100vh; }
+button, input, select { font: inherit; color: inherit; }
+.hidden { display: none !important; }
+header.top { background: var(--plate); color: var(--engrave); display: flex; align-items: center; gap: 14px; padding: 10px 20px; flex-wrap: wrap; }
+.brand { font: 700 17px var(--cond); letter-spacing: .05em; text-transform: uppercase; }
+.brand small { display: block; font: 500 11px var(--sans); color: #9aa3a6; letter-spacing: .08em; }
+header.top .grow { flex: 1; }
+header.top select, header.top button { background: #2a3034; border: 1px solid #3b4246; color: var(--engrave); border-radius: 8px; padding: 7px 10px; font-size: 13px; }
+header.top .who { font-size: 12px; color: #9aa3a6; }
+main { max-width: 1280px; margin: 0 auto; padding: 18px 20px 40px; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; }
+h2 { font: 600 13px var(--cond); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0; }
+.card-h { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.card-h .sub { color: var(--faint); font-size: 12.5px; }
+.card-h .grow { flex: 1; }
+.btn { border: 1px solid #b3b9b5; background: #fff; border-radius: 8px; padding: 6px 11px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn.primary { background: var(--signal); border-color: #d99d00; color: #1a1400; }
+.seg { display: inline-flex; background: #e4e7e4; border-radius: 8px; padding: 2px; }
+.seg button { border: 0; background: transparent; padding: 5px 11px; border-radius: 6px; font-size: 12.5px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--plate); color: var(--engrave); }
+
+/* login */
+.login { max-width: 380px; margin: 60px auto; }
+.login label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 5px; }
+.login input { width: 100%; padding: 10px 12px; border: 1px solid #9ea6a3; border-radius: 8px; background: #fff; font-size: 15px; }
+.err { background: #fbe3e1; color: var(--ng-t); border-radius: 8px; padding: 9px 12px; margin-top: 12px; font-size: 13.5px; }
+
+/* KPI */
+.kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 14px; }
+.kpi { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; }
+.kpi .l { font: 600 11.5px var(--cond); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.kpi .v { font: 700 32px/1.1 var(--cond); margin-top: 6px; color: var(--ink); }
+.kpi .v small { font-size: 16px; color: var(--faint); font-weight: 600; }
+.kpi .s { font-size: 12.5px; color: var(--faint); margin-top: 2px; }
+.kpi.alert { border-color: #e7b3ae; box-shadow: inset 4px 0 0 var(--ng); }
+.kpi.alert .v { color: var(--ng-t); }
+.kpi .meter { height: 6px; background: #e6e9e6; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.kpi .meter i { display: block; height: 100%; background: var(--ok); border-radius: 3px; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 14px; margin-bottom: 14px; }
+.grid2 > *, .kpis > * { min-width: 0; }
+
+/* legend */
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+/* progress per bay */
+.bays { width: 100%; border-collapse: collapse; }
+.bays th { font: 600 11px var(--cond); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: left; padding: 0 8px 6px; }
+.bays td { padding: 7px 8px; border-top: 1px solid var(--grid); vertical-align: middle; }
+.bays td.name { white-space: nowrap; font-weight: 600; }
+.bays td.name small { display: block; font-weight: 400; color: var(--faint); font-size: 11.5px; }
+.bays td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bays td.bar { width: 46%; }
+.stack { display: flex; height: 14px; gap: 2px; }
+.stack span { display: block; height: 100%; }
+.stack span:first-child { border-radius: 4px 0 0 4px; }
+.stack span:last-child { border-radius: 0 4px 4px 0; }
+.stack span:only-child { border-radius: 4px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 600; }
+.lamp { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.c-ng { color: var(--ng-t); } .c-ok { color: var(--ok-t); } .c-warn { color: var(--warn-t); }
+
+/* chart */
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--sans); }
+.tip { position: absolute; pointer-events: none; background: var(--plate); color: var(--engrave); border-radius: 8px; padding: 7px 10px; font-size: 12.5px;
+  white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,.18); transform: translate(-50%, calc(-100% - 10px)); z-index: 5; }
+.tip b { font-weight: 600; }
+.tip .row { display: flex; align-items: center; gap: 6px; }
+.tip i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+/* tabel */
+table.list { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.list th { text-align: left; font: 600 11px var(--cond); text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+  padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.list td { padding: 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+table.list td.code { font-weight: 700; white-space: nowrap; }
+table.list td.nowrap { white-space: nowrap; }
+.sev { display: inline-block; width: 22px; height: 22px; border-radius: 5px; text-align: center; font: 700 14px/22px var(--cond);
+  background: #fbe3e1; color: var(--ng-t); }
+.empty { color: var(--faint); text-align: center; padding: 20px 0; }
+.scroll { overflow-x: auto; }
+.foot { color: var(--faint); font-size: 12px; text-align: center; margin-top: 18px; }
+.spinner { width: 30px; height: 30px; border: 3px solid #c9cec9; border-top-color: var(--plate); border-radius: 50%; animation: sp .8s linear infinite; margin: 60px auto; }
+@keyframes sp { to { transform: rotate(360deg); } }
+
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } .grid2 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) {
+  main { padding: 14px 16px 30px; } .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi .v { font-size: 26px; }
+  .bays td.bar { width: 30%; min-width: 70px; } .bays .hide-sm { display: none; } .bays td.name small { display: none; } header.top { padding: 10px 16px; gap: 8px; } header.top .who { display: none; }
+}
+@media print { header.top button, .no-print { display: none !important; } body { background: #fff; } .card, .kpi { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Panel Tracker<small>DASHBOARD PM</small></div>
+  <div class="grow"></div>
+  <select id="proj" class="hidden" aria-label="Pilih project"></select>
+  <button id="refresh" class="hidden" type="button">↻ Muat ulang</button>
+  <span id="who" class="who"></span>
+  <button id="logout" class="hidden" type="button">Keluar</button>
+</header>
+
+<main>
+  <section id="vLogin" class="hidden">
+    <div class="card login">
+      <h2>Masuk</h2>
+      <p style="color:var(--muted);margin:6px 0 0;font-size:13.5px">Pakai akun tim Panel Tracker (mis. <b>Viewer</b>). Dashboard ini hanya untuk melihat.</p>
+      <form id="loginForm">
+        <label for="u">Username</label>
+        <input id="u" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <label for="p">Password</label>
+        <input id="p" type="password" autocomplete="current-password" required>
+        <div style="margin-top:16px"><button class="btn primary" id="lgBtn" type="submit" style="width:100%;padding:10px">Masuk</button></div>
+        <div id="lgErr" class="err hidden"></div>
+      </form>
+    </div>
+  </section>
+
+  <div id="vLoading" class="hidden"><div class="spinner"></div></div>
+  <div id="vErr" class="card hidden"><div class="err" id="errText" style="margin:0"></div></div>
+
+  <section id="vDash" class="hidden">
+    <div class="kpis" id="kpis"></div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-h"><h2>Progress per bay</h2><span class="sub" id="baySub"></span><span class="grow"></span>
+          <div class="seg no-print" role="group" aria-label="Urutkan">
+            <button data-sort="bay" aria-pressed="true">Bay</button><button data-sort="pct" aria-pressed="false">Progress</button><button data-sort="punch" aria-pressed="false">Punch</button>
+          </div></div>
+        <div class="legend" style="margin-bottom:8px">
+          <span><i style="background:var(--ok)"></i>OK</span><span><i style="background:var(--ng)"></i>NG</span>
+          <span><i style="background:var(--na)"></i>N/A</span><span><i style="background:var(--todo)"></i>Belum dicek</span>
+        </div>
+        <div class="scroll"><table class="bays" id="bays"></table></div>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>Punch dibuka vs ditutup</h2><span class="grow"></span>
+          <div class="seg no-print" role="group" aria-label="Rentang">
+            <button data-gran="day" aria-pressed="false">Harian</button><button data-gran="week" aria-pressed="true">Mingguan</button>
+          </div>
+          <button class="btn no-print" id="trendTableBtn" type="button">Tabel</button></div>
+        <div class="legend" style="margin-bottom:6px">
+          <span><i style="background:var(--series-1)"></i>Dibuka</span><span><i style="background:var(--series-2)"></i>Ditutup</span>
+        </div>
+        <div class="chart" id="trend"></div>
+        <div id="trendTable" class="hidden scroll"></div>
+        <div class="sub" id="trendNote" style="color:var(--faint);font-size:12.5px;margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-h"><h2>Kategori A — menahan energize</h2><span class="sub" id="critSub"></span></div>
+      <div class="scroll"><table class="list" id="crit"></table></div>
+    </div>
+
+    <div class="foot" id="foot"></div>
+  </section>
+</main>
+<script src="dashboard.js"></script>
+</body>
+</html>

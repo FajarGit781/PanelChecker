@@ -1,0 +1,6 @@
+PySide6-Essentials>=6.6
+reportlab>=4.0
+openpyxl>=3.1
+Pillow>=10.0
+pyinstaller>=6.5
+keyring>=25; sys_platform == "darwin"

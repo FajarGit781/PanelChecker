@@ -1,0 +1,44 @@
+# Deliverables (dmg/zip/apk/exe) — disimpan di root, bukan di git
+/*.dmg
+/*.zip
+*.apk
+*.aab
+*.exe
+
+# Build output
+dist/
+build/
+paneltracker/installer/Output/
+
+# Python
+.venv/
+.venv-mac/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+.netlify/
+
+# Data lokal (SQLite) & settings mesin
+*.db
+*.db-wal
+*.db-shm
+settings.ini
+local.properties
+
+# Capacitor: hasil cap sync (dibuat ulang dari dist/)
+paneltracker-mobile/android/app/src/main/assets/public/
+
+# Data test yang tidak dibagikan
+paneltracker/tests/data/
+
+# Secrets (jaga-jaga)
+.env
+.env.*
+*.keystore
+*.jks
+
+# OS / editor
+.DS_Store
+.claude/settings.local.json

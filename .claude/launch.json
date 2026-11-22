@@ -1,0 +1,1 @@
+{ "version": "0.0.1", "configurations": [ { "name": "kas-ca", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "5178", "-d", "kas-ca/public"], "port": 5178 } ] }

@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E2225">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel Tracker Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<style>
+/* Tema "ruang relay" — sama dengan aplikasi desktop & HP (app/ui/theme.py) */
+:root{
+  --bg:#DFE2DF; --card:#FBFBFA; --border:#C9CEC9; --text:#16191B; --muted:#586064;
+  --side:#1E2225; --side2:#2A3034; --engrave:#F2F3F1; --sidemuted:#9AA3A6;
+  --signal:#F5B300; --onsignal:#1A1400;
+  --ok:#1A7A36; --okl:#DFF1E4; --ng:#C4221B; --ngl:#FBE3E1; --na:#586064; --nal:#E4E7E4;
+  --warn:#9A5B00; --warnl:#FCEFD6; --info:#1F6FB2; --infol:#E1ECF6;
+  --lred:#D7261E; --lamber:#E08A00; --lgreen:#1E8E3E; --lblue:#1F6FB2; --loff:#C9CECC;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.45 "IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  -webkit-text-size-adjust:100%;min-height:100vh}
+button,input{font:inherit;color:inherit}
+.hidden{display:none!important}
+header{background:var(--side);color:var(--engrave);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+  display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5}
+header .brand{font:700 17px "IBM Plex Sans Condensed",sans-serif;letter-spacing:.04em;text-transform:uppercase;flex:1}
+header .brand small{display:block;font:500 11px "IBM Plex Sans",sans-serif;color:var(--sidemuted);letter-spacing:.08em}
+header button{background:var(--side2);border:1px solid #3B4246;color:var(--engrave);border-radius:8px;
+  padding:7px 11px;font-size:13px;cursor:pointer}
+main{max-width:760px;margin:0 auto;padding:16px 16px calc(32px + env(safe-area-inset-bottom))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+h2{font:600 13px "IBM Plex Sans Condensed",sans-serif;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 10px}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
+input[type=text],input[type=password]{width:100%;padding:11px 12px;border:1px solid #9EA6A3;border-radius:8px;background:#fff;font-size:16px}
+input:focus{outline:2px solid var(--signal);outline-offset:1px;border-color:var(--side)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border);
+  background:var(--card);border-radius:10px;padding:11px 16px;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--signal);border-color:#D99D00;color:var(--onsignal)}
+.btn.dark{background:var(--side);border-color:var(--side);color:var(--engrave)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.55;cursor:default}
+.err{background:var(--ngl);color:var(--ng);border-radius:8px;padding:10px 12px;margin-top:12px;font-size:14px}
+.note{color:var(--muted);font-size:13px}
+.row{display:flex;gap:8px;align-items:center}
+.row>input{flex:1}
+
+/* scanner */
+.scanbox{position:relative;background:#000;border-radius:12px;overflow:hidden;aspect-ratio:1/1;max-height:62vh;margin:0 auto 12px;width:100%}
+.scanbox video{width:100%;height:100%;object-fit:cover;display:block}
+.scanbox .frame{position:absolute;inset:16%;border:3px solid var(--signal);border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+.scanbox .hint{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 2px #000}
+.scan-cta{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 8px;text-align:center}
+.scan-cta svg{width:56px;height:56px}
+.recent{list-style:none;margin:0;padding:0}
+.recent li{display:flex;align-items:center;gap:10px;padding:10px 4px;border-top:1px solid #E6E9E6;cursor:pointer}
+.recent li:first-child{border-top:0}
+.recent .when{margin-left:auto;color:var(--muted);font-size:12px}
+
+/* panel */
+.plate{display:inline-block;background:var(--side);color:var(--engrave);font:700 20px "IBM Plex Sans Condensed",sans-serif;
+  letter-spacing:.05em;padding:6px 14px;border-radius:5px;box-shadow:inset 0 0 0 1px #3B4246;word-break:break-word}
+.lamp{display:inline-block;width:12px;height:12px;border-radius:50%;flex:0 0 auto;box-shadow:inset 0 -2px 3px rgba(0,0,0,.25),0 0 0 2px rgba(0,0,0,.08)}
+.status-pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;margin-top:12px}
+.meta dt{color:var(--muted)}.meta dd{margin:0;word-break:break-word}
+.big{font:700 40px/1 "IBM Plex Sans Condensed",sans-serif}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:#E4E7E4;margin:10px 0 8px}
+.bar span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.legend b{font-weight:700}
+.sq{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.kpi{border:1px solid #E1E4E1;border-radius:8px;padding:8px;text-align:center;background:#fff}
+.kpi .v{font:700 22px/1.1 "IBM Plex Sans Condensed",sans-serif}
+.kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.tab{border:1px solid var(--border);background:var(--card);border-radius:20px;padding:7px 14px;font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer}
+.tab[aria-pressed=true]{background:var(--side);color:var(--engrave);border-color:var(--side)}
+.section{font:600 12px "IBM Plex Sans Condensed",sans-serif;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
+  padding:12px 0 6px;display:flex;justify-content:space-between}
+.item{display:flex;gap:10px;padding:10px 0;border-top:1px solid #E6E9E6}
+.item .d{flex:1;min-width:0}
+.item .c{color:var(--muted);font-size:13px}
+.item .x{font-size:13px;margin-top:3px}
+.res{flex:0 0 auto;min-width:44px;text-align:center;font:700 12px "IBM Plex Sans Condensed",sans-serif;border-radius:6px;padding:4px 6px;height:fit-content}
+.res.OK{background:var(--okl);color:var(--ok)}.res.NG{background:var(--ngl);color:var(--ng)}
+.res.NA{background:var(--nal);color:var(--na)}.res.none{background:#fff;color:#7A8285;border:1px dashed #B3B9B5}
+
+.punch{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:10px;background:#fff}
+.punch .sev{flex:0 0 34px;display:flex;align-items:center;justify-content:center;font:700 18px "IBM Plex Sans Condensed",sans-serif}
+.punch .sev.Critical{background:#FBE3E1;color:#C4221B}.punch .sev.Major{background:#F9E7DA;color:#B04A12}.punch .sev.Minor{background:#F4EDCF;color:#7A5E00}
+.punch .b{flex:1;padding:10px 12px;min-width:0}
+.punch .top{display:flex;gap:8px;align-items:center;font-size:13px}
+.punch .code{font-weight:700}
+.punch .st{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13px}
+.punch .t{font-weight:600;margin:4px 0 2px}
+.punch .m{font-size:13px;color:var(--muted)}
+.punch .over{color:var(--ng);font-weight:600}
+.punch details{margin-top:6px;font-size:14px}
+.punch summary{cursor:pointer;color:var(--info);font-size:13px;font-weight:600}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:8px}
+.photos figure{margin:0}.photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;background:#E4E7E4;cursor:zoom-in}
+.photos figcaption{font-size:11px;color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:16px 0;font-size:14px}
+.spinner{width:28px;height:28px;border:3px solid #C9CEC9;border-top-color:var(--side);border-radius:50%;animation:sp 0.8s linear infinite;margin:24px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
+.lightbox img{max-width:100%;max-height:100%;border-radius:6px}
+.toolbar{display:flex;gap:8px;margin-bottom:14px}
+.toolbar .btn{flex:1}
+@media (max-width:420px){.kpis{grid-template-columns:repeat(2,1fr)}.big{font-size:34px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Panel Tracker<small>PROGRESS PANEL · HANYA LIHAT</small></div>
+</header>
+
+<main>
+  <!-- SCAN (dipakai kalau halaman dibuka tanpa link panel, mis. untuk label QR lama) -->
+  <section id="vScan" class="hidden">
+    <div class="card">
+      <div id="scanIdle" class="scan-cta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1E2225" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h3v3M20.5 14v.01M14 20.5h.01M17 20.5h3.5V17"/></svg>
+        <div style="font-weight:600;font-size:17px">Scan label QR di pintu panel</div>
+        <div class="note">Arahkan kamera ke label QR. Progress checking & punch list panel langsung tampil.</div>
+        <button class="btn primary" id="btnScan" type="button" style="min-width:200px">Buka kamera</button>
+      </div>
+      <div id="scanLive" class="hidden">
+        <div class="scanbox"><video id="video" playsinline muted></video><div class="frame"></div><div class="hint">Arahkan ke QR…</div></div>
+        <button class="btn block" id="btnStop" type="button">Tutup kamera</button>
+      </div>
+      <div id="scanErr" class="err hidden"></div>
+    </div>
+    <div class="card" id="recentCard">
+      <h2>Terakhir dilihat di HP ini</h2>
+      <ul class="recent" id="recentList"></ul>
+    </div>
+  </section>
+
+  <!-- PANEL -->
+  <section id="vPanel" class="hidden">
+    <div id="panelBody"></div>
+    <div class="toolbar" style="margin-top:4px">
+      <button class="btn" id="btnRefresh" type="button">↻ Muat ulang</button>
+      <button class="btn" id="btnBack" type="button">Scan panel lain</button>
+    </div>
+  </section>
+
+  <div id="vLoading" class="hidden"><div class="spinner"></div></div>
+</main>
+
+<div id="lightbox" class="lightbox hidden"><img alt=""></div>
+
+<script>
+"use strict";
+/* Data diambil dari Edge Function publik "panel-view" (hanya baca, satu panel per uuid). Tidak perlu login. */
+const API = "https://ewwtxklxgkyflhyazueg.supabase.co/functions/v1/panel-view";
+const LS_RECENT = "pt_viewer_recent";
+
+const STATUS_LABEL = {"Open":"Open","In Progress":"Dikerjakan","Ready to Verify":"Siap Verifikasi","Closed":"Closed"};
+const STATUS_LAMP = {"Open":"var(--lred)","In Progress":"var(--lamber)","Ready to Verify":"var(--lblue)","Closed":"var(--lgreen)"};
+const STATUS_ORDER = {"Open":0,"In Progress":1,"Ready to Verify":2,"Closed":3};
+const SEV_SHORT = {"Critical":"A","Major":"B","Minor":"C"};
+const SEV_ORDER = {"Critical":0,"Major":1,"Minor":2};
+const PANEL_COLOR = {"Tanpa checklist":"#6E7578","Belum dicek":"#586064","Sedang dicek":"#9A5B00","Ada temuan":"#C4221B","Lulus":"#1A7A36","Diterima":"#1F5C4A"};
+const PANEL_LAMP = {"Tanpa checklist":"var(--loff)","Belum dicek":"var(--loff)","Sedang dicek":"var(--lamber)","Ada temuan":"var(--lred)","Lulus":"var(--lgreen)","Diterima":"var(--lgreen)"};
+const UUID_RE = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const oneLine = s => String(s ?? "").split(/\s+/).filter(Boolean).join(" ");
+const todayISO = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+function fmtDate(s){
+  if(!s) return "";
+  const d = new Date(String(s).length <= 10 ? s + "T00:00:00" : s);
+  return isNaN(d) ? String(s) : d.toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"});
+}
+function store(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function load(k, def){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
+
+const views = ["vScan","vPanel","vLoading"];
+function show(id){ views.forEach(v => $("#"+v).classList.toggle("hidden", v !== id)); window.scrollTo(0,0); }
+function showErr(msg){ const el = $("#scanErr"); el.textContent = msg || ""; el.classList.toggle("hidden", !msg); }
+
+/* ---------------------------------------------------------------- isi QR → uuid panel
+   - Label baru: https://<viewer>/?p=<uuid>   (kamera HP biasa langsung membuka halaman ini)
+   - Label v2.7.1: PT:<uuid>:<tag>             (scan dari tombol kamera di halaman ini)
+   - Label lama PT:<nomor>:<tag> tidak berisi uuid → harus dicetak ulang. */
+function uuidFrom(text){
+  text = String(text || "").trim();
+  if(/^https?:\/\//i.test(text)){   // "PT:..." juga lolos new URL(), jadi hanya http(s) yang dianggap link
+    try{ const u = new URL(text); text = u.searchParams.get("p") || u.searchParams.get("panel") || ""; }catch(e){}
+  }
+  const m = text.match(UUID_RE);
+  return m ? m[0].toLowerCase() : "";
+}
+
+/* ---------------------------------------------------------------- kamera + QR */
+let stream = null, scanning = false, detector = null, busy = false;
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d", {willReadFrequently:true});
+
+async function startCamera(){
+  showErr("");
+  if(!navigator.mediaDevices?.getUserMedia){ showErr("Browser ini tidak bisa membuka kamera. Pastikan halaman dibuka lewat https://."); return; }
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}, width:{ideal:1280}, height:{ideal:1280}}, audio:false});
+  }catch(e){
+    showErr(e.name === "NotAllowedError" ? "Izin kamera ditolak. Izinkan kamera untuk situs ini di pengaturan browser, lalu coba lagi." : "Kamera tidak bisa dibuka: " + e.message);
+    return;
+  }
+  const v = $("#video"); v.srcObject = stream; await v.play().catch(()=>{});
+  $("#scanIdle").classList.add("hidden"); $("#scanLive").classList.remove("hidden");
+  if("BarcodeDetector" in window){
+    try{ const f = await BarcodeDetector.getSupportedFormats(); if(f.includes("qr_code")) detector = new BarcodeDetector({formats:["qr_code"]}); }catch(e){ detector = null; }
+  }
+  scanning = true; requestAnimationFrame(tick);
+}
+function stopCamera(){
+  scanning = false;
+  if(stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
+  $("#scanLive").classList.add("hidden"); $("#scanIdle").classList.remove("hidden");
+}
+async function tick(){
+  if(!scanning) return;
+  const v = $("#video");
+  if(!busy && v.readyState >= 2 && v.videoWidth){
+    busy = true; let text = null;
+    try{
+      if(detector){ const c = await detector.detect(v); if(c.length) text = c[0].rawValue; }
+      else if(window.jsQR){
+        const s = Math.min(1, 800 / Math.max(v.videoWidth, v.videoHeight));
+        canvas.width = Math.round(v.videoWidth * s); canvas.height = Math.round(v.videoHeight * s);
+        ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
+        const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(img.data, img.width, img.height, {inversionAttempts:"dontInvert"});
+        if(code) text = code.data;
+      }
+    }catch(e){}
+    busy = false;
+    if(text){
+      if(navigator.vibrate) navigator.vibrate(60);
+      stopCamera();
+      const id = uuidFrom(text);
+      if(id){ history.pushState(null, "", "?p=" + id); renderPanel(id); }
+      else showErr("Label ini model lama (belum berisi kode panel). Minta tim mencetak ulang label QR dari aplikasi Panel Tracker.");
+      return;
+    }
+  }
+  setTimeout(() => requestAnimationFrame(tick), 120);
+}
+$("#btnScan").addEventListener("click", startCamera);
+$("#btnStop").addEventListener("click", stopCamera);
+
+/* ---------------------------------------------------------------- render panel */
+let current = null;
+
+async function renderPanel(id, keepFilter){
+  show("vLoading");
+  let r;
+  try{ r = await fetch(API + "?id=" + encodeURIComponent(id), {cache:"no-store"}); }
+  catch(e){ show("vScan"); showErr("Tidak bisa terhubung ke server. Periksa koneksi internet, lalu coba lagi."); return; }
+  if(r.status === 404){ show("vScan"); showErr("Panel tidak ditemukan. Mungkin belum disinkron ke cloud dari laptop, atau panel sudah dihapus."); return; }
+  if(!r.ok){ show("vScan"); showErr("Server sedang bermasalah (" + r.status + "). Coba lagi sebentar lagi."); return; }
+  const d = await r.json();
+  current = {...d, filter: keepFilter && current ? current.filter : "punch"};
+  addRecent(d);
+  document.title = oneLine(d.panel.tag) + " · Panel Tracker";
+  draw();
+  show("vPanel");
+}
+
+function stats(checks){
+  const s = {total:checks.length, OK:0, NG:0, NA:0};
+  checks.forEach(c => { if(s[c.result] !== undefined) s[c.result]++; });
+  s.checked = s.OK + s.NG + s.NA; s.pending = s.total - s.checked;
+  s.pct = s.total ? 100 * s.checked / s.total : 0;
+  return s;
+}
+function panelStatus(panel, st, openPunch){   // sama dengan db.panel_overview
+  if(panel.accepted_at) return "Diterima";
+  if(st.NG > 0 || openPunch > 0) return "Ada temuan";
+  if(st.total === 0) return "Tanpa checklist";
+  if(st.checked === 0) return "Belum dicek";
+  if(st.pending > 0) return "Sedang dicek";
+  return "Lulus";
+}
+
+function draw(){
+  const {panel, site, project, checks, issues, filter} = current;
+  const st = stats(checks), t = todayISO();
+  const open = issues.filter(i => i.status !== "Closed");
+  const overdue = open.filter(i => i.due_date && i.due_date < t);
+  const status = panelStatus(panel, st, open.length);
+  const lastCheck = checks.map(c => c.checked_at).filter(Boolean).sort().pop();
+  const w = n => st.total ? (100 * n / st.total).toFixed(2) + "%" : "0";
+
+  let h = `<div class="card">
+    <div class="plate">${esc(oneLine(panel.tag))}</div>
+    <div style="margin-top:10px" class="status-pill">
+      <span class="lamp" style="background:${PANEL_LAMP[status]}"></span><span style="color:${PANEL_COLOR[status]}">${esc(status)}</span>
+    </div>
+    ${panel.name ? `<div style="margin-top:6px;font-weight:600">${esc(panel.name)}</div>` : ""}
+    <dl class="meta">
+      ${project ? `<dt>Project</dt><dd>${esc(project.code)} · ${esc(project.name)}</dd>` : ""}
+      ${site ? `<dt>Gardu / Site</dt><dd>${esc(site.name)}</dd>` : ""}
+      ${panel.bay ? `<dt>Bay</dt><dd>${esc(panel.bay)}</dd>` : ""}
+      ${panel.panel_type ? `<dt>Tipe</dt><dd>${esc(panel.panel_type)}</dd>` : ""}
+      ${panel.vendor ? `<dt>Vendor</dt><dd>${esc(panel.vendor)}</dd>` : ""}
+      ${panel.serial_no ? `<dt>No. seri</dt><dd>${esc(panel.serial_no)}</dd>` : ""}
+      ${panel.accepted_at ? `<dt>Diterima</dt><dd>${esc(fmtDate(panel.accepted_at))}${panel.accepted_by ? " oleh " + esc(panel.accepted_by) : ""}</dd>` : ""}
+      ${lastCheck ? `<dt>Cek terakhir</dt><dd>${esc(fmtDate(lastCheck))}</dd>` : ""}
+      ${panel.remarks ? `<dt>Catatan</dt><dd>${esc(panel.remarks)}</dd>` : ""}
+    </dl>
+  </div>
+
+  <div class="card">
+    <h2>Progress pengecekan</h2>
+    <div class="row" style="align-items:baseline;gap:10px"><span class="big">${Math.floor(st.pct)}%</span>
+      <span class="note">${st.checked} dari ${st.total} item sudah diuji</span></div>
+    <div class="bar" role="img" aria-label="OK ${st.OK}, NG ${st.NG}, N/A ${st.NA}, belum ${st.pending}">
+      <span style="width:${w(st.OK)};background:var(--lgreen)"></span><span style="width:${w(st.NG)};background:var(--lred)"></span><span style="width:${w(st.NA)};background:#8C9396"></span>
+    </div>
+    <div class="legend">
+      <span><i class="sq" style="background:var(--lgreen)"></i>OK <b>${st.OK}</b></span>
+      <span><i class="sq" style="background:var(--lred)"></i>NG <b>${st.NG}</b></span>
+      <span><i class="sq" style="background:#8C9396"></i>N/A <b>${st.NA}</b></span>
+      <span><i class="sq" style="background:#E4E7E4;border:1px solid #B3B9B5"></i>Belum <b>${st.pending}</b></span>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="v" style="color:${open.length ? "var(--ng)" : "var(--ok)"}">${open.length}</div><div class="l">Punch open</div></div>
+      <div class="kpi"><div class="v" style="color:${open.some(i=>i.severity==="Critical") ? "var(--ng)" : "inherit"}">${open.filter(i=>i.severity==="Critical").length}</div><div class="l">Kat. A open</div></div>
+      <div class="kpi"><div class="v" style="color:var(--ok)">${issues.length - open.length}</div><div class="l">Closed</div></div>
+      <div class="kpi"><div class="v" style="color:${overdue.length ? "var(--ng)" : "inherit"}">${overdue.length}</div><div class="l">Lewat target</div></div>
+    </div>
+  </div>`;
+
+  const tabs = [["punch","Punch list ("+issues.length+")"],["all","Checklist ("+st.total+")"],["pending","Belum ("+st.pending+")"],["NG","NG ("+st.NG+")"]];
+  h += `<div class="tabs" role="toolbar">${tabs.map(([k,l]) => `<button class="tab" data-f="${k}" aria-pressed="${filter===k}">${esc(l)}</button>`).join("")}</div>`;
+
+  if(filter === "punch"){
+    h += `<div class="card">`;
+    if(!issues.length) h += `<div class="empty">Tidak ada punch untuk panel ini.</div>`;
+    const sorted = [...issues].sort((a,b) => (STATUS_ORDER[a.status]??9)-(STATUS_ORDER[b.status]??9) || (SEV_ORDER[a.severity]??9)-(SEV_ORDER[b.severity]??9) || String(a.code).localeCompare(String(b.code), undefined, {numeric:true}));
+    const checkDesc = Object.fromEntries(checks.map(c => [c.uuid, c.description]));
+    sorted.forEach(i => {
+      const late = i.status !== "Closed" && i.due_date && i.due_date < t;
+      const ph = i.photos || [];
+      h += `<div class="punch">
+        <div class="sev ${esc(i.severity)}">${esc(SEV_SHORT[i.severity] || "?")}</div>
+        <div class="b">
+          <div class="top"><span class="code">${esc(i.code)}</span>${i.category ? `<span class="note">${esc(i.category)}</span>` : ""}
+            <span class="st"><span class="lamp" style="width:10px;height:10px;background:${STATUS_LAMP[i.status] || "var(--loff)"}"></span>${esc(STATUS_LABEL[i.status] || i.status)}</span></div>
+          <div class="t">${esc(i.title)}</div>
+          <div class="m">${i.pic ? "PIC " + esc(i.pic) + " · " : ""}${i.status === "Closed" ? "Closed " + esc(fmtDate(i.closed_date)) : (i.due_date ? `<span class="${late ? "over" : ""}">Target ${esc(fmtDate(i.due_date))}${late ? " (lewat)" : ""}</span>` : "Tanpa target")}${ph.length ? " · " + ph.length + " foto" : ""}</div>
+          <details><summary>Detail${ph.length ? " & foto" : ""}</summary>
+            ${i.description ? `<p style="margin:6px 0;white-space:pre-line">${esc(i.description)}</p>` : ""}
+            ${i.check_uuid && checkDesc[i.check_uuid] ? `<p class="note" style="margin:4px 0">Item cek: ${esc(checkDesc[i.check_uuid])}</p>` : ""}
+            ${i.action ? `<p style="margin:4px 0;white-space:pre-line"><b>Tindakan:</b> ${esc(i.action)}</p>` : ""}
+            <p class="note" style="margin:4px 0">Dibuka ${esc(fmtDate(i.raised_date))}${i.raised_by ? " oleh " + esc(i.raised_by) : ""}${i.verified_by ? " · Diverifikasi " + esc(i.verified_by) : ""}</p>
+            ${ph.length ? `<div class="photos">${ph.map(p => `<figure><img loading="lazy" alt="Foto ${p.kind === "after" ? "sesudah" : "sebelum"}" data-src="${esc(p.url)}"><figcaption>${p.kind === "after" ? "Sesudah" : "Sebelum"}${p.caption ? " · " + esc(p.caption) : ""}</figcaption></figure>`).join("")}</div>` : ""}
+          </details>
+        </div></div>`;
+    });
+    h += `</div>`;
+  }else{
+    const list = checks.filter(c => filter === "all" ? true : filter === "pending" ? !["OK","NG","NA"].includes(c.result) : c.result === filter);
+    h += `<div class="card" style="padding-top:6px">`;
+    if(!checks.length) h += `<div class="empty">Panel ini belum punya checklist.</div>`;
+    else if(!list.length) h += `<div class="empty">Tidak ada item.</div>`;
+    const secStats = {};
+    checks.forEach(c => { const k = c.section || ""; (secStats[k] ||= []).push(c); });
+    let sec = null;
+    list.forEach(c => {
+      const k = c.section || "";
+      if(k !== sec){ sec = k; const ss = stats(secStats[k]); h += `<div class="section"><span>${esc(k || "Umum")}</span><span>${ss.checked}/${ss.total}</span></div>`; }
+      const r = ["OK","NG","NA"].includes(c.result) ? c.result : "";
+      const extra = [c.value ? `Ukur: <b>${esc(c.value)}</b>${c.unit ? " " + esc(c.unit) : ""}` : "", c.remark ? esc(c.remark) : "",
+                     c.checked_by ? `<span class="note">${esc(c.checked_by)}${c.checked_at ? " · " + esc(fmtDate(c.checked_at)) : ""}</span>` : ""].filter(Boolean).join(" · ");
+      h += `<div class="item"><div class="d"><div>${esc(c.description)}</div>
+        ${c.criteria ? `<div class="c">${esc(c.criteria)}</div>` : ""}${extra ? `<div class="x">${extra}</div>` : ""}</div>
+        <div class="res ${r || "none"}">${r === "NA" ? "N/A" : r || "—"}</div></div>`;
+    });
+    h += `</div>`;
+  }
+  const at = new Date(current.generated_at || Date.now()).toLocaleString("id-ID",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
+  h += `<p class="note" style="text-align:center">Data cloud per ${esc(at)}. Perubahan yang belum di-sync dari laptop/HP belum terlihat.</p>`;
+
+  $("#panelBody").innerHTML = h;
+  document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => { current.filter = b.dataset.f; draw(); }));
+  document.querySelectorAll("details").forEach(d => d.addEventListener("toggle", () => {
+    if(d.open) d.querySelectorAll("img[data-src]").forEach(img => { img.src = img.dataset.src; img.removeAttribute("data-src"); img.addEventListener("click", () => openLightbox(img.src)); });
+  }));
+}
+function openLightbox(src){ const lb = $("#lightbox"); lb.querySelector("img").src = src; lb.classList.remove("hidden"); }
+$("#lightbox").addEventListener("click", () => $("#lightbox").classList.add("hidden"));
+
+/* ---------------------------------------------------------------- riwayat (hanya di HP ini) */
+function addRecent(d){
+  const r = load(LS_RECENT, []).filter(x => x.uuid !== d.panel.uuid);
+  r.unshift({uuid:d.panel.uuid, tag:oneLine(d.panel.tag), site:d.site?.name || "", at:Date.now()});
+  store(LS_RECENT, r.slice(0, 8));
+}
+function drawRecent(){
+  const r = load(LS_RECENT, []);
+  $("#recentCard").classList.toggle("hidden", !r.length);
+  $("#recentList").innerHTML = r.map(x => `<li data-u="${esc(x.uuid)}"><span class="plate" style="font-size:14px;padding:3px 9px">${esc(x.tag)}</span>
+    <span class="note">${esc(x.site)}</span><span class="when">${esc(new Date(x.at).toLocaleDateString("id-ID",{day:"2-digit",month:"short"}))}</span></li>`).join("");
+  $("#recentList").querySelectorAll("li").forEach(li => li.addEventListener("click", () => { history.pushState(null, "", "?p=" + li.dataset.u); renderPanel(li.dataset.u); }));
+}
+
+/* ---------------------------------------------------------------- navigasi */
+$("#btnBack").addEventListener("click", () => { history.pushState(null, "", location.pathname); route(); startCamera(); });
+$("#btnRefresh").addEventListener("click", () => current && renderPanel(current.panel.uuid, true));
+window.addEventListener("popstate", route);
+document.addEventListener("visibilitychange", () => { if(document.hidden) stopCamera(); });
+
+function route(){
+  const id = uuidFrom(new URLSearchParams(location.search).get("p") || "");
+  if(id){ current = null; renderPanel(id); return; }
+  current = null; document.title = "Panel Tracker Viewer";
+  showErr(""); drawRecent(); show("vScan");
+}
+route();
+</script>
+</body>
+</html>
