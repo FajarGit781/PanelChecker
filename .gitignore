@@ -17,7 +17,7 @@ __pycache__/
 *.pyc
 
 # Node
-node_modules/
+node_modules
 .netlify/
 
 # Data lokal (SQLite) & settings mesin

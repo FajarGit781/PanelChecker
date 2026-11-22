@@ -22,19 +22,13 @@ Commissioning GI GAIA 2 150kV SAS: checking panel + punch list. Arsitektur, kepu
 File kunci desktop: `app/db.py` (SQLite), `app/cloud.py` (sinkron Supabase), `app/reports.py` (PDF), `app/i18n.py` + `app/i18n_en.py` (teks ID/EN), `app/ui/`.
 Mobile: `src/sync.ts`, `src/api.ts`, `src/data.ts`, `src/i18n.ts` + `src/i18n_en.ts`, `src/ui/`.
 
-## Versi: naikkan di semua tempat
-- **Desktop:** `paneltracker/app/__init__.py` (`__version__`), `paneltracker/version_info.txt`, judul README.
-- **Mobile:** `paneltracker-mobile/package.json`, `src/config.ts` (`APP_VERSION`), `public/sw.js` (`CACHE = "pt-web-vX"`), `android/app/build.gradle` (`versionCode` +1, `versionName`), judul README.
-
-## Build
-- **Desktop Mac:** `cd paneltracker && ./build_mac.sh` → `dist/PanelTracker_<versi>_mac.dmg` (sudah termasuk self-test). Pakai `SKIP_VENV=1` kalau venv sudah siap. Salin hasil ke root dengan nama yang belum ada.
-- **Desktop Windows:** `paneltracker/build.bat`, hanya bisa dijalankan di Windows (oleh user).
-- **Source zip:** `PanelTracker_v<versi>_source.zip` di root (tanpa `dist/`, `build/`, `.venv*`).
-- **Mobile PWA:** `cd paneltracker-mobile && npm run build`, lalu deploy `dist/` + `_headers`:
-  `npx netlify-cli deploy --prod --dir <folder> --site 390f620b-ff0d-4ea9-a710-d47d5c4c62f8` (pt-panel-app)
-- **Mobile Android:** `npm run build && npx cap sync android` → zip project untuk Android Studio: `PanelTracker_Mobile_v<versi>_AndroidStudio.zip` (tanpa `node_modules`).
-- **Web viewer:** `npx netlify-cli deploy --prod --dir <folder index.html & _headers> --site d895392a-16dc-49c0-8caa-387e305c164d` (pt-panel-viewer)
-- **PM dashboard:** situs pt-panel-dashboard.netlify.app. Site ID belum tercatat, jadi cek dengan `npx netlify-cli sites:list` sebelum deploy.
+## Rilis: selalu pakai `./release.sh`
+Jangan naikkan versi atau build manual. Script ini mengurus versi di semua file, test, build, zip (tanpa menimpa, otomatis `_r2`), commit, dan tag. Kalau gagal, perubahan versi dibatalkan.
+- `./release.sh desktop <versi>`: .dmg + source zip (butuh Python 3.10–3.13). Windows .exe tetap lewat `paneltracker/build.bat` di Windows.
+- `./release.sh mobile <versi> [--deploy]`: test, build, `cap sync`, Android Studio zip. `--deploy` meng-upload PWA ke pt-panel-app.
+- `./release.sh viewer [--deploy]` / `./release.sh dashboard [--deploy]`: zip, dan deploy ke Netlify kalau pakai `--deploy`.
+- `--dry-run` untuk melihat rencana, `--allow-dirty` kalau ada perubahan belum di-commit.
+- **Deploy hanya kalau user minta.** PM dashboard di-deploy memakai nama situs (site ID belum tercatat).
 
 ## Test
 - **Mobile:** `cd paneltracker-mobile && npm test` (vitest), `npm run build` (sudah termasuk `tsc`).
