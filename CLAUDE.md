@@ -8,6 +8,7 @@ Commissioning GI GAIA 2 150kV SAS: checking panel + punch list. Arsitektur, kepu
 - **Supabase (`ewwtxklxgkyflhyazueg`) = data produksi.** Perubahan harus additive/idempotent (uuid5, `on conflict do nothing`, soft delete hanya untuk baris yang belum diisi). Jangan pernah menimpa hasil checking.
 - Netlify: tanya dulu sebelum mengubah visitor access / login situs.
 - Jawab dalam Bahasa Indonesia, ringkas.
+- Git (lokal, branch `main`, tanpa remote): cek `git diff` alih-alih membaca ulang file. Commit setelah tiap perubahan selesai dan teruji. File build (.dmg/.zip/.apk) sengaja tidak masuk git.
 
 ## Struktur
 | Folder | Isi | Stack |
