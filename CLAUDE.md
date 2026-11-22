@@ -7,6 +7,7 @@ Commissioning GI GAIA 2 150kV SAS: checking panel + punch list. Arsitektur, kepu
 - **Jangan jalankan app GUI user** (`Panel Tracker.app`, `PanelTracker.exe`) dengan flag tebakan, karena itu membuka data asli. Hanya `--selftest <folder>` yang aman.
 - **Supabase (`ewwtxklxgkyflhyazueg`) = data produksi.** Perubahan harus additive/idempotent (uuid5, `on conflict do nothing`, soft delete hanya untuk baris yang belum diisi). Jangan pernah menimpa hasil checking.
 - Netlify: tanya dulu sebelum mengubah visitor access / login situs.
+- Hook `.claude/hooks/guard.py` menegakkan aturan di atas: menimpa build di root → ditolak; hapus/pindah build, atau SQL Supabase yang DROP/DELETE/UPDATE/TRUNCATE/`on conflict do update` → minta konfirmasi user. Jangan mengakalinya; kalau ditolak, pakai nama file baru.
 - Jawab dalam Bahasa Indonesia, ringkas.
 - Git (lokal, branch `main`, tanpa remote): cek `git diff` alih-alih membaca ulang file. Commit setelah tiap perubahan selesai dan teruji. File build (.dmg/.zip/.apk) sengaja tidak masuk git.
 
