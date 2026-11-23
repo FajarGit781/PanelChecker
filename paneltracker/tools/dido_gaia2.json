@@ -1,0 +1,1198 @@
+{
+ "E2010-96563-DD-SC-001": {
+  "doc": "E2010-96563-DD-SC-001",
+  "panels": [
+   "=EU01+WR1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.061–062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.063–064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.065–066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.067–068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.069–070",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.071–072",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET /U/V STATUS · sh.030",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO CB (-Q0) · sh.047",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q1) · sh.050",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-2 (-Q2) · sh.051",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS LINE (-Q9) · sh.052",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES LINE (-Q51) · sh.053",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES LINE (-Q52) · sh.054",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES LINE (-Q53) · sh.055",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO HES (-Q8) · sh.056",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "F50",
+    "DO trip / lockout · sh.044–045",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "F50",
+    "DO sinyal (DFR/common/alarm) · sh.076",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI / opto input (DI1–DI5) · sh.040–041",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.035–037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.038, 044–045",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.076",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "DI / opto input (BI_01–BI_16) · sh.032–034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "DO trip / lockout · sh.030, 038, 042–043, 047",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "DO sinyal (DFR/common/alarm) · sh.075–076",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-002": {
+  "doc": "E2010-96563-DD-SC-002",
+  "panels": [
+   "=ET02+W1",
+   "=EU01+WR1",
+   "=EU02+WR1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.061–062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.063–064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.065–066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.067–068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.069–070",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.071–072",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET /U/V STATUS · sh.030",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO CB (-Q0) · sh.047",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q1) · sh.050",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-2 (-Q2) · sh.051",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS LINE (-Q9) · sh.052",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES LINE (-Q51) · sh.053",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES LINE (-Q52) · sh.054",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES LINE (-Q53) · sh.055",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO HES (-Q8) · sh.056",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "F50",
+    "DO trip / lockout · sh.044–045",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "F50",
+    "DO sinyal (DFR/common/alarm) · sh.076",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI / opto input (DI1–DI5) · sh.040–041",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.035–037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.038, 044–045",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.076",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "DI / opto input (BI_01–BI_16) · sh.032–034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "DO trip / lockout · sh.030, 038, 042–043, 047",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "DO sinyal (DFR/common/alarm) · sh.075–076",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-007": {
+  "doc": "E2010-96563-DD-SC-007",
+  "panels": [
+   "=ET01+R1",
+   "=ET01+W1",
+   "=ET03+R1",
+   "=ET03+W1",
+   "=ET05+R1",
+   "=ET05+W1",
+   "=ET07+R1",
+   "=ET07+W1",
+   "=ET09+R1",
+   "=ET09+W1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.075–076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.077–078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.079–080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.081–082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.083–084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.085–086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot J (DI1–DI16) · sh.087–088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET/INTERTRIP · sh.040",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO OLTC · sh.053",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO 150kV CB (Q0) · sh.058",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q1) · sh.061",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q2) · sh.062",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q9) · sh.063",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q51) · sh.064",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q52) · sh.065",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q53) · sh.066",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q8) · sh.067",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO 20kV CB (Q20) · sh.068",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO TRANSFORMER COOLING FAN · sh.090",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "P5F30_HV",
+    "DI / opto input (DI1–DI5) · sh.044–045",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DO trip / lockout · sh.056–057",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DO sinyal (DFR/common/alarm) · sh.092, 094",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DI / opto input (DI1–DI5) · sh.046–047",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DO trip / lockout · sh.070",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DO sinyal (DFR/common/alarm) · sh.092, 094",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P643",
+    "DI / opto input (OPTO1–OPTO16) · sh.042–043",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "DO trip / lockout · sh.054–055",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P643",
+    "DO sinyal (DFR/common/alarm) · sh.092, 094",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.048–050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.056–057, 070",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.092–093",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "RTF",
+    "DI / opto input · sh.051–052",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "RTF",
+    "DO kontrol · sh.053",
+    "Output kontrol bekerja sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-008": {
+  "doc": "E2010-96563-DD-SC-008",
+  "panels": [
+   "=ET02+R1",
+   "=ET02+W1",
+   "=ET04+R1",
+   "=ET04+W1",
+   "=ET06+R1",
+   "=ET06+W1",
+   "=ET08+R1",
+   "=ET08+W1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.075–076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.077–078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.079–080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.081–082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.083–084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.085–086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot J (DI1–DI16) · sh.087–088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET/INTERTRIP · sh.040",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO OLTC · sh.053",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO 150kV CB (Q0) · sh.058",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q1) · sh.061",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q2) · sh.062",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q9) · sh.063",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q51) · sh.064",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q52) · sh.065",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q53) · sh.066",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q8) · sh.067",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO 20kV CB (Q20) · sh.068",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO TRANSFORMER COOLING FAN · sh.090",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "P5F30_HV",
+    "DI / opto input (DI1–DI5) · sh.044–045",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DO trip / lockout · sh.056–057",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DO sinyal (DFR/common/alarm) · sh.092, 094",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DI / opto input (DI1–DI5) · sh.046–047",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DO trip / lockout · sh.070",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DO sinyal (DFR/common/alarm) · sh.092, 094",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P643",
+    "DI / opto input (OPTO1–OPTO16) · sh.042–043",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "DO trip / lockout · sh.054–055",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P643",
+    "DO sinyal (DFR/common/alarm) · sh.092, 094",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.048–050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.056–057, 070",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.092–093",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "RTF",
+    "DI / opto input · sh.051–052",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "RTF",
+    "DO kontrol · sh.053",
+    "Output kontrol bekerja sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-003": {
+  "doc": "E2010-96563-DD-SC-003",
+  "panels": [
+   "=EC01+WR1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.055–056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.057–058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.059–060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.061–062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.063–064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.065–066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET & SELECTOR SWITCH MODE (MIMIC/BCU) · sh.032",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO CB (-Q0) · sh.042",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q1) · sh.045",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-2 (-Q2) · sh.046",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-2 (-Q51) · sh.047",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-2 (-Q52) · sh.048",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO HES BUS-1 (-Q15) · sh.049",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO HES BUS-2 (-Q25) · sh.050",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "F50",
+    "DO trip / lockout · sh.038, 041–042",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "F50",
+    "DO sinyal (DFR/common/alarm) · sh.069",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P143",
+    "DI / opto input (OPTO1–OPTO16) · sh.033–034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.035–037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.040–041",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.069",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-004": {
+  "doc": "E2010-96563-DD-SC-004",
+  "panels": [
+   "=EC02+WR1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.056–057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.058–059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.060–061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.062–063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.064–065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.066–067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET & SELECTOR SWITCH MODE (MIMIC/BCU) · sh.033",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO CB (-Q0) · sh.043",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1 (-Q1) · sh.046",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-2 (-Q2) · sh.047",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-2 (-Q51) · sh.048",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-2 (-Q52) · sh.049",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO HES BUS-1 (-Q15) · sh.050",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO HES BUS-2 (-Q25) · sh.051",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "F50",
+    "DO trip / lockout · sh.039, 042–043",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "F50",
+    "DO sinyal (DFR/common/alarm) · sh.070",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P143",
+    "DI / opto input (OPTO1–OPTO16) · sh.034–035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.036–038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.041–042",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.070",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-005": {
+  "doc": "E2010-96563-DD-SC-005",
+  "panels": [
+   "=ES01+WR1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.050–051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.052–053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.054–055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.056–057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.058–059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.060–061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET · sh.030",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO CB (-Q0) · sh.040",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1A (-Q51) · sh.043",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-1B (-Q52) · sh.044",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-1A (-Q51) · sh.045",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-1B (-Q52) · sh.046",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "F50",
+    "DO trip / lockout · sh.036, 038–040",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "F50",
+    "DO sinyal (DFR/common/alarm) · sh.064",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P143",
+    "DI / opto input (OPTO1–OPTO16) · sh.031–032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.033–035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.038–039",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.064",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-006": {
+  "doc": "E2010-96563-DD-SC-006",
+  "panels": [
+   "=ES02+WR1"
+  ],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.050–051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.052–053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.054–055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.056–057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.058–059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.060–061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DO RELAY RESET · sh.030",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO CB (-Q0) · sh.040",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-2A (-Q51) · sh.043",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO DS BUS-2B (-Q52) · sh.044",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-2A (-Q51) · sh.045",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "C264",
+    "DO ES BUS-2B (-Q52) · sh.046",
+    "Perintah BCU/HMI → peralatan beroperasi"
+   ],
+   [
+    "F50",
+    "DO trip / lockout · sh.036, 038–040",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "F50",
+    "DO sinyal (DFR/common/alarm) · sh.064",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ],
+   [
+    "P143",
+    "DI / opto input (OPTO1–OPTO16) · sh.031–032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DI / opto input (OPTO1–OPTO24) · sh.033–035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO trip / lockout · sh.038–039",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P841",
+    "DO sinyal (DFR/common/alarm) · sh.064",
+    "Sinyal output diterima tujuan sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-019": {
+  "doc": "E2010-96563-DD-SC-019",
+  "panels": [],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.010–011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.012–013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.014–015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.016–017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.018–019",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.020–021",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot J (DI1–DI16) · sh.022–023",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot I (DI1–DI16) · sh.024–025",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-020": {
+  "doc": "E2010-96563-DD-SC-020",
+  "panels": [],
+  "items": [
+   [
+    "C264",
+    "DI slot P (DI1–DI16) · sh.010–011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot O (DI1–DI16) · sh.012–013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot N (DI1–DI16) · sh.014–015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot M (DI1–DI16) · sh.016–017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot L (DI1–DI16) · sh.018–019",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot K (DI1–DI16) · sh.020–021",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot J (DI1–DI16) · sh.022–023",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "DI slot I (DI1–DI16) · sh.024–025",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-017": {
+  "doc": "E2010-96563-DD-SC-017",
+  "panels": [],
+  "items": [
+   [
+    "P746_1",
+    "DI / opto input (OPTO1–OPTO32) · sh.019–022",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "DO trip / lockout · sh.031–035",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "DI / opto input (OPTO1–OPTO32) · sh.023–026",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "DO trip / lockout · sh.031–035",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "DI / opto input (OPTO1–OPTO32) · sh.027–030",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "DO trip / lockout · sh.031–035",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ]
+  ]
+ },
+ "E2010-96563-DD-SC-018": {
+  "doc": "E2010-96563-DD-SC-018",
+  "panels": [],
+  "items": [
+   [
+    "P746_1",
+    "DI / opto input (OPTO1–OPTO32) · sh.019–022",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "DO trip / lockout · sh.031–035",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "DI / opto input (OPTO1–OPTO32) · sh.023–026",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "DO trip / lockout · sh.031–035",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "DI / opto input (OPTO1–OPTO32) · sh.027–030",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "DO trip / lockout · sh.031–035",
+    "Kontak output bekerja (trip/lockout) sesuai drawing"
+   ]
+  ]
+ }
+}

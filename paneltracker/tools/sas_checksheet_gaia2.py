@@ -7,8 +7,10 @@ Per device cukup 5 item:
   4. File CID sudah diupload
   5. Setting sudah diupload (approval setting baru keluar saat SAT, jadi tidak dicek di sini)
 Perangkat panel SAS 1/2 (GPS, Gateway, SAS Server, Workstation) tidak punya CID/setting relay → item 1–3 saja.
-Blok terakhir "Rasio CT/VT": per IED yang punya input analog, 2 item (CT ratio & VT ratio) — rasio aktual
+Blok "Rasio CT/VT": per IED yang punya input analog, 2 item (CT ratio & VT ratio) — rasio aktual
 diisi di kolom nilai (mis. "2000/1 A", "150000/110 V"); N/A bila device tidak memakai CT/VT.
+Blok "DI/DO <device>" (setelah rasio): uji DI per slot BCU / per relay dan DO per lembar control/trip/signalling,
+dari schematic E2010-96563-DD-SC-0xx rev A2 (tools/dido_gaia2.json, dibuat tools/dido_from_schematic.py).
 
 Menghasilkan SQL ringkas yang:
   - menambah item ke setiap panel GAIA2 (panel_checks) dan memperbarui template "SAS · …" (check_templates);
@@ -23,6 +25,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import pathlib
 import re
 import sys
 import uuid
@@ -64,6 +67,52 @@ def ratio_items(devs):
         out.append((f"{name} · CT ratio", "Sesuai drawing (prim/sek)", RATIO_UNIT))
         out.append((f"{name} · VT ratio", "Sesuai drawing (prim/sek)", RATIO_UNIT))
     return out
+
+
+# ------------------------------------------------------------------------------------------- DI/DO dari schematic
+SCHEM = "E2010-96563-DD-SC-"
+DIDO_FILE = pathlib.Path(__file__).with_name("dido_gaia2.json")
+DIDO = json.loads(DIDO_FILE.read_text(encoding="utf-8")) if DIDO_FILE.exists() else {}
+# kunci device dari ekstraksi drawing → kunci DEV per tipe panel (tag -F50 = P5F30 di UGC, P143 di BC/BS)
+DIDO_ALIAS = {
+    "UGC": {"C264": "C264", "PCS931": "PCS931", "P841": "P841", "P5F30_HV": "P5", "F50": "P5"},
+    "TR_PROT": {"P643": "P643", "P5F30_HV": "P501", "P5F30_LV": "P502", "P841": "P841"},
+    "TR_CTRL": {"C264": "C264", "RTF": "RTF"},
+    "BCS": {"C264": "C264", "P143": "P143", "F50": "P143", "P841": "P841"},
+    "BB": {"P746_1": "P746_1", "P746_2": "P746_2", "P746_3": "P746_3"},
+    "CIO": {"C264": "C264IO"},
+}
+TYPICAL_DOC = {"UGC": "001", "TR_PROT": "007", "TR_CTRL": "007", "BCS": "003", "BB": "017", "CIO": "019"}
+
+
+def drawing_for(tag: str):
+    """Tag panel → nomor schematic (3 digit). Trafo: SC-007 typical bay ganjil, SC-008 bay genap."""
+    t = tag.replace(" ", "").upper()
+    if (m := re.search(r"ET(\d\d)\+", t)):
+        return "007" if int(m.group(1)) % 2 else "008"
+    for rx, base in ((r"EU(\d\d)\+WR1", 0), (r"EC(\d\d)\+WR1", 2), (r"ES(\d\d)\+WR1", 4),
+                     (r"E00\+R([12])", 16), (r"E00\+X([12])", 18)):
+        if (m := re.search(rx, t)):
+            return f"{base + int(m.group(1)):03d}"
+    return None
+
+
+def dido_blocks(types, doc):
+    """[(nama blok, items)] uji DI/DO per device yang ada di panel."""
+    d = DIDO.get(SCHEM + doc) if doc else None
+    if not d:
+        return []
+    per = {}
+    for ty in types:
+        alias = DIDO_ALIAS.get(ty, {})
+        for raw, desc, crit in d["items"]:
+            if raw in alias and alias[raw] in TYPES[ty]["devs"] + (["C264IO"] if ty == "CIO" else []):
+                per.setdefault(alias[raw], []).append((desc, crit, ""))
+    order = [dv for ty in types for dv in TYPES[ty]["devs"]]
+    def key(it):   # DI dulu, lalu urut nomor lembar pertama
+        m = re.search(r"sh\.(\d+)", it[0])
+        return (it[0].startswith("DO"), int(m.group(1)) if m else 0)
+    return [(f"DI/DO {DEV[dv]}", sorted(dict.fromkeys(per[dv]), key=key)) for dv in dict.fromkeys(order) if dv in per]
 
 
 # ------------------------------------------------------------------------------------------- device per tipe panel
@@ -122,8 +171,8 @@ def classify(tag: str):
     return None, "", None
 
 
-def blocks_for(types, sas=None):
-    """[(nama device, items)] dengan {net} belum diganti."""
+def blocks_for(types, sas=None, doc=None):
+    """[(nama device, items)] dengan {net} belum diganti. doc = nomor schematic (DI/DO); None → typical."""
     if sas:
         return [(n, sas_items()) for n in SAS_DEV[sas]]
     out, seen = [], set()
@@ -136,6 +185,8 @@ def blocks_for(types, sas=None):
     ratio = list(dict.fromkeys(ratio))
     if ratio:   # blok terakhir → sort-nya setelah semua item SAS yang sudah ada
         out.append((RATIO_SECTION, ratio_items(ratio)))
+    if types:   # DI/DO paling akhir (setelah rasio) → item lama tidak bergeser
+        out += dido_blocks(types, doc or TYPICAL_DOC.get(types[0]))
     return out
 
 
@@ -143,11 +194,11 @@ def net_text(subnet):
     return f"Subnet {subnet}" if subnet else "Sesuai IP plan"
 
 
-def sections_for(types, subnet, sas=None):
+def sections_for(types, subnet, sas=None, doc=None):
     """[(section, [(desc, criteria, unit)])] — huruf I, J, K, …"""
     net = net_text(subnet)
     return [(f"{LETTERS[i]}. SAS · {name}", [(d, c.replace("{net}", net), u) for d, c, u in its])
-            for i, (name, its) in enumerate(blocks_for(types, sas))]
+            for i, (name, its) in enumerate(blocks_for(types, sas, doc))]
 
 
 def template_defs():
@@ -180,7 +231,7 @@ def compact_sql(panels):
         if types is None:
             continue
         plist.append({"uuid": p["uuid"], "max_sort": int(p.get("max_sort") or 0), "net": net_text(subnet),
-                      "blocks": [bid(n, its) for n, its in blocks_for(types, sas)]})
+                      "blocks": [bid(n, its) for n, its in blocks_for(types, sas, drawing_for(p["tag"]))]})
     tpls = []
     for key, ty in TYPES.items():
         n = f"SAS · {ty['title']}"
@@ -191,7 +242,8 @@ def compact_sql(panels):
         tpls.append({"uuid": str(uuid.uuid5(NS, "template:" + n)), "name": n, "net": net_text(""),
                      "blocks": [bid(nm, its) for nm, its in blocks_for([], x)]})
     data = {"ns": str(NS), "stamp": stamp, "local": local, "letters": LETTERS,
-            "desc": "Integrasi SAS: terintegrasi, IP, SNTP, CID & setting terupload, rasio CT/VT. Ref " + DRAWING,
+            "desc": "Integrasi SAS: terintegrasi, IP, SNTP, CID & setting terupload, rasio CT/VT, uji DI/DO. Ref " + DRAWING
+                    + " & schematic " + SCHEM + "0xx rev A2",
             "blocks": sorted(blocks.values(), key=lambda b: b["id"]), "panels": plist, "templates": tpls}
     js = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     return f"""-- Checksheet integrasi SAS GAIA 2 (ringkas, {DRAWING}). Dibuat {stamp}. Aman dijalankan ulang.
@@ -247,7 +299,7 @@ def expected_rows(panels):
         if types is None:
             continue
         srt = int(p.get("max_sort") or 0)
-        for s, its in sections_for(types, subnet, sas):
+        for s, its in sections_for(types, subnet, sas, drawing_for(p["tag"])):
             for d, c, u in its:
                 srt += 1
                 out.append((str(uuid.uuid5(NS, f"{p['uuid']}|{s}|{d}")), p["uuid"], s, d, c, u, srt))
@@ -259,5 +311,5 @@ if __name__ == "__main__":
     print(compact_sql(pan))
     for p in pan:
         types, subnet, sas = classify(p["tag"])
-        n = sum(len(i) for _, i in sections_for(types, subnet, sas)) if types is not None else 0
+        n = sum(len(i) for _, i in sections_for(types, subnet, sas, drawing_for(p["tag"]))) if types is not None else 0
         print(f"-- {p['tag']!r}: {n} item ({subnet or sas or 'IP plan'})", file=sys.stderr)
