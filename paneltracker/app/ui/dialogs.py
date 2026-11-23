@@ -547,9 +547,17 @@ class EvidenceDialog(QDialog):
         self.photos.setResizeMode(QListWidget.Adjust)
         self.photos.setSpacing(8)
         self.photos.itemDoubleClicked.connect(self._view)
+        self.photos.setSelectionMode(QListWidget.ExtendedSelection)
         lay.addWidget(self.photos, 1)
         hb = QHBoxLayout()
         ro = getattr(db, "read_only", False)
+        if not ro:
+            # hapus: tombol, tombol Delete/Backspace, atau klik kanan → Hapus foto
+            from PySide6.QtGui import QKeySequence, QShortcut
+            for key in (QKeySequence.Delete, QKeySequence(Qt.Key_Backspace)):
+                QShortcut(key, self.photos, self._delete)
+            self.photos.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.photos.customContextMenuRequested.connect(self._menu)
         acts = [(tr('Tambah foto…'), self._add, True), (tr('Tempel dari clipboard'), self._paste, True),
                 (tr('Lihat'), self._view, False), (tr('Ubah caption'), self._caption, True),
                 (tr('Simpan ke file…'), self._save, False), (tr('Hapus foto'), self._delete, True)]
@@ -629,10 +637,25 @@ class EvidenceDialog(QDialog):
             pm.loadFromData(self.db.attachment_data(aid))
             pm.save(fp)
 
+    def _menu(self, pos):
+        if not self.photos.itemAt(pos):
+            return
+        from PySide6.QtWidgets import QMenu
+        m = QMenu(self)
+        m.addAction(tr('Lihat'), self._view)
+        m.addAction(tr('Ubah caption'), self._caption)
+        m.addSeparator()
+        m.addAction(tr('Hapus foto'), self._delete)
+        m.exec(self.photos.viewport().mapToGlobal(pos))
+
     def _delete(self):
-        aid = self._cur()
-        if aid and ask(self, tr('Hapus foto ini?')):
-            self.db.delete_attachment(aid)
+        ids = [it.data(Qt.UserRole) for it in self.photos.selectedItems()] or ([self._cur()] if self._cur() else [])
+        if not ids:
+            warn(self, tr('Pilih foto yang mau dihapus dulu.'))
+            return
+        if ask(self, tr('Hapus foto ini?') if len(ids) == 1 else tr('Hapus {0} foto terpilih?', len(ids))):
+            for aid in ids:
+                self.db.delete_attachment(aid)   # soft delete → ikut sinkron; hasil cek tidak berubah
             self._load()
 
 

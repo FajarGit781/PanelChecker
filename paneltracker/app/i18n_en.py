@@ -415,6 +415,8 @@ EN = {
     "{0}  ({1} item)": "{0}  ({1} items)",
     "🔗 Item cek: <b>{0}</b> — {1}": "🔗 Check item: <b>{0}</b> — {1}",
     "Hapus foto ini?": "Delete this photo?",
+    "Hapus {0} foto terpilih?": "Delete {0} selected photos?",
+    "Pilih foto yang mau dihapus dulu.": "Select the photo to delete first.",
     "SEBELUM": "BEFORE",
     "SESUDAH": "AFTER",
     "LAIN": "OTHER",

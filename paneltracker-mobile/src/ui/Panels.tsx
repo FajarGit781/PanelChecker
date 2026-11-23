@@ -263,23 +263,31 @@ function Evidence({ c, ro }: { c: Row; ro: boolean }) {
     }
     if (files.length && navigator.onLine) session.sync();
   }
+  async function remove(a: Row) {
+    if (!confirm(t("Hapus foto ini?"))) return;
+    await store.edit("attachments", a.uuid, { deleted: 1 });   // soft delete → ikut sinkron, hasil cek tidak tersentuh
+    setViewer(null);
+    if (navigator.onLine) session.sync();
+  }
   if (ro && !ev.length) return null;
   return (
     <div class={"evidence" + (need ? " need" : "") + (ev.length ? "" : " empty")}>
       <div class="ev-h"><Icon name="camera" size={16} />{t("Foto evidence")} <span>{ev.length}</span>
         {need && <em>{t("belum ada bukti")}</em>}</div>
       <div class="ev-row">
-        {ev.map((a) => <Thumb key={a.uuid} att={a} onOpen={(b) => setViewer({ blob: b, att: a })} />)}
+        {ev.map((a) => (
+          <div class="ev-item" key={a.uuid}>
+            <Thumb att={a} onOpen={(b) => setViewer({ blob: b, att: a })} />
+            {!ro && <button class="ev-del" aria-label={t("Hapus foto")} title={t("Hapus foto")}
+              onClick={(e) => { e.stopPropagation(); remove(a); }}><Icon name="close" size={14} /></button>}
+          </div>
+        ))}
         {!ro && <button class="shoot" onClick={() => cam.current?.click()} aria-label={t("Ambil foto evidence")}><Icon name="camera" />{t("Kamera")}</button>}
         {!ro && <button class="shoot" onClick={() => gal.current?.click()} aria-label={t("Pilih dari galeri")}><Icon name="image" />{t("Galeri")}</button>}
       </div>
       <input ref={cam} type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={onFiles} />
       <input ref={gal} type="file" accept="image/*" multiple style={{ display: "none" }} onChange={onFiles} />
-      {viewer && <Viewer blob={viewer.blob} ro={ro} onClose={() => setViewer(null)} onDelete={async () => {
-        if (!confirm(t("Hapus foto ini?"))) return;
-        await store.edit("attachments", viewer.att.uuid, { deleted: 1 });
-        setViewer(null);
-      }} />}
+      {viewer && <Viewer blob={viewer.blob} ro={ro} onClose={() => setViewer(null)} onDelete={() => remove(viewer.att)} />}
     </div>
   );
 }
