@@ -115,6 +115,18 @@ class CheckRow(QFrame):
             self.remark.setPlaceholderText("")
         h.addWidget(self.res, 0, Qt.AlignTop)
 
+        # foto evidence: hanya item uji DI/DO (bukti DI masuk / DO bekerja)
+        self.ebtn = None
+        if SM.is_dido_section(row["section"]):
+            self.ebtn = QToolButton()
+            self.ebtn.setFixedWidth(46)
+            self.ebtn.setCursor(Qt.PointingHandCursor)
+            self.ebtn.setAutoRaise(True)
+            self.ebtn.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+            self.ebtn.clicked.connect(self._evidence)
+            h.addWidget(self.ebtn, 0, Qt.AlignTop)
+            self.set_photo_count(getattr(view, "photo_counts", {}).get(self.cid, 0))
+
         self.pbtn = QToolButton()
         self.pbtn.setFixedWidth(50)
         self.pbtn.setCursor(Qt.PointingHandCursor)
@@ -155,6 +167,28 @@ class CheckRow(QFrame):
             self.pbtn.setStyleSheet("")
             self.pbtn.setToolTip(tr('Buat punch dari item ini'))
 
+    def set_photo_count(self, n):
+        self.photo_n = n
+        if not self.ebtn:
+            return
+        need = self.res.value == "OK" and not n     # sudah OK tapi belum ada bukti
+        col = T.OK if n else ("#C2410C" if need else T.SUBTLE)
+        self.ebtn.setIcon(T.icon("camera", col, 16))
+        self.ebtn.setText(str(n) if n else "")
+        self.ebtn.setStyleSheet(f"QToolButton {{ color:{col}; font-weight:700; }}")
+        self.ebtn.setToolTip(tr('{0} foto evidence. Klik untuk tambah / lihat.', n) if n else
+                             (tr('Item sudah OK tapi belum ada foto evidence. Klik untuk menambah.') if need
+                              else tr('Tambah foto evidence (DI masuk / DO bekerja)')))
+
+    def _evidence(self):
+        from .dialogs import EvidenceDialog
+        db = self.view.main.db
+        EvidenceDialog(self, db, self.cid, getattr(self, "row_tag", "")).exec()
+        n = len(db.check_photos(self.cid))
+        self.view.photo_counts[self.cid] = n
+        self.set_photo_count(n)
+        self.view.main.refresh_all(except_page=self.view.page)
+
     def _style(self):
         r = self.res.value
         bg = {"NG": "#FDF0EF", "OK": "#FFFFFF", "NA": "#F6F7F5"}.get(r, "#FFFFFF")
@@ -179,6 +213,8 @@ class CheckRow(QFrame):
             if self.row["criteria"] else "",
             f"✓ {self.row['checked_by']} · {fmt_date(self.row['checked_at'])}" if self.row["checked_by"] else ""] if x))
         self._style()
+        if self.ebtn:
+            self.set_photo_count(self.photo_n)
         self.view.stats_changed()
         if auto_punch and value == "NG" and not any(p["status"] != "Closed" for p in self.punches):
             QTimer.singleShot(50, lambda: self._punch(auto=True))
@@ -638,6 +674,7 @@ class PanelCheckView(QWidget):
         for i in db.issues(p["project_id"], panel_id=panel_id):
             if i["check_id"]:
                 punches.setdefault(i["check_id"], []).append(i)
+        self.photo_counts = db.check_photo_counts(panel_id)
         self.tag.setText(p["tag"])
         self.name.setText(p["name"] or "")
         self.meta.setText("   ·   ".join(x for x in [p["site_name"], tr('Bay {0}', p['bay']) if p["bay"] else "",

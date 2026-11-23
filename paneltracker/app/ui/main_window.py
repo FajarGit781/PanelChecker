@@ -628,6 +628,25 @@ class MainWindow(QMainWindow):
         if fp:
             self._run_report(lambda rb, f: rb.check_sheets(f, ids, **o), fp, lang=lang)
 
+    def report_dido(self):
+        """Report Uji DI/DO terpisah (hasil + foto evidence)."""
+        if not self._need_project():
+            return
+        from .report_dialogs import DidoReportDialog
+        d = DidoReportDialog(self)
+        if not d.data:
+            warn(self, tr('Belum ada panel dengan item uji DI/DO.'))
+            return
+        if not d.exec():
+            return
+        o = d.options()
+        ids = o.pop("panel_ids")
+        lang = o.pop("lang")
+        name = "UjiDIDO" if len(ids) > 1 else "UjiDIDO_" + _safe(self.db.panel(ids[0])["tag"])
+        fp = self._report_path(name)
+        if fp:
+            self._run_report(lambda rb, f: rb.dido_report(f, ids, **o), fp, lang=lang)
+
     def report_summary(self):
         if self._need_project():
             fp = self._report_path("Ringkasan")

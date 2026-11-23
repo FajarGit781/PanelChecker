@@ -21,6 +21,7 @@ from reportlab.platypus import (
     CondPageBreak, Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle,
 )
 
+from .sas_matrix import is_dido_section
 from .db import Database, ISSUE_STATUSES, PANEL_STATUSES, SEV_LABEL, SEV_SHORT, SEVERITIES, fmt_date, parse_date, today
 
 NAVY = colors.HexColor("#0E1A2B")
@@ -510,7 +511,7 @@ class ReportBuilder:
 
     def check_sheets(self, path, panel_ids, sections=None, items="all", blank=False, with_punch=True,
                      with_sign=True, title=None, note=""):
-        """Lembar uji per panel (portrait A4).
+        """Lembar uji per panel (portrait A4). Item uji DI/DO tidak ikut — dicetak terpisah (dido_report).
 
         sections/items: filter isi (lihat check_item_filter); panel yang tidak punya item setelah difilter dilewati.
         blank: form kosong untuk diisi manual di lapangan (hasil/nilai/catatan tidak dicetak).
@@ -528,7 +529,8 @@ class ReportBuilder:
             o = ov.get(pnid)
             if not p or not o:
                 continue
-            checks = self.check_item_filter(db.panel_checks(pnid), sections, items)
+            checks = self.check_item_filter([c for c in db.panel_checks(pnid) if not is_dido_section(c["section"])],
+                                            sections, items)
             if filtered and not checks:
                 continue
             if not first:
@@ -636,6 +638,119 @@ class ReportBuilder:
         if not printed:
             story.append(Paragraph(tr('<i>Tidak ada item yang cocok dengan filter.</i>'), P))
         self._build(path, title or tr('Lembar Uji Panel'), story, pagesize)
+        return printed
+
+    # ------------------------------------------------------------ uji DI/DO
+    def dido_report(self, path, panel_ids, items="all", with_photos=True, with_sign=True, title=None):
+        """Report Uji DI/DO per panel (terpisah dari Lembar Uji): per device, item DI (slot/opto) & DO
+        (kontrol/trip/sinyal) dengan hasil, catatan, punch, jumlah foto, lalu lampiran foto evidence.
+        Mengembalikan jumlah panel yang dicetak."""
+        db = self.db
+        pagesize = A4
+        W = pagesize[0] - 24 * mm
+        story, printed = [], 0
+        for pnid in panel_ids:
+            p = db.panel(pnid)
+            if not p:
+                continue
+            checks = self.check_item_filter([c for c in db.panel_checks(pnid) if is_dido_section(c["section"])],
+                                            None, items)
+            if not checks:
+                continue
+            if printed:
+                story.append(PageBreak())
+            printed += 1
+            photos = {c["id"]: db.check_photos(c["id"]) for c in checks}
+            punches = {}
+            for i in db.issues(self.pid, panel_id=pnid):
+                if i["check_id"]:
+                    punches.setdefault(i["check_id"], []).append(i["code"])
+            n = {k: sum(1 for c in checks if c["result"] == k) for k in ("OK", "NG", "NA")}
+            done = n["OK"] + n["NG"] + n["NA"]
+            n_ev = sum(1 for c in checks if photos[c["id"]])
+            story.append(Paragraph(tr('Report Uji DI/DO — {0}', esc(p['tag'])), H1))
+            story.append(Spacer(1, 4))
+            info = [
+                [tr('Site / GI'), p["site_name"], tr('Tag panel'), p["tag"]],
+                [tr('Bay'), p["bay"], tr('Nama'), p["name"]],
+                [tr('Hasil'), _Raw(tr("<b>{0}/{1}</b> item diuji · <font color='#166534'><b>{2} OK</b></font> · "
+                                      "<font color='#B91C1C'><b>{3} NG</b></font> · {4} N/A",
+                                      done, len(checks), n["OK"], n["NG"], n["NA"])),
+                 tr('Evidence'), _Raw(tr('<b>{0}</b> item berfoto · {1} foto', n_ev,
+                                         sum(len(v) for v in photos.values())))],
+            ]
+            ti = Table([[Paragraph(f"<b>{esc(a)}</b>", P), _cell(b, P), Paragraph(f"<b>{esc(c)}</b>", P), _cell(d, P)]
+                        for a, b, c, d in info], colWidths=[W * 0.13, W * 0.40, W * 0.13, W * 0.34])
+            ti.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.4, GRID), ("BACKGROUND", (0, 0), (0, -1), HEAD_BG),
+                                    ("BACKGROUND", (2, 0), (2, -1), HEAD_BG), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+            story += [ti, Spacer(1, 6)]
+            rows = [[tr('No'), tr('Item uji (lembar drawing)'), tr('Kriteria'), tr('Hasil'), tr('Catatan / Punch'),
+                     tr('Foto'), tr('Oleh · Tgl')]]
+            st, cur, no = [], None, 0
+            for c in checks:
+                if c["section"] != cur:
+                    cur = c["section"]
+                    dev = cur.split("DI/DO", 1)[-1].strip()
+                    rows.append([Paragraph(f"<b>{esc(dev)}</b>", P), "", "", "", "", "", ""])
+                    r = len(rows) - 1
+                    st += [("SPAN", (0, r), (-1, r)), ("BACKGROUND", (0, r), (-1, r), colors.HexColor("#F1F5F9"))]
+                no += 1
+                note = esc(c["remark"])
+                if c["id"] in punches:
+                    note += ("<br/>" if note else "") + f"<font color='#B91C1C'>→ {', '.join(punches[c['id']])}</font>"
+                d_ = parse_date(c["checked_at"])
+                by = f"{esc(c['checked_by'])} · {d_.strftime('%d/%m/%y')}" if c["checked_by"] and d_ else \
+                    esc(c["checked_by"])
+                k = len(photos[c["id"]])
+                rows.append([no, Paragraph(esc(c["description"]), PS), Paragraph(esc(c["criteria"]), PS),
+                             {"NA": "N/A"}.get(c["result"], c["result"] or ""), Paragraph(note, PS),
+                             str(k) if k else ("–" if c["result"] != "OK" else "!"), Paragraph(by, PS)])
+                r = len(rows) - 1
+                if c["result"] in RES:
+                    bg, fg = RES[c["result"]]
+                    st += [("BACKGROUND", (3, r), (3, r), bg), ("TEXTCOLOR", (3, r), (3, r), fg),
+                           ("FONT", (3, r), (3, r), "Helvetica-Bold", 7.5)]
+                if c["result"] == "OK" and not k:     # OK tanpa bukti
+                    st += [("TEXTCOLOR", (5, r), (5, r), colors.HexColor("#C2410C")),
+                           ("FONT", (5, r), (5, r), "Helvetica-Bold", 8)]
+            tb = Table(rows, colWidths=[W * x for x in (0.05, 0.37, 0.19, 0.07, 0.15, 0.05, 0.12)], repeatRows=1)
+            tb.setStyle(_base_style([("ALIGN", (0, 0), (0, -1), "CENTER"), ("ALIGN", (3, 0), (3, -1), "CENTER"),
+                                     ("ALIGN", (5, 0), (5, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")] + st))
+            story.append(tb)
+            story.append(Paragraph(tr("<font size=6.5 color='#586064'>Foto: jumlah foto evidence · "
+                                      "<font color='#C2410C'><b>!</b></font> = OK tanpa foto evidence</font>"), P))
+            if with_photos and n_ev:
+                story.append(CondPageBreak(60 * mm))
+                story.append(Paragraph(tr('Foto Evidence'), H2))
+                gap = 4 * mm
+                cw = (W - gap) / 2
+                pw, ph = cw - 4 * mm, 62 * mm
+                cells = []
+                for c in checks:
+                    dev = c["section"].split("DI/DO", 1)[-1].strip()
+                    for a in photos[c["id"]]:
+                        data = db.attachment_data(a["id"])
+                        try:
+                            iw, ih = ImageReader(io.BytesIO(data)).getSize()
+                        except Exception:
+                            continue
+                        k = min(pw / iw, ph / ih)
+                        cap = f"<b>{esc(dev)}</b> · {esc(c['description'])}" + \
+                              (f"<br/><i>{esc(a['caption'])}</i>" if a["caption"] else "")
+                        cells.append(Table([[Image(io.BytesIO(data), iw * k, ih * k)], [Paragraph(cap, PS)]],
+                                           colWidths=[cw], style=[("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                                                                  ("BOX", (0, 0), (-1, -1), 0.5, GRID)]))
+                for k in range(0, len(cells), 2):
+                    pair = cells[k:k + 2] + [""] * (2 - len(cells[k:k + 2]))
+                    g = Table([pair], colWidths=[cw + gap / 2] * 2)
+                    g.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                                           ("RIGHTPADDING", (0, 0), (-1, -1), gap / 2)]))
+                    story += [g, Spacer(1, 3 * mm)]
+            if with_sign:
+                story.append(self._signatures(W))
+        if not printed:
+            story.append(Paragraph(tr('<i>Tidak ada item uji DI/DO pada panel yang dipilih.</i>'), P))
+        self._build(path, title or tr('Report Uji DI/DO'), story, pagesize)
         return printed
 
     # ------------------------------------------------------------ summary

@@ -21,8 +21,16 @@ _IPV4 = re.compile(r"^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3
 NEXT = {"": "OK", "OK": "NG", "NG": "NA", "NA": ""}
 
 
+_DIDO = re.compile(r"^[A-Z]{1,2}\. SAS · DI/DO ")
+
+
 def is_sas_section(section) -> bool:
     return bool(_SEC.match(section or ""))
+
+
+def is_dido_section(section) -> bool:
+    """Seksi uji DI/DO (report & foto evidence terpisah)."""
+    return bool(_DIDO.match(section or ""))
 
 
 def device_name(section) -> str:
@@ -49,7 +57,8 @@ def sas_matrix(rows, key=lambda r: r):
             dev["cells"][col] = r
         else:
             dev["extra"].append(r)
-    return out
+    # blok tanpa kolom matriks (Rasio CT/VT, DI/DO …) bukan device → tetap tampil di daftar, bukan di matriks
+    return [d for d in out if d["cells"]]
 
 
 def next_result(cur) -> str:

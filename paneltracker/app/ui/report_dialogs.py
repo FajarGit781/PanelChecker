@@ -469,7 +469,9 @@ class CheckSheetDialog(QDialog):
         self.setWindowTitle(tr('Cetak Check Sheet'))
         self.resize(980, 660)
         self.ov = self.db.panel_overview(self.pid, main.site_id)
-        self.checks = {o["panel"]["id"]: self.db.panel_checks(o["panel"]["id"]) for o in self.ov}
+        from ..sas_matrix import is_dido_section     # uji DI/DO punya report sendiri
+        self.checks = {o["panel"]["id"]: [c for c in self.db.panel_checks(o["panel"]["id"])
+                                          if not is_dido_section(c["section"])] for o in self.ov}
         lay = QVBoxLayout(self)
         lay.setSpacing(10)
         head = QHBoxLayout()
@@ -729,3 +731,101 @@ class CheckSheetDialog(QDialog):
                 "blank": self.blank.isChecked(), "with_punch": self.punch.isChecked() and not self.blank.isChecked(),
                 "with_sign": self.sign.isChecked(), "title": self.title.text().strip() or None,
                 "note": self._note(), "lang": self.rlang.currentData()}
+
+
+# ---------------------------------------------------------------- Report Uji DI/DO
+class DidoReportDialog(QDialog):
+    """Pilih panel yang punya item uji DI/DO + opsi (item, foto evidence, tanda tangan, bahasa)."""
+
+    ITEM_MODES = CheckSheetDialog.ITEM_MODES
+
+    def __init__(self, main):
+        super().__init__(main)
+        from PySide6.QtWidgets import QButtonGroup, QRadioButton
+        from ..sas_matrix import is_dido_section
+        self.main = main
+        db = main.db
+        self.setWindowTitle(tr('Report Uji DI/DO'))
+        self.resize(720, 600)
+        self.data = []
+        for o in db.panel_overview(main.project_id, main.site_id):
+            p = o["panel"]
+            cs = [c for c in db.panel_checks(p["id"]) if is_dido_section(c["section"])]
+            if cs:
+                self.data.append((p, cs, db.check_photo_counts(p["id"])))
+        lay = QVBoxLayout(self)
+        lay.addWidget(label(tr('Report Uji DI/DO'), 14, True))
+        info = QLabel(tr('Terpisah dari Lembar Uji Panel: hasil uji DI (per slot/opto) dan DO (kontrol/trip/sinyal) '
+                         'per device, beserta foto evidence.'))
+        info.setWordWrap(True)
+        info.setStyleSheet("color:#586064;")
+        lay.addWidget(info)
+        items = []
+        for p, cs, ph in self.data:
+            done = sum(1 for c in cs if c["result"])
+            ev = sum(1 for c in cs if ph.get(c["id"]))
+            items.append((tr('{0}  —  {1}/{2} diuji · {3} item berfoto', " ".join(p["tag"].split()), done, len(cs), ev),
+                          p["id"]))
+        self.pl = _check_list(items)
+        self.pl.itemChanged.connect(self._update)
+        lay.addWidget(self.pl, 1)
+        hb = QHBoxLayout()
+        hb.addWidget(btn(tr('Semua'), None, "ghost", None, lambda: _set_all(self.pl, True)))
+        hb.addWidget(btn(tr('Kosongkan'), None, "ghost", None, lambda: _set_all(self.pl, False)))
+        hb.addStretch()
+        lay.addLayout(hb)
+        gb = QGroupBox(tr('Opsi cetak'))
+        g = QGridLayout(gb)
+        self.mode = QButtonGroup(self)
+        for k, (key, text) in enumerate(self.ITEM_MODES):
+            rb = QRadioButton(tr(text))
+            rb.setProperty("mode", key)
+            rb.setChecked(key == "all")
+            rb.toggled.connect(self._update)
+            self.mode.addButton(rb)
+            g.addWidget(rb, 0, k)
+        self.photos = QCheckBox(tr('Sertakan foto evidence'))
+        self.photos.setChecked(True)
+        self.sign = QCheckBox(tr('Sertakan kolom tanda tangan'))
+        self.sign.setChecked(True)
+        g.addWidget(self.photos, 1, 0, 1, 2)
+        g.addWidget(self.sign, 1, 2, 1, 2)
+        from ..i18n import LANGS
+        self.rlang = QComboBox()
+        for code, name in LANGS.items():
+            self.rlang.addItem(name, code)
+        self.rlang.setCurrentIndex(max(0, self.rlang.findData(main.report_lang())))
+        g.addWidget(QLabel(tr('Bahasa report PDF')), 2, 0)
+        g.addWidget(self.rlang, 2, 1)
+        lay.addWidget(gb)
+        foot = QHBoxLayout()
+        self.count = QLabel()
+        self.count.setTextFormat(Qt.RichText)
+        foot.addWidget(self.count, 1)
+        foot.addWidget(btn(tr('Batal'), None, None, None, self.reject))
+        self.ok = btn(tr('Buat PDF'), "printer", "primary", None, self.accept)
+        foot.addWidget(self.ok)
+        lay.addLayout(foot)
+        self._update()
+
+    def _mode(self):
+        b = self.mode.checkedButton()
+        return b.property("mode") if b else "all"
+
+    def _update(self, *_):
+        from ..reports import ReportBuilder
+        ids = set(_checked(self.pl))
+        n_pan = n_items = 0
+        for p, cs, _ in self.data:
+            if p["id"] in ids:
+                k = len(ReportBuilder.check_item_filter(cs, None, self._mode()))
+                n_pan += bool(k)
+                n_items += k
+        self.count.setText(tr('<b>{0}</b> panel · <b>{1}</b> item akan dicetak', n_pan, n_items))
+        self.ok.setEnabled(n_pan > 0)
+
+    def options(self):
+        ids = set(_checked(self.pl))
+        return {"panel_ids": [p["id"] for p, _, _ in self.data if p["id"] in ids], "items": self._mode(),
+                "with_photos": self.photos.isChecked(), "with_sign": self.sign.isChecked(),
+                "lang": self.rlang.currentData()}

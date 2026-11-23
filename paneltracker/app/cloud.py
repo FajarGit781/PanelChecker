@@ -270,7 +270,7 @@ MAP = {
               {"project_id": ("project", "project_uuid"), "site_id": ("site", "site_uuid"),
                "panel_id": ("panel", "panel_uuid"), "check_id": ("panel_check", "check_uuid")}),
     "attachment": ("attachments", ["kind", "filename", "caption", "storage_path", "created_at"],
-                   {"issue_id": ("issue", "issue_uuid")}),
+                   {"issue_id": ("issue", "issue_uuid"), "check_id": ("panel_check", "check_uuid")}),
 }
 ORDER = ["project", "site", "panel", "check_template", "panel_check", "issue", "attachment"]
 REQUIRED_FK = {"site": "project_id", "panel": "site_id", "panel_check": "panel_id", "issue": "project_id"}
@@ -333,6 +333,11 @@ class SyncEngine:
         stats = {"pushed": 0, "pulled": 0, "photos_up": 0, "photos_down": 0, "skipped": 0}
         # pull dulu: perubahan tim diterapkan & bentrok kode punch diselesaikan sebelum kirim
         self.progress(tr("Mengambil perubahan dari cloud…"))
+        if self.db.get_setting("att_check_uuid_v1", "") != "1":
+            # v2.8: lampiran punya check_uuid (foto evidence). Versi lama sudah menarik baris tanpa kolom ini →
+            # tarik ulang semua lampiran sekali supaya tautan ke item checklist terisi.
+            self.db.set_setting("sync_cursor_attachments", "")
+            self.db.set_setting("att_check_uuid_v1", "1")
         for t in ORDER:
             stats["pulled"] += self._pull(t, stats)
         stats["pulled"] += self._pull_settings()
@@ -369,8 +374,10 @@ class SyncEngine:
         if t == "attachment":
             for r in rows:
                 if not r["storage_path"] and not r["deleted"] and r["data"]:
-                    issue_uuid = self._uuid_of("issue", r["issue_id"]) or "umum"
-                    path = f"{issue_uuid}/{r['uuid']}.jpg"
+                    issue_uuid = self._uuid_of("issue", r["issue_id"])
+                    check_uuid = self._uuid_of("panel_check", r["check_id"]) if not issue_uuid else None
+                    folder = issue_uuid or (f"check/{check_uuid}" if check_uuid else "umum")
+                    path = f"{folder}/{r['uuid']}.jpg"
                     self.progress(tr("Upload foto {0}…", r['filename'] or ''))
                     ctype = "image/png" if bytes(r["data"][:4]) == b"\x89PNG" else "image/jpeg"
                     self.c.upload(path, bytes(r["data"]), ctype)
@@ -436,7 +443,8 @@ class SyncEngine:
         server, cols, fks = MAP[t]
         local = self.db.q1(f"SELECT * FROM {t} WHERE uuid=?", (r["uuid"],))
         if local is not None:
-            if (local["updated_at"] or "") >= (r["updated_at"] or ""):
+            relink = (t == "attachment" and r.get("check_uuid") and not local["check_id"] and not local["dirty"])
+            if (local["updated_at"] or "") >= (r["updated_at"] or "") and not relink:
                 return False  # lokal sama / lebih baru → biarkan (akan di-push kalau dirty)
         vals = {c: r.get(c) for c in cols}
         for lcol, (ptable, scol) in fks.items():

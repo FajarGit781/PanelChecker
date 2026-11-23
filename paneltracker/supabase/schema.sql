@@ -106,3 +106,11 @@ create trigger pt_audit after insert or update on public.team_settings for each 
 --   language sql stable security definer set search_path = '' as $$ ... $$;   (lihat migrasi di project)
 -- revoke all on function public.pt_panel_view(uuid) from public, anon, authenticated;
 -- grant execute on function public.pt_panel_view(uuid) to service_role;
+
+-- =====================================================================================================
+-- v2.8: foto evidence per item checklist (uji DI/DO). Migrasi attachments_check_uuid_evidence.
+-- Lampiran punch: issue_uuid terisi; foto evidence: check_uuid terisi (issue_uuid null).
+-- Path storage evidence: check/<check_uuid>/<uuid>.jpg
+-- =====================================================================================================
+alter table public.attachments add column if not exists check_uuid uuid;
+create index if not exists attachments_check_uuid_idx on public.attachments (check_uuid);

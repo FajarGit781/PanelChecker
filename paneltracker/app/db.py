@@ -790,6 +790,20 @@ class Database:
     def delete_attachment(self, aid):
         self._update("attachment", aid, {"deleted": 1})
 
+    # foto evidence per item checklist (uji DI/DO): attachment.check_id terisi, issue_id kosong
+    def check_photos(self, check_id):
+        return self.q("SELECT id, kind, filename, caption, created_at FROM attachment "
+                      "WHERE check_id=? AND issue_id IS NULL AND deleted=0 ORDER BY id", (check_id,))
+
+    def add_check_photo(self, check_id, filename, data, caption=""):
+        return self._insert("attachment", dict(check_id=check_id, kind="evidence", filename=filename,
+                                               caption=caption, data=data))
+
+    def check_photo_counts(self, panel_id):
+        rows = self.q("SELECT a.check_id, COUNT(*) c FROM attachment a JOIN panel_check c ON c.id=a.check_id "
+                      "WHERE c.panel_id=? AND a.issue_id IS NULL AND a.deleted=0 GROUP BY a.check_id", (panel_id,))
+        return {r["check_id"]: r["c"] for r in rows}
+
     def attachment_count(self, project_id):
         rows = self.q("SELECT a.issue_id, COUNT(*) c FROM attachment a JOIN issue i ON i.id=a.issue_id "
                       "WHERE i.project_id=? AND a.deleted=0 GROUP BY a.issue_id", (project_id,))

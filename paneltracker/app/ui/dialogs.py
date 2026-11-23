@@ -526,6 +526,127 @@ class IssueDialog(QDialog):
         super().accept()
 
 
+class EvidenceDialog(QDialog):
+    """Foto evidence satu item checklist (uji DI/DO): bukti DI masuk / DO bekerja.
+    Foto dari file, atau screenshot HMI/BCU yang ditempel dari clipboard."""
+
+    def __init__(self, parent, db: Database, check_id, title=""):
+        super().__init__(parent)
+        self.db = db
+        self.cid = check_id
+        c = db.check(check_id)
+        self.setWindowTitle(tr('Foto evidence'))
+        self.resize(760, 520)
+        lay = QVBoxLayout(self)
+        head = QLabel(f"<b>{title or ''}</b><br/><span style='color:#586064'>{c['section']} — {c['description']}</span>")
+        head.setWordWrap(True)
+        lay.addWidget(head)
+        self.photos = QListWidget()
+        self.photos.setViewMode(QListWidget.IconMode)
+        self.photos.setIconSize(QSize(200, 150))
+        self.photos.setResizeMode(QListWidget.Adjust)
+        self.photos.setSpacing(8)
+        self.photos.itemDoubleClicked.connect(self._view)
+        lay.addWidget(self.photos, 1)
+        hb = QHBoxLayout()
+        ro = getattr(db, "read_only", False)
+        acts = [(tr('Tambah foto…'), self._add, True), (tr('Tempel dari clipboard'), self._paste, True),
+                (tr('Lihat'), self._view, False), (tr('Ubah caption'), self._caption, True),
+                (tr('Simpan ke file…'), self._save, False), (tr('Hapus foto'), self._delete, True)]
+        for text, fn, write in acts:
+            if write and ro:
+                continue
+            b = QPushButton(text)
+            b.clicked.connect(fn)
+            hb.addWidget(b)
+        hb.addStretch()
+        lay.addLayout(hb)
+        self.note = QLabel()
+        self.note.setStyleSheet("color:#586064;")
+        lay.addWidget(self.note)
+        bb = QDialogButtonBox(QDialogButtonBox.Close)
+        bb.rejected.connect(self.accept)
+        bb.accepted.connect(self.accept)
+        lay.addWidget(bb)
+        self._load()
+
+    def _load(self):
+        self.photos.clear()
+        rows = self.db.check_photos(self.cid)
+        for r in rows:
+            pm = QPixmap()
+            pm.loadFromData(self.db.attachment_data(r["id"]))
+            it = QListWidgetItem(QIcon(pm.scaled(200, 150, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                                 if not pm.isNull() else QIcon(), r["caption"] or r["filename"] or "")
+            it.setData(Qt.UserRole, r["id"])
+            self.photos.addItem(it)
+        self.note.setText(tr('{0} foto evidence. Foto ikut sinkron ke cloud & tercetak di Report Uji DI/DO.', len(rows)))
+
+    def _cur(self):
+        it = self.photos.currentItem()
+        return it.data(Qt.UserRole) if it else None
+
+    def _add(self):
+        files, _ = QFileDialog.getOpenFileNames(self, tr('Pilih foto'), "", tr('Gambar (*.jpg *.jpeg *.png *.bmp)'))
+        for fp in files:
+            data = _load_image_resized(fp)
+            if data:
+                self.db.add_check_photo(self.cid, os.path.basename(fp), data)
+        self._load()
+
+    def _paste(self):
+        from PySide6.QtWidgets import QApplication
+        img = QApplication.clipboard().image()
+        if img.isNull():
+            warn(self, tr('Clipboard tidak berisi gambar. Ambil screenshot dulu (mis. Win+Shift+S / Cmd+Ctrl+Shift+4).'))
+            return
+        data = _image_to_jpeg(img)
+        import datetime as _dt
+        self.db.add_check_photo(self.cid, f"screenshot_{_dt.datetime.now():%Y%m%d_%H%M%S}.jpg", data)
+        self._load()
+
+    def _view(self, *_):
+        aid = self._cur()
+        if aid:
+            ImageViewer(self, self.db.attachment_data(aid), self.photos.currentItem().text()).exec()
+
+    def _caption(self):
+        aid = self._cur()
+        if not aid:
+            return
+        cap, ok = QInputDialog.getText(self, "Caption", tr('Keterangan foto:'), text=self.photos.currentItem().text())
+        if ok:
+            self.db.update_attachment(aid, caption=cap.strip())
+            self._load()
+
+    def _save(self):
+        aid = self._cur()
+        if not aid:
+            return
+        fp, _ = QFileDialog.getSaveFileName(self, tr('Simpan foto'), "evidence.jpg", "JPEG (*.jpg);;PNG (*.png)")
+        if fp:
+            pm = QPixmap()
+            pm.loadFromData(self.db.attachment_data(aid))
+            pm.save(fp)
+
+    def _delete(self):
+        aid = self._cur()
+        if aid and ask(self, tr('Hapus foto ini?')):
+            self.db.delete_attachment(aid)
+            self._load()
+
+
+def _image_to_jpeg(img, max_px=1600) -> bytes:
+    from PySide6.QtCore import QBuffer, QByteArray, QIODevice
+    if img.width() > max_px or img.height() > max_px:
+        img = img.scaled(max_px, max_px, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+    ba = QByteArray()
+    buf = QBuffer(ba)
+    buf.open(QIODevice.WriteOnly)
+    img.save(buf, "JPG", 85)
+    return bytes(ba)
+
+
 def _load_image_resized(path, max_px=1600) -> bytes:
     from PySide6.QtCore import QBuffer, QByteArray, QIODevice
     from PySide6.QtGui import QImage, QImageReader
