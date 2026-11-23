@@ -1,4 +1,4 @@
-# Panel Tracker v2.7.4: Checking Panel & Punch List + Cloud Sync (ID / EN)
+# Panel Tracker v2.7.5: Checking Panel & Punch List + Cloud Sync (ID / EN)
 
 Aplikasi desktop Windows (.exe portable) untuk **checking panel per item uji fungsi** dan **mengelola punch list temuan**. Report PDF siap tanda tangan, dalam bahasa Indonesia atau English.
 

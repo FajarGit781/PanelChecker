@@ -2,7 +2,7 @@
 ; Compile: install Inno Setup 6, buka file ini, tekan Compile (Ctrl+F9)
 ; Saat ter-install di Program Files, data otomatis disimpan di Documents\PanelTracker
 #define AppName "Panel Tracker"
-#define AppVersion "2.7.4"
+#define AppVersion "2.7.5"
 #define AppExe "PanelTracker.exe"
 
 [Setup]
