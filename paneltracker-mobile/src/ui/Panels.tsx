@@ -332,7 +332,7 @@ function Step({ c, no, ro, punches, onResult, panel }: { c: Row; no: number; ro:
       </div>
       {showNotes && (
         <div class="notes">
-          {(c.unit || c.value) && <input class="val" inputMode="decimal" placeholder={c.unit ? t("Nilai ({0})", c.unit) : t("Nilai")} value={value} readOnly={ro}
+          {(c.unit || c.value) && <input class="val" inputMode={c.unit === "rasio" ? "text" : "decimal"} placeholder={c.unit ? t("Nilai ({0})", c.unit) : t("Nilai")} value={value} readOnly={ro}
             onInput={(e: any) => setValue(e.currentTarget.value)} onBlur={() => save("value", value)} />}
           <input placeholder={ro ? "" : t("Catatan")} value={remark} readOnly={ro}
             onInput={(e: any) => setRemark(e.currentTarget.value)} onBlur={() => save("remark", remark)} />

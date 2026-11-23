@@ -100,7 +100,7 @@ class CheckRow(QFrame):
         self.value = QLineEdit(row["value"] or "")
         self.value.setObjectName("inline")
         self.value.setPlaceholderText(tr('nilai {0}', row['unit']) if row["unit"] else tr("nilai"))
-        self.value.setFixedWidth(72)
+        self.value.setFixedWidth(110 if row["unit"] == "rasio" else 72)   # rasio CT/VT: "2000/1 A"
         self.value.setToolTip(tr('Nilai hasil ukur') + (f" ({row['unit']})" if row["unit"] else ""))
         self.value.setStyleSheet("QLineEdit#inline { border:1px solid #C9CEC9; background:white; }" if row["unit"]
                                  else "")

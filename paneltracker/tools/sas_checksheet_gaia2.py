@@ -7,6 +7,8 @@ Per device cukup 5 item:
   4. File CID sudah diupload
   5. Setting sudah diupload (approval setting baru keluar saat SAT, jadi tidak dicek di sini)
 Perangkat panel SAS 1/2 (GPS, Gateway, SAS Server, Workstation) tidak punya CID/setting relay → item 1–3 saja.
+Blok terakhir "Rasio CT/VT": per IED yang punya input analog, 2 item (CT ratio & VT ratio) — rasio aktual
+diisi di kolom nilai (mis. "2000/1 A", "150000/110 V"); N/A bila device tidak memakai CT/VT.
 
 Menghasilkan SQL ringkas yang:
   - menambah item ke setiap panel GAIA2 (panel_checks) dan memperbarui template "SAS · …" (check_templates);
@@ -51,6 +53,19 @@ def sas_items():
     ]
 
 
+RATIO_UNIT = "rasio"
+RATIO_SECTION = "Rasio CT/VT"
+
+
+def ratio_items(devs):
+    """CT & VT ratio untuk setiap device yang punya input analog (bukan Common I/O)."""
+    out = []
+    for name in devs:
+        out.append((f"{name} · CT ratio", "Sesuai drawing (prim/sek)", RATIO_UNIT))
+        out.append((f"{name} · VT ratio", "Sesuai drawing (prim/sek)", RATIO_UNIT))
+    return out
+
+
 # ------------------------------------------------------------------------------------------- device per tipe panel
 DEV = {
     "C264": "-A30 MiCOM C264 (BCU)",
@@ -68,6 +83,7 @@ DEV = {
     "PM8240": "-PM PM8240",
     "RTF": "-N90 RTF",
 }
+NO_RATIO = {"C264IO"}   # tanpa input CT/VT
 TYPES = {
     "TR_PROT": dict(title="Trafo Protection (=ETxx+R1)", devs=["P643", "P501", "P502", "P841"]),
     "TR_CTRL": dict(title="Trafo Control (=ETxx+W1)", devs=["C264", "PM8240", "RTF"]),
@@ -116,6 +132,10 @@ def blocks_for(types, sas=None):
             if dv not in seen:
                 seen.add(dv)
                 out.append((DEV[dv], ied_items()))
+    ratio = [DEV[d] for ty in types for d in TYPES[ty]["devs"] if d not in NO_RATIO]
+    ratio = list(dict.fromkeys(ratio))
+    if ratio:   # blok terakhir → sort-nya setelah semua item SAS yang sudah ada
+        out.append((RATIO_SECTION, ratio_items(ratio)))
     return out
 
 
@@ -171,7 +191,7 @@ def compact_sql(panels):
         tpls.append({"uuid": str(uuid.uuid5(NS, "template:" + n)), "name": n, "net": net_text(""),
                      "blocks": [bid(nm, its) for nm, its in blocks_for([], x)]})
     data = {"ns": str(NS), "stamp": stamp, "local": local, "letters": LETTERS,
-            "desc": "Integrasi SAS: terintegrasi, IP, SNTP, CID & setting terupload. Ref " + DRAWING,
+            "desc": "Integrasi SAS: terintegrasi, IP, SNTP, CID & setting terupload, rasio CT/VT. Ref " + DRAWING,
             "blocks": sorted(blocks.values(), key=lambda b: b["id"]), "panels": plist, "templates": tpls}
     js = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     return f"""-- Checksheet integrasi SAS GAIA 2 (ringkas, {DRAWING}). Dibuat {stamp}. Aman dijalankan ulang.
