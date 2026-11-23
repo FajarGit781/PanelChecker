@@ -84,4 +84,17 @@ assert r == dict(IA=1001.0, IB=998.6, IC=1000.2, VAB=150.0, VBC=150.1, VCA=149.9
 assert confs("225.1 MW | 126.9 Mvar\n50.00 Hz") == dict(P="low", Q="low", f="low")
 assert vals("BCU =E@1 MEASUREMENT\nP 225.1 MW\n\nQ 126.9 MVAR\nPF 0.871\n\nf 50.00 Hz") == dict(P=225.1, Q=126.9, PF=0.871, f=50.0)  # output Tesseract asli
 assert vals("Tidak ada angka di sini") == {}
+# ---- panduan secondary injector + kalkulator target primer
+ch = INJ.injector_channels(S, dict(pi=50, pv=100, phi=30, hz=50))
+assert [c[0] for c in ch] == ["VA", "VB", "VC", "IA", "IB", "IC"]
+assert abs(ch[0][1] - 63.5085) < 1e-3 and ch[0][3] == 0 and ch[1][3] == -120 and ch[2][3] == 120
+assert abs(ch[3][1] - 0.5) < 1e-12 and ch[3][3] == -30 and ch[4][3] == -150 and ch[5][3] == 90
+assert INJ.injector_channels(S, dict(pi=10, pv=100, phi=-60, hz=50))[5][3] == 180      # 120 + 60 = 180
+assert INJ._ang(-180) == 180 and INJ._ang(190) == -170
+assert abs(INJ.pi_for_target(S, "I", 1000, 100, 30) - 50) < 1e-9
+assert abs(INJ.pi_for_target(S, "P", 225, 100, 30) - 50) < 1e-6
+assert abs(INJ.pi_for_target(S, "Q", 129.9038, 100, 30) - 50) < 1e-4
+assert abs(INJ.pi_for_target(S, "S", 259.8076, 100, 0) - 50) < 1e-4
+assert INJ.pi_for_target(S, "P", 100, 100, 90) is None and INJ.pi_for_target(S, "Q", 10, 100, 0) is None
+assert INJ.pi_for_target(S, "P", 100, 0, 0) is None
 print("ALL OK")

@@ -110,6 +110,43 @@ def secondary(s, pt):
     return dict(i=i_sec, v_ln=v_ll / SQ3, v_ll=v_ll, phi=pt["phi"], hz=pt["hz"])
 
 
+def _ang(a):
+    """Sudut ke rentang (-180, 180]."""
+    a = ((a + 180) % 360 + 360) % 360 - 180
+    return 180.0 if a == -180 else a + 0.0
+
+
+def injector_channels(s, pt):
+    """Setting test set 3 fasa (sekunder): [(nama, besar, satuan, sudut°)]. Tegangan L-N, urutan fasa ABC,
+    arus tertinggal φ dari tegangan fasanya (φ + = lagging)."""
+    sec = secondary(s, pt)
+    phi = pt["phi"]
+    out = [(f"V{x}", sec["v_ln"], "V", _ang(a)) for x, a in (("A", 0), ("B", -120), ("C", 120))]
+    out += [(f"I{x}", sec["i"], "A", _ang(a - phi)) for x, a in (("A", 0), ("B", -120), ("C", 120))]
+    return out
+
+
+TARGETS = ("I", "P", "Q", "S")      # target primer: arus (A), P (MW), Q (MVAR), S (MVA)
+
+
+def pi_for_target(s, target, value, pv, phi):
+    """% injeksi arus supaya besaran primer = value (dengan % tegangan pv dan sudut φ). None bila tidak mungkin
+    (mis. P pada φ = 90°, atau tegangan 0)."""
+    if target == "I":
+        return value * 100 / s["ct_p"]
+    v_ll = s["vt_p"] * pv / 100                    # kV primer
+    if v_ll <= 0:
+        return None
+    c = {"P": math.cos(math.radians(phi)), "Q": math.sin(math.radians(phi)), "S": 1.0}[target]
+    if abs(c) < 1e-6:
+        return None
+    smva = value / c
+    if smva < 0:
+        return None
+    i_pri = smva * 1000 / (SQ3 * v_ll)
+    return i_pri * 100 / s["ct_p"]
+
+
 def fmt(x, d) -> str:
     return f"{x:.{d}f}"
 

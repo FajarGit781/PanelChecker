@@ -127,7 +127,7 @@ view.q.setText(""); pump()
 class FakePoint:
     def __init__(self, *a, **k): pass
     def exec(self): return True
-    def values(self): return (100, 100, 30, 50)
+    def values(self): return [(100, 100, 30, 50)]
 
 
 IU.PointDialog = FakePoint
@@ -144,6 +144,34 @@ view.inj_blocks[0]._delete_point(g["points"][0]); pump()
 check(warned and len([r for r in db.panel_checks(pn) if r["section"] == SEC]) == 31, "T1 berisi hasil → tidak dihapus")
 view.inj_blocks[0]._delete_point(g["points"][2]); pump()
 check(len([r for r in db.panel_checks(pn) if r["section"] == SEC]) == 21, "T3 kosong → dihapus (soft delete)")
+
+# ---- kalkulator target primer + panduan injector
+pf = IU.PointsForm(lambda: S)
+pf.mode.setCurrentIndex([k for k, _, _ in IU.TARGET_MODES].index("P")); pf.vals.setText("225"); pf.phi.setValue(30)
+pts = pf.points()
+check(len(pts) == 1 and abs(pts[0][0] - 50) < 1e-4, f"target P 225 MW → 50 % In: {pts}")
+check("0.500 A" in pf.prev.text() and "63.51 V" in pf.prev.text(), "preview setting sekunder")
+pf.phi.setValue(90)
+check(isinstance(pf.points(), str), "P pada φ 90° → pesan galat")
+pf.mode.setCurrentIndex(0); pf.vals.setText("10, 50")
+check([x[0] for x in pf.points()] == [10, 50], "mode % In")
+gd = IU.GuideDialog(view, S, dict(n=2, pi=50, pv=100, phi=30, hz=50))
+txt = " ".join(l.text() for l in gd.findChildren(IU.QLabel))
+check("0.500 A" in txt and "-150°" in txt and "63.51 V" in txt, "dialog panduan injector")
+
+# ---- hapus blok: blok berisi hasil ditolak, blok kosong boleh
+blk = view.inj_blocks[0]
+check(blk.used() > 0, "blok berisi hasil terdeteksi")
+blk.delete_block(); pump()
+check(len([r for r in db.panel_checks(pn) if r["section"] == SEC]) == 21, "blok berisi hasil tidak dihapus")
+secs2 = [r["section"] for r in db.panel_checks(pn)]
+SEC2 = INJ.section_name(INJ.next_letter(secs2), "-PM PM8240")
+IU.add_items(db, pn, INJ.block_items("-PM PM8240", INJ.next_letter(secs2), S, [(10, 100, 0, 50)]))
+view.load(pn); pump()
+b2 = next(b for b in view.inj_blocks if b.section == SEC2)
+check(b2.used() == 0, "blok baru kosong")
+b2.delete_block(); pump()
+check(not [r for r in db.panel_checks(pn) if r["section"] == SEC2] and len(view.inj_blocks) == 1, "blok kosong dihapus")
 
 # ---- ubah setup (offline) → kriteria & hasil dihitung ulang
 class FakeSetup:

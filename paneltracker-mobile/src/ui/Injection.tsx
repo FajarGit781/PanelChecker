@@ -11,6 +11,7 @@ import { store } from "../store";
 import { renameCheck } from "../sync";
 import { Icon, INK, Lamp, STATUS_LAMP, useNav } from "./common";
 import { Evidence, punchPreset } from "./Panels";
+import { evidenceOf } from "../data";
 
 const keyLabel = (k: Key) => (k === "f" ? t("Frekuensi") : k);
 const unitLabel = (k: Key) => (k === "PF" ? "" : I.UNIT[k]);
@@ -57,6 +58,20 @@ export function InjectionBlock({ section, rows, ro, who, panel, byCheck }: {
     for (const c of rs) await store.edit("panel_checks", c.uuid, { deleted: 1 });
   }
 
+  // blok boleh dihapus selama belum ada nilai/hasil uji/foto (item setup selalu OK, tidak dihitung)
+  const used = rows.filter((c) => c.unit !== I.SETUP_UNIT && (c.result || String(c.value || "").trim())).length +
+    rows.reduce((n, c) => n + evidenceOf(c.uuid).length, 0);
+  async function deleteBlock() {
+    if (used) {
+      nav.toast(t("Blok ini sudah berisi hasil uji atau foto, tidak bisa dihapus. Kosongkan nilainya dulu bila memang salah buat."));
+      return;
+    }
+    if (!confirm(t("Hapus blok {0}? Semua titik uji di blok ini ikut terhapus.", section))) return;
+    for (const c of rows) await store.edit("panel_checks", c.uuid, { deleted: 1 });
+    nav.toast(t("Blok uji injeksi dihapus."));
+    if (navigator.onLine) session.sync();
+  }
+
   return (
     <div class="inj">
       <div class="sec"><h3>{section}</h3>
@@ -68,6 +83,7 @@ export function InjectionBlock({ section, rows, ro, who, panel, byCheck }: {
         {!ro && <div class="row" style={{ gap: 8, marginTop: 8 }}>
           <button class="btn sm" onClick={() => setSheet("setup")}><Icon name="edit" size={16} />{t("Setup…")}</button>
           <button class="btn sm" disabled={!s} onClick={() => setSheet("point")}><Icon name="plus" size={16} />{t("Titik uji")}</button>
+          {!used && <button class="btn sm danger" onClick={deleteBlock} aria-label={t("Hapus blok uji injeksi")}><Icon name="close" size={16} />{t("Hapus blok")}</button>}
         </div>}
       </div>
       {g.points.map((p) => <PointCard key={p.n + ":" + Object.values(p.rows).map((c) => c!.updated_at).join()} p={p} s={s}
@@ -147,7 +163,7 @@ function PointCard({ p, s, ro, who, panel, byCheck, onDelete }: { p: PointGroup;
       <div class="inj-ph">
         <div class="grow">
           <b>T{p.n}</b> <span>{t("I {0}% · V {1}% · φ {2}° · {3} Hz", I.g(p.pi), I.g(p.pv), I.g(p.phi), I.g(p.hz))}</span>
-          {sec && <div class="small muted">{t("Injeksi: {0} A ∠{1}° · {2} V L-N · {3} Hz", sec.i.toFixed(3), I.g(-p.phi), sec.v_ln.toFixed(2), I.g(p.hz))}</div>}
+          {sec && <div class="small muted">{t("Injeksi: {0} A ∠{1}° · {2} V L-N · {3} Hz", sec.i.toFixed(3), I.g(I.ang(-p.phi)), sec.v_ln.toFixed(2), I.g(p.hz))}</div>}
         </div>
         <span class={"pill " + (nng ? "NG" : npend ? "" : "OK")}>{nng ? t("{0} NG", nng) : npend ? t("{0} belum diisi", npend) : t("Lulus")}</span>
         {!ro && <button class="inj-del" aria-label={t("Hapus titik uji T{0}", p.n)} onClick={onDelete}><Icon name="close" size={16} /></button>}
@@ -160,6 +176,7 @@ function PointCard({ p, s, ro, who, panel, byCheck, onDelete }: { p: PointGroup;
           <input ref={gal} type="file" accept="image/*" style={{ display: "none" }} onChange={onPhoto} />
         </div>
       )}
+      {s && <Guide s={s} p={p} open={npend === keys.length} />}
       {ocr && <div class="msg warn" role="status" style={{ margin: "0 12px 10px" }}>{t("Membaca foto…")} {ocr.stage} {ocr.pct ? `${ocr.pct}%` : ""}
         <div class="small">{t("Diproses di HP ini, gratis, foto tidak dikirim ke mana pun. Pertama kali ±10 detik untuk memuat mesin OCR.")}</div></div>}
       <table class="inj-t">
@@ -193,6 +210,75 @@ function PointCard({ p, s, ro, who, panel, byCheck, onDelete }: { p: PointGroup;
         onApply={apply} onClose={() => { URL.revokeObjectURL(review.url); setReview(null); }} />}
     </div>
   );
+}
+
+/** Setting secondary injector (test set 3 fasa) untuk satu titik uji. */
+function Guide({ s, p, open }: { s: Setup; p: { pi: number; pv: number; phi: number; hz: number }; open: boolean }) {
+  const ch = I.injectorChannels(s, p);
+  const sec = I.secondary(s, p);
+  const ex = I.expected(s, p);
+  return (
+    <details class="inj-guide" open={open}>
+      <summary><Icon name="bolt" size={16} />{t("Panduan secondary injector")}
+        <span class="muted"> · {sec.i.toFixed(3)} A · {sec.v_ln.toFixed(2)} V L-N</span></summary>
+      <table class="inj-ch">
+        <thead><tr><th>{t("Kanal")}</th><th>{t("Besar")}</th><th>{t("Sudut")}</th></tr></thead>
+        <tbody>
+          {ch.map((c) => <tr key={c.name}><th>{c.name}</th><td>{c.mag.toFixed(c.unit === "A" ? 3 : 2)} {c.unit}</td><td>{I.g(c.ang)}°</td></tr>)}
+          <tr><th>f</th><td colSpan={2}>{I.g(p.hz)} Hz</td></tr>
+        </tbody>
+      </table>
+      <div class="small muted inj-guide-n">
+        {t("= {0}% In · {1}% Vn ({2} V L-L) · φ {3}° {4}", I.g(p.pi), I.g(p.pv), sec.v_ll.toFixed(1), I.g(p.phi),
+          p.phi > 0 ? t("lagging") : p.phi < 0 ? t("leading") : "")}<br />
+        {t("Primer yang diharapkan: I {0} A · V {1} kV · P {2} MW · Q {3} MVAR",
+          I.fmt(ex.IA[0], 1), I.fmt(ex.VAB[0], 3), I.fmt(ex.P[0], 3), I.fmt(Math.abs(ex.Q[0]) < 5e-4 ? 0 : ex.Q[0], 3))}
+        {p.pi > 120 && <div style={{ color: INK.red }}>{t("Di atas 120% In: pastikan batas arus test set, CT dan relay.")}</div>}
+      </div>
+    </details>
+  );
+}
+
+/** Preview titik uji yang akan dibuat: % injeksi + setting sekunder. */
+function Preview({ s, pts, start = 1 }: { s: Setup | null; pts: [number, number, number, number][]; start?: number }) {
+  if (!s || !pts.length) return null;
+  return (
+    <div class="inj-prev">
+      <div class="small muted">{t("Yang harus diinjeksi di sisi sekunder:")}</div>
+      {pts.map(([pi, pv, phi, hz], i) => {
+        const sec = I.secondary(s, { pi, pv, phi, hz });
+        const ex = I.expected(s, { pi, pv, phi, hz });
+        return (
+          <div key={i} class={"inj-prev-r" + (pi > 120 ? " warn" : "")}>
+            <b>T{start + i}</b> {I.g(Number(pi.toFixed(2)))}% In → <b>{sec.i.toFixed(3)} A</b> ∠{I.g(I.ang(-phi))}° · <b>{sec.v_ln.toFixed(2)} V</b> L-N · {I.g(hz)} Hz
+            <div class="small muted">{t("Primer: I {0} A · P {1} MW · Q {2} MVAR", I.fmt(ex.IA[0], 1), I.fmt(ex.P[0], 3), I.fmt(Math.abs(ex.Q[0]) < 5e-4 ? 0 : ex.Q[0], 3))}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const TARGET_LABEL: Record<string, [string, string]> = {
+  pct: ["% In", "%"], I: ["Arus primer", "A"], P: ["Daya aktif P", "MW"], Q: ["Daya reaktif Q", "MVAR"], S: ["Daya semu S", "MVA"],
+};
+
+/** Titik uji dari isian: mode "% In" atau target primer (I/P/Q/S) → [pi, pv, phi, hz][]; string = pesan galat. */
+function pointsFrom(s: Setup | null, mode: string, v: Record<string, string>): [number, number, number, number][] | string {
+  const vals = String(v.pi).split(/[;\s]+|,(?=\s)|,(?!\d)/).map((x) => x.trim()).filter(Boolean).map(num);
+  const [pv, phi, hz] = [num(v.pv), num(v.phi), num(v.hz)];
+  if (!vals.length || vals.some((x) => !Number.isFinite(x)) || [pv, phi, hz].some((x) => !Number.isFinite(x)))
+    return t("Isi semua angka titik uji.");
+  if (mode === "pct") return vals.map((pi) => [pi, pv, phi, hz]);
+  if (!s) return t("Rasio CT/VT belum benar.");
+  const out: [number, number, number, number][] = [];
+  for (const x of vals) {
+    const pi = I.piForTarget(s, mode as I.Target, x, pv, phi);
+    if (pi === null) return mode === "P" ? t("P tidak bisa dicapai pada φ = 90°. Ubah sudut φ.") :
+      mode === "Q" ? t("Q tidak bisa dicapai pada φ = 0°. Ubah sudut φ.") : t("Target tidak bisa dicapai. Cek tegangan dan sudut.");
+    out.push([Number(pi.toPrecision(6)), pv, phi, hz]);   // presisi sama dengan deskripsi item (g)
+  }
+  return out;
 }
 
 function ReviewSheet({ review, keys, exp, current, onApply, onClose }: {
@@ -333,18 +419,20 @@ function PointSheet({ g, s, section, panel, who, onClose }: { g: ReturnType<type
   const nav = useNav();
   const last = g.points[g.points.length - 1];
   const [v, setV] = useState({ pi: I.g(Math.min(200, (last?.pi ?? 0) + 10)), pv: I.g(last?.pv ?? 100), phi: I.g(last?.phi ?? 30), hz: I.g(last?.hz ?? 50) });
+  const [mode, setMode] = useState("pct");
+  const pts = pointsFrom(s, mode, v);
   async function save() {
-    const [pi, pv, phi, hz] = [num(v.pi), num(v.pv), num(v.phi), num(v.hz)];
-    if ([pi, pv, phi, hz].some((x) => !Number.isFinite(x))) { nav.toast(t("Isi semua angka titik uji.")); return; }
-    const n = Math.max(0, ...g.points.map((p) => p.n)) + 1;
-    await addItems(panel.uuid, I.pointItems(section, s, n, pi, pv, phi, hz), who);
+    if (typeof pts === "string") { nav.toast(pts); return; }
+    let n = Math.max(0, ...g.points.map((p) => p.n));
+    for (const [pi, pv, phi, hz] of pts) await addItems(panel.uuid, I.pointItems(section, s, ++n, pi, pv, phi, hz), who);
     onClose();
   }
   return (
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>{t("Tambah titik uji")}</h2>
-        <PointFields v={v} set={setV as any} />
+        <PointFields v={v} set={setV as any} mode={mode} setMode={setMode} list />
+        <Preview s={s} pts={typeof pts === "string" ? [] : pts} start={Math.max(0, ...g.points.map((p) => p.n)) + 1} />
         <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
           <button class="btn grow" onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" onClick={save}>{t("Tambah")}</button>
@@ -354,15 +442,27 @@ function PointSheet({ g, s, section, panel, who, onClose }: { g: ReturnType<type
   );
 }
 
-function PointFields({ v, set, list }: { v: Record<string, string>; set: (v: Record<string, string>) => void; list?: boolean }) {
-  const f = (k: string, label: string, suffix: string, mode = "decimal") => (
+function PointFields({ v, set, list, mode = "pct", setMode }: { v: Record<string, string>; set: (v: Record<string, string>) => void;
+  list?: boolean; mode?: string; setMode?: (m: string) => void }) {
+  const f = (k: string, label: string, suffix: string, inputMode = "decimal") => (
     <label class="fld"><span>{label}</span>
-      <div class="in"><input inputMode={mode as any} value={v[k]} onInput={(e: any) => set({ ...v, [k]: e.currentTarget.value })} /><i>{suffix}</i></div>
+      <div class="in"><input inputMode={inputMode as any} value={v[k]} onInput={(e: any) => set({ ...v, [k]: e.currentTarget.value })} /><i>{suffix}</i></div>
     </label>
   );
+  const [lab, unit] = TARGET_LABEL[mode];
   return (
     <div class="inj-form">
-      {f("pi", t("Injeksi arus (% In)"), "%", list ? "text" : "decimal")}
+      {setMode && (
+        <div class="fld"><span>{t("Tentukan titik uji dari")}</span>
+          <div class="seg inj-mode" role="tablist">
+            {Object.keys(TARGET_LABEL).map((m) => (
+              <button type="button" class={mode === m ? "on" : ""} aria-selected={mode === m} onClick={() => setMode(m)}>
+                {m === "pct" ? "% In" : m}</button>
+            ))}
+          </div>
+        </div>
+      )}
+      {f("pi", mode === "pct" ? t("Injeksi arus (% In)") : t("Target {0} di sisi primer", t(lab)), unit, list ? "text" : "decimal")}
       {list && <div class="small muted" style={{ marginTop: -4 }}>{t("Satu titik uji per angka, dipisah koma")}</div>}
       <div class="two">{f("pv", t("Injeksi tegangan (% Vn)"), "%")}{f("phi", t("Sudut φ (+ = lagging)"), "°", "text")}</div>
       {f("hz", t("Frekuensi"), "Hz")}
@@ -376,6 +476,8 @@ export function CreateInjection({ panel, checks, who, onClose }: { panel: Row; c
   const [dev, setDev] = useState(devs.find((d) => d.includes("BCU")) || devs[0] || "BCU");
   const [v, setV] = useState(() => setupStr(I.prefillFromRatio(checks, dev)));
   const [pt, setPt] = useState({ pi: "10, 50, 100", pv: "100", phi: "30", hz: "50" });
+  const [mode, setMode] = useState("pct");
+  const pts = pointsFrom(readSetup(v), mode, pt);
   function pickDev(d: string) {
     setDev(d);
     const s = I.prefillFromRatio(checks, d);
@@ -385,17 +487,12 @@ export function CreateInjection({ panel, checks, who, onClose }: { panel: Row; c
     const s = readSetup(v);
     if (!dev.trim()) { nav.toast(t("Isi nama device / alat baca.")); return; }
     if (!s) { nav.toast(t("Rasio CT/VT belum benar.")); return; }
-    const pis = pt.pi.split(/[;\s]+|,(?=\s)|,(?!\d)/).map((x) => x.trim()).filter(Boolean).map(num);
-    const [pv, phi, hz] = [num(pt.pv), num(pt.phi), num(pt.hz)];
-    if (!pis.length || pis.some((x) => !Number.isFinite(x)) || [pv, phi, hz].some((x) => !Number.isFinite(x))) {
-      nav.toast(t("Isi % injeksi arus, contoh: 10, 50, 100"));
-      return;
-    }
+    if (typeof pts === "string") { nav.toast(pts); return; }
     const secs = checks.map((c) => c.section || "");
     if (secs.some((x) => I.isInjectionSection(x) && I.deviceOf(x) === dev.trim()) &&
       !confirm(t("Panel ini sudah punya uji injeksi untuk {0}. Buat blok kedua?", dev.trim()))) return;
-    await addItems(panel.uuid, I.blockItems(dev.trim(), I.nextLetter(secs), s, pis.map((pi) => [pi, pv, phi, hz])), who);
-    nav.toast(t("Uji injeksi CT/VT dibuat ({0} titik).", pis.length));
+    await addItems(panel.uuid, I.blockItems(dev.trim(), I.nextLetter(secs), s, pts), who);
+    nav.toast(t("Uji injeksi CT/VT dibuat ({0} titik).", pts.length));
     if (navigator.onLine) session.sync();
     onClose();
   }
@@ -411,7 +508,8 @@ export function CreateInjection({ panel, checks, who, onClose }: { panel: Row; c
           <div class="small muted">{t("Alat yang dibaca nilainya (BCU, meter, relay). Rasio diambil dari item Rasio CT/VT bila sudah diisi.")}</div>
         </div>
         <SetupFields v={v} set={setV} />
-        <PointFields v={pt} set={setPt as any} list />
+        <PointFields v={pt} set={setPt as any} list mode={mode} setMode={setMode} />
+        <Preview s={readSetup(v)} pts={typeof pts === "string" ? [] : pts} />
         <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
           <button class="btn grow" onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" onClick={save}>{t("Buat")}</button>

@@ -139,6 +139,87 @@ def parse_list(text):
     return out
 
 
+TARGET_MODES = (("pct", "% In", "%"), ("I", "Arus primer", "A"), ("P", "Daya aktif P", "MW"),
+                ("Q", "Daya reaktif Q", "MVAR"), ("S", "Daya semu S", "MVA"))
+
+
+class PointsForm(QWidget):
+    """Titik uji dari % injeksi arus, atau dari target primer (I/P/Q/S) → % dihitung; preview setting sekunder."""
+
+    def __init__(self, setup_fn, values="10, 50, 100", pv=100, phi=30, hz=50, start=1):
+        super().__init__()
+        self.setup_fn = setup_fn
+        self.start = start
+        g = QFormLayout(self)
+        g.setContentsMargins(0, 0, 0, 0)
+        self.mode = QComboBox()
+        for key, lab, unit in TARGET_MODES:
+            self.mode.addItem("% In" if key == "pct" else f"{tr(lab)} ({unit})", key)
+        self.vals = QLineEdit(values)
+        self.vals.setToolTip(tr("Satu titik uji per angka, dipisah koma"))
+        self.pv = _spin(pv, 0, 200, 1, " %")
+        self.phi = _spin(phi, -180, 180, 1, " °")
+        self.hz = _spin(hz, 40, 70, 2, " Hz")
+        self.vlab = QLabel()
+        g.addRow(tr("Tentukan titik uji dari"), self.mode)
+        g.addRow(self.vlab, self.vals)
+        g.addRow(tr("Injeksi tegangan (% Vn)"), self.pv)
+        g.addRow(tr("Sudut φ (+ = lagging)"), self.phi)
+        g.addRow(tr("Frekuensi"), self.hz)
+        self.prev = QLabel()
+        self.prev.setWordWrap(True)
+        self.prev.setTextFormat(Qt.RichText)
+        self.prev.setStyleSheet("background:#DFEAF6; color:#12416b; border-radius:6px; padding:8px;")
+        g.addRow(self.prev)
+        for w in (self.mode,):
+            w.currentIndexChanged.connect(self.refresh)
+        self.vals.textChanged.connect(self.refresh)
+        for w in (self.pv, self.phi, self.hz):
+            w.valueChanged.connect(self.refresh)
+        self.refresh()
+
+    def points(self):
+        """[(pi, pv, phi, hz)] atau pesan galat (str)."""
+        vals = parse_list(self.vals.text())
+        if not vals:
+            return tr("Isi semua angka titik uji.")
+        pv, phi, hz = self.pv.value(), self.phi.value(), self.hz.value()
+        mode = self.mode.currentData()
+        if mode == "pct":
+            return [(x, pv, phi, hz) for x in vals]
+        s = self.setup_fn()
+        if not s or s["ct_p"] <= 0 or s["ct_s"] <= 0 or s["vt_p"] <= 0 or s["vt_s"] <= 0:
+            return tr("Rasio CT/VT belum benar.")
+        out = []
+        for x in vals:
+            pi = INJ.pi_for_target(s, mode, x, pv, phi)
+            if pi is None:
+                return {"P": tr("P tidak bisa dicapai pada φ = 90°. Ubah sudut φ."),
+                        "Q": tr("Q tidak bisa dicapai pada φ = 0°. Ubah sudut φ.")}.get(
+                    mode, tr("Target tidak bisa dicapai. Cek tegangan dan sudut."))
+            out.append((float(f"{pi:.6g}"), pv, phi, hz))
+        return out
+
+    def refresh(self, *_):
+        key = self.mode.currentData()
+        lab, unit = next((l, u) for k, l, u in TARGET_MODES if k == key)
+        self.vlab.setText(tr("Injeksi arus (% In)") if key == "pct" else tr("Target {0} di sisi primer", tr(lab)) + f" ({unit})")
+        pts, s = self.points(), self.setup_fn()
+        if isinstance(pts, str) or not s:
+            self.prev.setText(pts if isinstance(pts, str) else "")
+            return
+        lines = [f"<b>{tr('Yang harus diinjeksi di sisi sekunder:')}</b>"]
+        for i, (pi, pv, phi, hz) in enumerate(pts):
+            sec = INJ.secondary(s, dict(pi=pi, pv=pv, phi=phi, hz=hz))
+            ex = INJ.expected(s, dict(pi=pi, pv=pv, phi=phi, hz=hz))
+            q = 0.0 if abs(ex["Q"][0]) < 5e-4 else ex["Q"][0]
+            warn_ = f" <span style='color:{T.NG}'>{tr('Di atas 120% In: pastikan batas arus test set, CT dan relay.')}</span>" if pi > 120 else ""
+            lines.append(f"<b>T{self.start + i}</b> {INJ._g(round(pi, 2))}% In → <b>{sec['i']:.3f} A</b> ∠{INJ._g(INJ._ang(-phi))}° · "
+                         f"<b>{sec['v_ln']:.2f} V</b> L-N · {INJ._g(hz)} Hz &nbsp;—&nbsp; " +
+                         tr("Primer: I {0} A · P {1} MW · Q {2} MVAR", f"{ex['IA'][0]:.1f}", f"{ex['P'][0]:.3f}", f"{q:.3f}") + warn_)
+        self.prev.setText("<br>".join(lines))
+
+
 class CreateDialog(QDialog):
     """Blok uji injeksi baru untuk satu device panel."""
 
@@ -162,17 +243,11 @@ class CreateDialog(QDialog):
         self.form = SetupForm(prefill_from_ratio_items(rows, self.dev.currentText()))
         v.addWidget(self.form)
         self.dev.currentTextChanged.connect(self._dev_changed)
-        g = QFormLayout()
-        self.pi = QLineEdit("10, 50, 100")
-        self.pi.setToolTip(tr("Satu titik uji per angka, dipisah koma"))
-        self.pv = _spin(100, 0, 200, 1, " %")
-        self.phi = _spin(30, -180, 180, 1, " °")
-        self.hz = _spin(50, 40, 70, 2, " Hz")
-        g.addRow(tr("Injeksi arus (% In)"), self.pi)
-        g.addRow(tr("Injeksi tegangan (% Vn)"), self.pv)
-        g.addRow(tr("Sudut φ (V–I, + = lagging)"), self.phi)
-        g.addRow(tr("Frekuensi"), self.hz)
-        v.addLayout(g)
+        self.pts = PointsForm(self.form.value)
+        for w in (self.form.ct_p, self.form.vt_p, self.form.vt_s):
+            w.valueChanged.connect(self.pts.refresh)
+        self.form.ct_s.currentTextChanged.connect(self.pts.refresh)
+        v.addWidget(self.pts)
         bb = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         bb.button(QDialogButtonBox.Ok).setObjectName("primary")
         bb.button(QDialogButtonBox.Ok).setText(tr("Buat"))
@@ -196,16 +271,14 @@ class CreateDialog(QDialog):
         if s["ct_s"] <= 0 or s["ct_p"] <= 0:
             warn(self, tr("Rasio CT belum benar."))
             return
-        pis = parse_list(self.pi.text())
-        if not pis:
-            warn(self, tr("Isi % injeksi arus, contoh: 10, 50, 100"))
+        pts = self.pts.points()
+        if isinstance(pts, str):
+            warn(self, pts)
             return
         super().accept()
 
     def values(self):
-        pis = parse_list(self.pi.text())
-        return (self.dev.currentText().strip(), self.form.value(),
-                [(p, self.pv.value(), self.phi.value(), self.hz.value()) for p in pis])
+        return self.dev.currentText().strip(), self.form.value(), self.pts.points()
 
 
 class SetupDialog(QDialog):
@@ -231,27 +304,64 @@ class SetupDialog(QDialog):
 
 
 class PointDialog(QDialog):
-    def __init__(self, parent, last=None):
+    def __init__(self, parent, last=None, setup=None, start=1):
         super().__init__(parent)
         self.setWindowTitle(tr("Tambah titik uji"))
-        f = QFormLayout(self)
+        self.setMinimumWidth(560)
+        v = QVBoxLayout(self)
         last = last or dict(pi=0, pv=100, phi=30, hz=50)
-        self.pi = _spin(min(200, last["pi"] + 10), 0, 300, 1, " %")
-        self.pv = _spin(last["pv"], 0, 200, 1, " %")
-        self.phi = _spin(last["phi"], -180, 180, 1, " °")
-        self.hz = _spin(last["hz"], 40, 70, 2, " Hz")
-        f.addRow(tr("Injeksi arus (% In)"), self.pi)
-        f.addRow(tr("Injeksi tegangan (% Vn)"), self.pv)
-        f.addRow(tr("Sudut φ (V–I, + = lagging)"), self.phi)
-        f.addRow(tr("Frekuensi"), self.hz)
+        self.pts = PointsForm(lambda: setup, INJ._g(min(200, last["pi"] + 10)), last["pv"], last["phi"], last["hz"], start)
+        v.addWidget(self.pts)
         bb = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         bb.button(QDialogButtonBox.Ok).setObjectName("primary")
         bb.accepted.connect(self.accept)
         bb.rejected.connect(self.reject)
-        f.addRow(bb)
+        v.addWidget(bb)
+
+    def accept(self):
+        pts = self.pts.points()
+        if isinstance(pts, str):
+            warn(self, pts)
+            return
+        super().accept()
 
     def values(self):
-        return self.pi.value(), self.pv.value(), self.phi.value(), self.hz.value()
+        return self.pts.points()
+
+
+class GuideDialog(QDialog):
+    """Setting secondary injector (test set 3 fasa) satu titik uji."""
+
+    def __init__(self, parent, s, p):
+        super().__init__(parent)
+        self.setWindowTitle(tr("Panduan secondary injector"))
+        self.setMinimumWidth(460)
+        v = QVBoxLayout(self)
+        v.addWidget(QLabel(f"<b>T{p['n']}</b> · " + tr("I {0}% · V {1}% · φ {2}° · {3} Hz", INJ._g(p["pi"]), INJ._g(p["pv"]),
+                                                          INJ._g(p["phi"]), INJ._g(p["hz"]))))
+        g = QGridLayout()
+        g.setHorizontalSpacing(24)
+        for c, h in enumerate([tr("Kanal"), tr("Besar"), tr("Sudut")]):
+            g.addWidget(QLabel(f"<span style='color:{T.MUTED}'><b>{h}</b></span>"), 0, c)
+        for i, (name, mag, unit, a) in enumerate(INJ.injector_channels(s, p), 1):
+            g.addWidget(QLabel(f"<b>{name}</b>"), i, 0)
+            g.addWidget(QLabel(f"{mag:.{3 if unit == 'A' else 2}f} {unit}"), i, 1)
+            g.addWidget(QLabel(f"{INJ._g(a)}°"), i, 2)
+        g.addWidget(QLabel("<b>f</b>"), 7, 0)
+        g.addWidget(QLabel(f"{INJ._g(p['hz'])} Hz"), 7, 1)
+        v.addLayout(g)
+        sec, ex = INJ.secondary(s, p), INJ.expected(s, p)
+        q = 0.0 if abs(ex["Q"][0]) < 5e-4 else ex["Q"][0]
+        n = QLabel(tr("= {0}% In · {1}% Vn ({2} V L-L) · φ {3}° {4}", INJ._g(p["pi"]), INJ._g(p["pv"]), f"{sec['v_ll']:.1f}",
+                      INJ._g(p["phi"]), tr("lagging") if p["phi"] > 0 else tr("leading") if p["phi"] < 0 else "") + "<br>" +
+                   tr("Primer yang diharapkan: I {0} A · V {1} kV · P {2} MW · Q {3} MVAR", f"{ex['IA'][0]:.1f}",
+                      f"{ex['VAB'][0]:.3f}", f"{ex['P'][0]:.3f}", f"{q:.3f}"))
+        n.setWordWrap(True)
+        n.setStyleSheet(f"color:{T.MUTED};")
+        v.addWidget(n)
+        bb = QDialogButtonBox(QDialogButtonBox.Close)
+        bb.rejected.connect(self.reject)
+        v.addWidget(bb)
 
 
 class OcrReviewDialog(QDialog):
@@ -365,6 +475,22 @@ class InjectionBlock(QFrame):
                 ng += 1 if r["result"] == "NG" else 0
         return done, ng, total
 
+    def used(self):
+        """Jumlah nilai/hasil uji + foto di blok (item setup selalu OK, tidak dihitung)."""
+        n = sum(1 for r in self.rows if r["unit"] != INJ.SETUP_UNIT and (r["result"] or (r["value"] or "").strip()))
+        return n + sum(self.view.photo_counts.get(r["id"], 0) for r in self.rows)
+
+    def delete_block(self):
+        if self.used():
+            warn(self, tr("Blok ini sudah berisi hasil uji atau foto, tidak bisa dihapus. Kosongkan nilainya dulu bila memang salah buat."))
+            return
+        if not ask(self, tr("Hapus blok {0}? Semua titik uji di blok ini ikut terhapus.", self.section)):
+            return
+        for r in self.rows:
+            self.db.delete_check_item(r["id"])
+        self.view.load(self.view.panel_id)
+        self.view.stats_changed()
+
     def matches(self, key, q):
         if q and q not in (self.section + " " + " ".join(r["description"] for r in self.rows)).lower():
             return False
@@ -402,6 +528,8 @@ class InjectionBlock(QFrame):
         if not ro:
             h.addWidget(btn(tr("Setup…"), "edit", "ghost", tr("Ubah rasio CT/VT dan toleransi"), self.edit_setup))
             h.addWidget(btn(tr("Titik uji"), "plus", "ghost", tr("Tambah titik uji"), self.add_point))
+            if not self.used():
+                h.addWidget(btn(tr("Hapus blok"), "trash", "ghost", tr("Hapus blok uji injeksi"), self.delete_block, color=T.NG))
         self.lay.addWidget(head)
 
         info_ = QLabel()
@@ -446,11 +574,15 @@ class InjectionBlock(QFrame):
         top.addWidget(pill)
         if s:
             sec = INJ.secondary(s, p)
-            inj = QLabel(tr("Injeksi: {0} A ∠{1}° · {2} V L-N · {3} Hz", f"{sec['i']:.3f}", INJ._g(-p["phi"]),
+            inj = QLabel(tr("Injeksi: {0} A ∠{1}° · {2} V L-N · {3} Hz", f"{sec['i']:.3f}", INJ._g(INJ._ang(-p["phi"])),
                             f"{sec['v_ln']:.2f}", INJ._g(p["hz"])))
             inj.setStyleSheet(f"color:{T.MUTED}; font-size:8.5pt;")
-            top.addSpacing(8)
-            top.addWidget(inj)
+            row2 = QHBoxLayout()            # baris kedua: setting injeksi + panduan (baris atas untuk aksi)
+            row2.addWidget(inj)
+            gb = btn(tr("Panduan injector"), "report", "ghost", tr("Setting secondary injector (test set 3 fasa) untuk titik ini"))
+            gb.clicked.connect(lambda _=False, pp=p, ss=s: GuideDialog(self, ss, pp).exec())
+            row2.addWidget(gb)
+            row2.addStretch()
         top.addStretch()
         first = p["rows"].get("IA") or next(iter(p["rows"].values()))
         photos = sum(self.view.photo_counts.get(r["id"], 0) for r in p["rows"].values())
@@ -479,6 +611,8 @@ class InjectionBlock(QFrame):
             more.setStyleSheet("QToolButton::menu-indicator { image: none; }")
             top.addWidget(more)
         v.addLayout(top)
+        if s:
+            v.addLayout(row2)
 
         grid = QGridLayout()
         grid.setHorizontalSpacing(14)
@@ -634,12 +768,15 @@ class InjectionBlock(QFrame):
             warn(self, tr("Isi setup rasio CT/VT dulu (tombol Setup…)."))
             return
         last = g["points"][-1] if g["points"] else None
-        d = PointDialog(self, last)
+        n = max([p["n"] for p in g["points"]] or [0])
+        d = PointDialog(self, last, s, n + 1)
         if not d.exec():
             return
-        pi, pv, phi, hz = d.values()
-        n = max([p["n"] for p in g["points"]] or [0]) + 1
-        add_items(self.db, self.view.panel_id, INJ.point_items(self.section, s, n, pi, pv, phi, hz))
+        items = []
+        for pi, pv, phi, hz in d.values():
+            n += 1
+            items += INJ.point_items(self.section, s, n, pi, pv, phi, hz)
+        add_items(self.db, self.view.panel_id, items)
         self.refresh()
 
     def _delete_point(self, p):

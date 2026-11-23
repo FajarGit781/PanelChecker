@@ -79,6 +79,39 @@ export function secondary(s: Setup, p: { pi: number; pv: number; phi: number; hz
 
 export const fmt = (x: number, d: number) => x.toFixed(d);
 
+/** Sudut ke rentang (-180, 180]. */
+export function ang(a: number): number {
+  a = ((((a + 180) % 360) + 360) % 360) - 180;
+  return a === -180 ? 180 : a + 0;
+}
+
+export interface Channel { name: string; mag: number; unit: "V" | "A"; ang: number }
+
+/** Setting test set 3 fasa (sekunder): tegangan L-N, urutan ABC, arus tertinggal φ dari tegangan fasanya. */
+export function injectorChannels(s: Setup, p: { pi: number; pv: number; phi: number; hz: number }): Channel[] {
+  const sec = secondary(s, p);
+  const ph: [string, number][] = [["A", 0], ["B", -120], ["C", 120]];
+  return [
+    ...ph.map(([x, a]) => ({ name: `V${x}`, mag: sec.v_ln, unit: "V" as const, ang: ang(a) })),
+    ...ph.map(([x, a]) => ({ name: `I${x}`, mag: sec.i, unit: "A" as const, ang: ang(a - p.phi) })),
+  ];
+}
+
+export const TARGETS = ["I", "P", "Q", "S"] as const;   // target primer: arus (A), P (MW), Q (MVAR), S (MVA)
+export type Target = (typeof TARGETS)[number];
+
+/** % injeksi arus supaya besaran primer = value (dengan % tegangan pv dan sudut φ). null bila tidak mungkin. */
+export function piForTarget(s: Setup, target: Target, value: number, pv: number, phi: number): number | null {
+  if (target === "I") return (value * 100) / s.ct_p;
+  const vLL = (s.vt_p * pv) / 100;
+  if (vLL <= 0) return null;
+  const c = { P: Math.cos((phi * Math.PI) / 180), Q: Math.sin((phi * Math.PI) / 180), S: 1 }[target];
+  if (Math.abs(c) < 1e-6) return null;
+  const S = value / c;
+  if (S < 0) return null;
+  return (((S * 1000) / (SQ3 * vLL)) * 100) / s.ct_p;
+}
+
 export function criteriaText(key: Key, exp: number, tol: number): string {
   const d = DEC[key];
   const e = Math.abs(exp) < 0.5 * 10 ** -d ? 0 : exp;

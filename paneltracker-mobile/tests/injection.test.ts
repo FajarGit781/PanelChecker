@@ -133,3 +133,25 @@ describe("update otomatis APK", () => {
     expect(cmpVer("2.0", "1.99.99")).toBe(1);
   });
 });
+
+describe("panduan secondary injector", () => {
+  it("setting test set 3 fasa", () => {
+    const ch = I.injectorChannels(S, { pi: 50, pv: 100, phi: 30, hz: 50 });
+    expect(ch.map((c) => c.name)).toEqual(["VA", "VB", "VC", "IA", "IB", "IC"]);
+    expect(ch[0].mag).toBeCloseTo(63.5085, 3);
+    expect(ch.map((c) => c.ang)).toEqual([0, -120, 120, -30, -150, 90]);
+    expect(ch[3].mag).toBeCloseTo(0.5, 12);
+    expect(I.injectorChannels(S, { pi: 10, pv: 100, phi: -60, hz: 50 })[5].ang).toBe(180);
+    expect(I.ang(-180)).toBe(180); expect(I.ang(190)).toBe(-170);
+  });
+  it("kalkulator target primer → % injeksi", () => {
+    expect(I.piForTarget(S, "I", 1000, 100, 30)).toBeCloseTo(50, 9);
+    expect(I.piForTarget(S, "P", 225, 100, 30)).toBeCloseTo(50, 6);
+    expect(I.piForTarget(S, "Q", 129.9038, 100, 30)).toBeCloseTo(50, 4);
+    expect(I.piForTarget(S, "S", 259.8076, 100, 0)).toBeCloseTo(50, 4);
+    expect(I.piForTarget(S, "P", 100, 100, 90)).toBeNull();
+    expect(I.piForTarget(S, "Q", 10, 100, 0)).toBeNull();
+    expect(I.piForTarget(S, "P", 100, 0, 0)).toBeNull();
+  });
+});
+

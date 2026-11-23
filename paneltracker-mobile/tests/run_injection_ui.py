@@ -108,14 +108,14 @@ with sync_playwright() as p:
     check(pg.locator(".inj .inj-t input").count() == 20, "20 isian Actual")
     pg.locator(".inj").scroll_into_view_if_needed(); shot("inj_01_block")
     t1 = pg.locator(".inj .inj-pt").nth(0)
-    t1.locator("tbody tr").nth(0).locator("input").fill("201.5"); t1.locator("tbody tr").nth(0).locator("input").press("Enter"); time.sleep(0.5)
+    t1.locator(".inj-t tbody tr").nth(0).locator("input").fill("201.5"); t1.locator(".inj-t tbody tr").nth(0).locator("input").press("Enter"); time.sleep(0.5)
     t1 = pg.locator(".inj .inj-pt").nth(0)
-    check("OK" in t1.locator("tbody tr").nth(0).locator(".pill").inner_text(), "IA 201,5 → OK")
-    t1.locator("tbody tr").nth(1).locator("input").fill("205"); t1.locator("tbody tr").nth(1).locator("input").press("Enter"); time.sleep(0.5)
+    check("OK" in t1.locator(".inj-t tbody tr").nth(0).locator(".pill").inner_text(), "IA 201,5 → OK")
+    t1.locator(".inj-t tbody tr").nth(1).locator("input").fill("205"); t1.locator(".inj-t tbody tr").nth(1).locator("input").press("Enter"); time.sleep(0.5)
     t1 = pg.locator(".inj .inj-pt").nth(0)
-    check("NG" in t1.locator("tbody tr").nth(1).locator(".pill").inner_text(), "IB 205 → NG")
-    check(t1.locator("tbody tr").nth(1).locator(".add-punch").count() == 1, "NG → tombol + Punch")
-    check("+2.50 %" in t1.locator("tbody tr").nth(1).inner_text(), "error % tampil")
+    check("NG" in t1.locator(".inj-t tbody tr").nth(1).locator(".pill").inner_text(), "IB 205 → NG")
+    check(t1.locator(".inj-t tbody tr").nth(1).locator(".add-punch").count() == 1, "NG → tombol + Punch")
+    check("+2.50 %" in t1.locator(".inj-t tbody tr").nth(1).inner_text(), "error % tampil")
     shot("inj_02_values")
 
     # ---- baca foto HMI (OCR di browser)
@@ -127,10 +127,10 @@ with sync_playwright() as p:
     check("1001.0" in rv and "126.900" in rv and "0.871" in rv, "review menampilkan nilai terbaca")
     pg.click(".sheet-modal button.primary"); time.sleep(1)
     t2 = pg.locator(".inj .inj-pt").nth(1)
-    vals = [t2.locator("tbody tr").nth(i).locator("input").input_value() for i in range(10)]
+    vals = [t2.locator(".inj-t tbody tr").nth(i).locator("input").input_value() for i in range(10)]
     check(vals[0] == "1001" and vals[6] == "225.1" and vals[7] == "126.9" and vals[8] == "0.871" and vals[9] == "50",
           f"nilai foto masuk Actual (VAB/VBC/VCA tidak ada di foto → tetap kosong): {vals}")
-    check("NG" in t2.locator("tbody tr").nth(7).locator(".pill").inner_text(), "Q 126,9 (expected 129,9) → NG")
+    check("NG" in t2.locator(".inj-t tbody tr").nth(7).locator(".pill").inner_text(), "Q 126,9 (expected 129,9) → NG")
     check(t2.locator(".evidence .ev-item").count() == 1, "foto HMI tersimpan sebagai evidence T2")
     shot("inj_04_after_ocr")
 
@@ -150,6 +150,32 @@ with sync_playwright() as p:
         pg.click("button:has-text('Sisa item OK')"); time.sleep(0.6)
     check(pg.locator(".inj td.st .pill:not(.OK):not(.NG)").count() == 30, "'Sisa item OK' tidak menyentuh item injeksi")
     pg.locator(".inj").scroll_into_view_if_needed(); shot("inj_06_new_block")
+    g1 = pg.locator(".inj .inj-pt").nth(0).locator(".inj-guide")
+    check(g1.get_attribute("open") is not None, "panduan injector terbuka di titik yang belum diisi")
+    gt = g1.inner_text()
+    check("0.100 A" in gt and "63.51 V" in gt and "-120°" in gt and "-30°" in gt, f"panduan: tabel setting test set: {gt[:160]!r}")
+    g1.scroll_into_view_if_needed(); shot("inj_06b_guide")
+    # ---- titik uji dari target primer P = 100 MW
+    pg.click(".inj button:has-text('Titik uji')"); pg.wait_for_selector(".sheet-modal .inj-mode")
+    pg.click(".sheet-modal .inj-mode button:has-text('P')")
+    pg.locator(".sheet-modal .fld input").nth(0).fill("100")
+    time.sleep(0.3)
+    prev = pg.inner_text(".sheet-modal .inj-prev")
+    check("P 100.000 MW" in prev, f"preview target P 100 MW: {prev!r}")
+    shot("inj_06c_target")
+    pg.click(".sheet-modal button.primary:has-text('Tambah')"); time.sleep(0.6)
+    check(pg.locator(".inj .inj-pt").count() == 4, "titik T4 dari target P ditambahkan")
+    t4 = pg.locator(".inj .inj-pt").nth(3)
+    check("100.000" in t4.locator(".inj-t tbody tr").nth(6).inner_text(), "expected P T4 = 100 MW")
+    # ---- hapus blok: buat blok kedua (kosong), hapus; blok berisi hasil tidak bisa dihapus
+    pg.click("button:has-text('Uji injeksi CT/VT')"); pg.wait_for_selector(".sheet-modal .inj-form")
+    pg.click(".sheet-modal button.primary:has-text('Buat')"); time.sleep(0.8)
+    check(pg.locator(".inj").count() == 2, "blok kedua dibuat")
+    pg.locator(".inj").nth(1).locator("button:has-text('Hapus blok')").click(); time.sleep(0.8)
+    check(pg.locator(".inj").count() == 1, "blok kosong dihapus")
+    t1i = pg.locator(".inj .inj-pt").nth(0).locator(".inj-t tbody tr").nth(0).locator("input")
+    t1i.fill("160.5"); t1i.press("Enter"); time.sleep(0.5)
+    check(pg.locator(".inj button:has-text('Hapus blok')").count() == 0, "blok berisi hasil: tombol Hapus blok hilang")
 
     # ---- bahasa Inggris
     pg.click(".nav button:has-text('Akun')"); pg.click(".line:has-text('English')"); pg.wait_for_selector(".gauges"); time.sleep(0.5)
@@ -176,8 +202,11 @@ srv_att = [r for r in M.TABLES["attachments"].values() if str(r.get("filename", 
 print("   server: lampiran hmi =", [(r.get("storage_path"), r.get("deleted")) for r in srv_att])
 check(len(lap.check_photos(r2["IA"]["id"])) == 1, "laptop: foto HMI evidence T2")
 blk2 = [r for r in lap.panel_checks(P2) if INJ.is_injection_section(r["section"])]
-check(len(blk2) == 31 and INJ.parse_setup(next(r for r in blk2 if r["unit"] == "setup")["criteria"])["ct_p"] == 1600,
-      "laptop: blok baru dari HP (setup CT 1600/1 + 30 item)")
+check(len(blk2) == 41 and INJ.parse_setup(next(r for r in blk2 if r["unit"] == "setup")["criteria"])["ct_p"] == 1600,
+      f"laptop: blok baru dari HP (setup CT 1600/1 + 40 item), blok yang dihapus tidak ikut: {len(blk2)}")
+p4 = INJ.group(blk2)["points"][3]
+check(abs(INJ.expected(INJ.parse_setup(next(r for r in blk2 if r["unit"] == "setup")["criteria"]), p4)["P"][0] - 100) < 0.01,
+      "laptop: T4 dari target P = 100 MW")
 ERR = [e for e in ERR if "400 (Bad Request)" not in e]
 check(not ERR, f"tanpa error JS: {ERR}")
 srv.shutdown(); web.shutdown()
