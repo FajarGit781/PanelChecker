@@ -647,6 +647,30 @@ class MainWindow(QMainWindow):
         if fp:
             self._run_report(lambda rb, f: rb.dido_report(f, ids, **o), fp, lang=lang)
 
+    def report_injection(self, ids=None):
+        """Report Uji Injeksi CT/VT (expected vs actual + foto evidence)."""
+        if not self._need_project():
+            return
+        from .report_dialogs import DidoReportDialog
+        d = DidoReportDialog(self, kind="injection")
+        if not d.data:
+            warn(self, tr('Belum ada panel dengan uji injeksi CT/VT. Buat dari halaman Checking: menu ⋯ → Tambah uji injeksi CT/VT.'))
+            return
+        if ids:
+            from PySide6.QtCore import Qt as _Qt
+            for i in range(d.pl.count()):
+                it = d.pl.item(i)
+                it.setCheckState(_Qt.Checked if it.data(_Qt.UserRole) in ids else _Qt.Unchecked)
+        if not d.exec():
+            return
+        o = d.options()
+        ids = o.pop("panel_ids")
+        lang = o.pop("lang")
+        name = "UjiInjeksi" if len(ids) > 1 else "UjiInjeksi_" + _safe(self.db.panel(ids[0])["tag"])
+        fp = self._report_path(name)
+        if fp:
+            self._run_report(lambda rb, f: rb.injection_report(f, ids, **o), fp, lang=lang)
+
     def report_summary(self):
         if self._need_project():
             fp = self._report_path("Ringkasan")

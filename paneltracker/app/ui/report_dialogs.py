@@ -470,8 +470,10 @@ class CheckSheetDialog(QDialog):
         self.resize(980, 660)
         self.ov = self.db.panel_overview(self.pid, main.site_id)
         from ..sas_matrix import is_dido_section     # uji DI/DO punya report sendiri
+        from ..injection import is_injection_section   # uji injeksi CT/VT juga punya report sendiri
         self.checks = {o["panel"]["id"]: [c for c in self.db.panel_checks(o["panel"]["id"])
-                                          if not is_dido_section(c["section"])] for o in self.ov}
+                                          if not is_dido_section(c["section"]) and not is_injection_section(c["section"])]
+                       for o in self.ov}
         lay = QVBoxLayout(self)
         lay.setSpacing(10)
         head = QHBoxLayout()
@@ -744,23 +746,30 @@ class DidoReportDialog(QDialog):
 
     ITEM_MODES = CheckSheetDialog.ITEM_MODES
 
-    def __init__(self, main):
+    def __init__(self, main, kind="dido"):
         super().__init__(main)
         from PySide6.QtWidgets import QButtonGroup, QRadioButton
         from ..sas_matrix import is_dido_section
+        from ..injection import is_injection_section
         self.main = main
+        self.kind = kind
         db = main.db
-        self.setWindowTitle(tr('Report Uji DI/DO'))
+        inj = kind == "injection"
+        ttl = tr('Report Uji Injeksi CT/VT') if inj else tr('Report Uji DI/DO')
+        match = is_injection_section if inj else is_dido_section
+        self.setWindowTitle(ttl)
         self.resize(720, 600)
         self.data = []
         for o in db.panel_overview(main.project_id, main.site_id):
             p = o["panel"]
-            cs = [c for c in db.panel_checks(p["id"]) if is_dido_section(c["section"])]
+            cs = [c for c in db.panel_checks(p["id"]) if match(c["section"]) and (not inj or c["unit"] != "setup")]
             if cs:
                 self.data.append((p, cs, db.check_photo_counts(p["id"])))
         lay = QVBoxLayout(self)
-        lay.addWidget(label(tr('Report Uji DI/DO'), 14, True))
-        info = QLabel(tr('Terpisah dari Lembar Uji Panel: hasil uji DI (per slot/opto) dan DO (kontrol/trip/sinyal) '
+        lay.addWidget(label(ttl, 14, True))
+        info = QLabel(tr('Hasil uji injeksi sekunder CT/VT per device: expected vs actual I, V, MW, MVAR, PF, frekuensi '
+                         'per titik uji, beserta foto evidence layar HMI/BCU.') if inj else
+                      tr('Terpisah dari Lembar Uji Panel: hasil uji DI (per slot/opto) dan DO (kontrol/trip/sinyal) '
                          'per device, beserta foto evidence.'))
         info.setWordWrap(True)
         info.setStyleSheet("color:#586064;")
@@ -787,6 +796,7 @@ class DidoReportDialog(QDialog):
             rb.setProperty("mode", key)
             rb.setChecked(key == "all")
             rb.toggled.connect(self._update)
+            rb.setVisible(not inj)
             self.mode.addButton(rb)
             g.addWidget(rb, 0, k)
         self.photos = QCheckBox(tr('Sertakan foto evidence'))
@@ -831,6 +841,9 @@ class DidoReportDialog(QDialog):
 
     def options(self):
         ids = set(_checked(self.pl))
-        return {"panel_ids": [p["id"] for p, _, _ in self.data if p["id"] in ids], "items": self._mode(),
-                "with_photos": self.photos.isChecked(), "with_sign": self.sign.isChecked(),
-                "lang": self.rlang.currentData()}
+        o = {"panel_ids": [p["id"] for p, _, _ in self.data if p["id"] in ids], "items": self._mode(),
+             "with_photos": self.photos.isChecked(), "with_sign": self.sign.isChecked(),
+             "lang": self.rlang.currentData()}
+        if self.kind == "injection":
+            o.pop("items")
+        return o

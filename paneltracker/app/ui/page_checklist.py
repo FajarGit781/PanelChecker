@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 
 from ..db import PANEL_STATUSES, fmt_date
 from .. import sas_matrix as SM
+from .. import injection as INJ
 from . import theme as T
 from . import widgets as W
 from .dialogs import IssueDialog, PanelDialog
@@ -672,6 +673,7 @@ class PanelCheckView(QWidget):
         v.setContentsMargins(0, 0, 0, 0)
         v.setSpacing(0)
         self.rows, self.section_heads = [], []
+        self.inj_blocks = []
         self.matrix = None
         en = bool(panel_id)
         for b in (self.b_punch, self.b_tpl, self.b_item, self.b_more, self.b_allok):
@@ -699,6 +701,7 @@ class PanelCheckView(QWidget):
             if i["check_id"]:
                 punches.setdefault(i["check_id"], []).append(i)
         self.photo_counts = db.check_photo_counts(panel_id)
+        self.tag_text = p["tag"]
         self.tag.setText(p["tag"])
         self.name.setText(p["name"] or "")
         self.meta.setText("   ·   ".join(x for x in [p["site_name"], tr('Bay {0}', p['bay']) if p["bay"] else "",
@@ -706,7 +709,18 @@ class PanelCheckView(QWidget):
                                                    f"S/N {p['serial_no']}" if p["serial_no"] else ""] if x))
         cur = None
         no = 0
+        self.inj_blocks = []
+        inj_done = set()
         for r in checks:
+            if INJ.is_injection_section(r["section"]):
+                # uji injeksi CT/VT: satu blok tabel per seksi (expected otomatis, actual + baca foto HMI)
+                if r["section"] not in inj_done:
+                    from .injection_ui import InjectionBlock
+                    inj_done.add(r["section"])
+                    blk = InjectionBlock(self, r["section"], [c for c in checks if c["section"] == r["section"]], punches)
+                    v.addWidget(blk)
+                    self.inj_blocks.append(blk)
+                continue
             if r["section"] != cur:
                 cur = r["section"]
                 head = self._section_head(cur)
@@ -766,6 +780,9 @@ class PanelCheckView(QWidget):
                 punches.setdefault(i["check_id"], []).append(i)
         for r in self.rows:
             r.set_punches(punches.get(r.cid, []))
+        for b in getattr(self, "inj_blocks", []):
+            b.punches = punches
+            b.build()
         self.stats_changed()
 
     def stats_changed(self, update_list=True):
@@ -827,6 +844,8 @@ class PanelCheckView(QWidget):
                 vis_sections.add(r.section)
         for h in self.section_heads:
             h.setVisible(h.name in vis_sections)
+        for b in getattr(self, "inj_blocks", []):
+            b.setVisible(b.matches(key, q))
 
     def _toggle_matrix(self, on):
         st_ = getattr(self.main, "settings", None)
@@ -864,6 +883,12 @@ class PanelCheckView(QWidget):
         d = CheckItemDialog(self, self.sections() or ["A. Umum"], section=section)
         if d.exec():
             self.main.db.add_check_item(self.panel_id, **d.values())
+            self.load(self.panel_id)
+            self.stats_changed()
+
+    def add_injection(self):
+        from .injection_ui import create_block
+        if create_block(self):
             self.load(self.panel_id)
             self.stats_changed()
 
@@ -908,7 +933,11 @@ class PanelCheckView(QWidget):
         m.addAction(T.icon("edit"), tr('Edit data panel…'), self._edit_panel)
         m.addAction(T.icon("punch"), tr('Lihat punch panel ini'), lambda: self.main.show_punch_for(p["tag"]))
         m.addSeparator()
+        if not W.RO:
+            m.addAction(T.icon("plus"), tr('Tambah uji injeksi CT/VT…'), self.add_injection)
         m.addAction(T.icon("printer"), tr('Cetak check sheet (PDF)…'), lambda: self.main.report_check_sheet([self.panel_id]))
+        if getattr(self, "inj_blocks", None):
+            m.addAction(T.icon("printer"), tr('Cetak report uji injeksi CT/VT (PDF)…'), lambda: self.main.report_injection([self.panel_id]))
         m.addAction(T.icon("qr"), tr('Cetak label QR…'), lambda: self.main.report_qr([self.panel_id]))
         m.addSeparator()
         if p["accepted_at"]:

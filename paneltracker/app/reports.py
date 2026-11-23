@@ -22,6 +22,7 @@ from reportlab.platypus import (
 )
 
 from .sas_matrix import is_dido_section
+from . import injection as INJ
 from .db import Database, ISSUE_STATUSES, PANEL_STATUSES, SEV_LABEL, SEV_SHORT, SEVERITIES, fmt_date, parse_date, today
 
 NAVY = colors.HexColor("#0E1A2B")
@@ -529,7 +530,8 @@ class ReportBuilder:
             o = ov.get(pnid)
             if not p or not o:
                 continue
-            checks = self.check_item_filter([c for c in db.panel_checks(pnid) if not is_dido_section(c["section"])],
+            checks = self.check_item_filter([c for c in db.panel_checks(pnid) if not is_dido_section(c["section"])
+                                             and not INJ.is_injection_section(c["section"])],
                                             sections, items)
             ev_counts = db.check_photo_counts(pnid)
             if filtered and not checks:
@@ -771,6 +773,115 @@ class ReportBuilder:
         if not printed:
             story.append(Paragraph(tr('<i>Tidak ada item uji DI/DO pada panel yang dipilih.</i>'), P))
         self._build(path, title or tr('Report Uji DI/DO'), story, pagesize)
+        return printed
+
+    # ------------------------------------------------------------ uji injeksi CT/VT
+    def injection_report(self, path, panel_ids, with_photos=True, with_sign=True, title=None):
+        """Report Uji Injeksi Sekunder CT/VT per panel: setup rasio, per titik uji expected/actual/error/hasil
+        untuk I, V, P, Q, PF, f, lalu lampiran foto evidence (layar HMI/BCU, test set). Mengembalikan jumlah panel."""
+        db = self.db
+        pagesize = A4
+        W = pagesize[0] - 24 * mm
+        story, printed = [], 0
+        for pnid in panel_ids:
+            p = db.panel(pnid)
+            if not p:
+                continue
+            allc = db.panel_checks(pnid)
+            secs = []
+            for c in allc:
+                if INJ.is_injection_section(c["section"]) and c["section"] not in secs:
+                    secs.append(c["section"])
+            if not secs:
+                continue
+            if printed:
+                story.append(PageBreak())
+            printed += 1
+            punches = {}
+            for i in db.issues(self.pid, panel_id=pnid):
+                if i["check_id"]:
+                    punches.setdefault(i["check_id"], []).append(i["code"])
+            story.append(Paragraph(tr('Report Uji Injeksi CT/VT — {0}', esc(p['tag'])), H1))
+            story.append(Spacer(1, 4))
+            for sec in secs:
+                rows_ = [c for c in allc if c["section"] == sec]
+                g = INJ.group(rows_)
+                s = INJ.parse_setup(g["setup"]["criteria"]) if g["setup"] is not None else None
+                qty = [r for pt in g["points"] for r in pt["rows"].values()]
+                n = {k: sum(1 for c in qty if c["result"] == k) for k in ("OK", "NG")}
+                photos = {c["id"]: db.check_photos(c["id"]) for c in qty}
+                n_ph = sum(len(v) for v in photos.values())
+                setup_txt = (tr("CT {0}/{1} A · VT {2} kV/{3} V", INJ._g(s["ct_p"]), INJ._g(s["ct_s"]), INJ._g(s["vt_p"]),
+                                INJ._g(s["vt_s"])) if s else tr("(setup belum diisi)"))
+                tol_txt = (tr("I, V, P, Q ±{0}% (P, Q terhadap S) · PF ±{1} · f ±{2} Hz", INJ._g(s["tol"]),
+                              INJ._g(s["tol_pf"]), INJ._g(s["tol_f"])) if s else "")
+                info = [
+                    [tr('Site / GI'), p["site_name"], tr('Tag panel'), p["tag"]],
+                    [tr('Device'), INJ.device_of(sec), tr('Bay'), p["bay"]],
+                    [tr('Rasio'), setup_txt, tr('Toleransi'), tol_txt],
+                    [tr('Hasil'), _Raw(tr("<b>{0}/{1}</b> besaran diuji · <font color='#166534'><b>{2} OK</b></font> · "
+                                          "<font color='#B91C1C'><b>{3} NG</b></font>",
+                                          n["OK"] + n["NG"], len(qty), n["OK"], n["NG"])),
+                     tr('Evidence'), _Raw(tr('<b>{0}</b> foto', n_ph))],
+                ]
+                ti = Table([[Paragraph(f"<b>{esc(a)}</b>", P), _cell(b, P), Paragraph(f"<b>{esc(c)}</b>", P), _cell(d, P)]
+                            for a, b, c, d in info], colWidths=[W * 0.13, W * 0.40, W * 0.13, W * 0.34])
+                ti.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.4, GRID), ("BACKGROUND", (0, 0), (0, -1), HEAD_BG),
+                                        ("BACKGROUND", (2, 0), (2, -1), HEAD_BG), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+                story += [ti, Spacer(1, 6)]
+                rows = [[tr('Besaran'), tr('Expected'), tr('Toleransi'), tr('Actual'), tr('Error'), tr('Hasil'),
+                         tr('Catatan / Punch'), tr('Oleh · Tgl')]]
+                st = []
+                for pt in g["points"]:
+                    hdr = tr("T{0} · injeksi I {1}% · V {2}% · φ {3}° · {4} Hz", pt["n"], INJ._g(pt["pi"]), INJ._g(pt["pv"]),
+                             INJ._g(pt["phi"]), INJ._g(pt["hz"]))
+                    if s:
+                        sc = INJ.secondary(s, pt)
+                        hdr += "  —  " + tr("sekunder {0} A ∠{1}° · {2} V L-N", f"{sc['i']:.3f}", INJ._g(-pt["phi"]), f"{sc['v_ln']:.2f}")
+                    rows.append([Paragraph(f"<b>{esc(hdr)}</b>", PS)] + [""] * 7)
+                    r = len(rows) - 1
+                    st += [("SPAN", (0, r), (-1, r)), ("BACKGROUND", (0, r), (-1, r), colors.HexColor("#F1F5F9"))]
+                    ex = INJ.expected(s, pt) if s else {}
+                    for k in INJ.KEYS:
+                        c = pt["rows"].get(k)
+                        if c is None:
+                            continue
+                        e, tol = ex.get(k, (None, None))
+                        if e is None:
+                            import re as _re
+                            m_ = _re.match(r"\s*(-?\d+(?:\.\d+)?)\s*±\s*(\d+(?:\.\d+)?)", c["criteria"] or "")
+                            e, tol = (float(m_.group(1)), float(m_.group(2))) if m_ else (0.0, 0.0)
+                        unit = "" if k == "PF" else INJ.UNIT[k]
+                        note = esc(c["remark"])
+                        if c["id"] in punches:
+                            note += ("<br/>" if note else "") + f"<font color='#B91C1C'>→ {', '.join(punches[c['id']])}</font>"
+                        d_ = parse_date(c["checked_at"])
+                        by = f"{esc(c['checked_by'])} · {d_.strftime('%d/%m/%y')}" if c["checked_by"] and d_ else esc(c["checked_by"])
+                        rows.append([tr("Frekuensi") if k == "f" else k, f"{INJ.fmt(e, INJ.DEC[k])} {unit}".strip(),
+                                     f"± {INJ.fmt(tol, INJ.DEC[k])}", f"{c['value']} {unit}".strip() if c["value"] else "",
+                                     INJ.error_text(k, e, tol, c["value"], s), c["result"] or "", Paragraph(note, PS),
+                                     Paragraph(by, PS)])
+                        r = len(rows) - 1
+                        if c["result"] in RES:
+                            bg, fg = RES[c["result"]]
+                            st += [("BACKGROUND", (5, r), (5, r), bg), ("TEXTCOLOR", (5, r), (5, r), fg),
+                                   ("FONT", (5, r), (5, r), "Helvetica-Bold", 7.5)]
+                tb = Table(rows, colWidths=[W * x for x in (0.10, 0.13, 0.10, 0.13, 0.10, 0.07, 0.22, 0.15)], repeatRows=1)
+                tb.setStyle(_base_style([("ALIGN", (1, 1), (5, -1), "RIGHT"), ("ALIGN", (5, 0), (5, -1), "CENTER"),
+                                         ("VALIGN", (0, 0), (-1, -1), "MIDDLE")] + st))
+                story += [tb, Spacer(1, 3)]
+                story.append(Paragraph(tr("<font size=6.5 color='#586064'>Expected dihitung dari rasio CT/VT dan % injeksi: "
+                                          "I = I sek × rasio CT · V = V sek × rasio VT · P = √3·V·I·cos φ · Q = √3·V·I·sin φ · "
+                                          "PF = cos φ. Error I/V terhadap expected, P/Q terhadap S, PF/f selisih absolut.</font>"), P))
+                if with_photos and n_ph:
+                    self._evidence_photos(story, qty, photos, W, tr('Foto Evidence — {0}', esc(INJ.device_of(sec))),
+                                          lambda c: "")
+                story.append(Spacer(1, 8))
+            if with_sign:
+                story.append(self._signatures(W))
+        if not printed:
+            story.append(Paragraph(tr('<i>Tidak ada uji injeksi CT/VT pada panel yang dipilih.</i>'), P))
+        self._build(path, title or tr('Report Uji Injeksi CT/VT'), story, pagesize)
         return printed
 
     # ------------------------------------------------------------ summary

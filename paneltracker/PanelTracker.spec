@@ -11,7 +11,8 @@ a = Analysis(
     pathex=["."],
     binaries=[],
     datas=datas,
-    hiddenimports=collect_submodules("reportlab.graphics.barcode") + ["PySide6.QtSvg"],
+    hiddenimports=collect_submodules("reportlab.graphics.barcode") + ["PySide6.QtSvg"]
+    + collect_submodules("winrt"),          # OCR foto HMI (Windows.Media.Ocr); kosong bila winrt tidak terpasang
     excludes=["PySide6.QtCharts", "PySide6.QtDataVisualization", "PySide6.QtGraphs", "tkinter", "matplotlib", "numpy", "scipy", "pandas", "IPython", "PySide6.QtWebEngineCore",
               "PySide6.QtWebEngineWidgets", "PySide6.Qt3DCore", "PySide6.QtQuick", "PySide6.QtQml",
               "PySide6.QtMultimedia", "PySide6.QtPdf", "PySide6.QtNetwork"],
