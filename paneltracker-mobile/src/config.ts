@@ -7,6 +7,8 @@ export const LOGIN_DOMAIN = "paneltracker.local";
 export const PAGE = 1000;
 export const BATCH = 200;
 export const APP_VERSION = "1.2.3";
+/** Situs PWA = sumber update otomatis APK (bundle.json + file build). */
+export const UPDATE_BASE = "https://pt-panel-app.netlify.app/";
 
 declare const __PT_TEST__: boolean;
 export const IS_TEST = typeof __PT_TEST__ !== "undefined" && __PT_TEST__;

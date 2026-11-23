@@ -22,7 +22,7 @@ export function isDidoSection(section: string): boolean {
   return /^[A-Z]{1,2}\. SAS · DI\/DO /.test(section || "");
 }
 
-const NOT_MEASURE = new Set(["ip", "rev", "rev cid"]);
+const NOT_MEASURE = new Set(["ip", "rev", "rev cid", "setup"]);   // setup = konfigurasi uji injeksi CT/VT
 /** Item measurement test = punya satuan ukur (VDC, VAC, MΩ, ms, rasio, …), bukan IP / revisi file. */
 export function isMeasurement(unit: string): boolean {
   const u = (unit || "").trim().toLowerCase();

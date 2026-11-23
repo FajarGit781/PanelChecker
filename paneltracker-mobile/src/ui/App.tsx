@@ -1,5 +1,6 @@
 import { App as CapApp } from "@capacitor/app";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { applyNow } from "../updater";
 import { projects } from "../data";
 import { t } from "../i18n";
 import { session } from "../session";
@@ -30,6 +31,12 @@ export function App() {
   const [project, setProjectState] = useState<string>(() => localStorage.getItem("pt.project") || "");
   const [site, setSiteState] = useState<string>("");
   const [picker, setPicker] = useState(false);
+  const [upd, setUpd] = useState<string>(() => (window as any).__ptUpdate || "");
+  useEffect(() => {
+    const h = (e: any) => setUpd(String(e.detail || ""));
+    addEventListener("pt-update", h);
+    return () => removeEventListener("pt-update", h);
+  }, []);
   const stackRef = useRef(stack);
   stackRef.current = stack;
 
@@ -98,6 +105,12 @@ export function App() {
     <NavCtx.Provider value={nav}>
       <div class="shell">
         {!online && <div class="offline-strip">{t("Tanpa sinyal — perubahan disimpan di HP dan dikirim otomatis nanti")}</div>}
+        {upd && (
+          <div class="update-strip">{t("Versi baru {0} siap dipakai.", upd)}
+            <button onClick={async () => { if (!(await applyNow())) setUpd(""); }}>{t("Muat ulang")}</button>
+            <button class="x" aria-label={t("Nanti")} onClick={() => setUpd("")}>✕</button>
+          </div>
+        )}
         {screen}
       </div>
       {r.name !== "scan" && (

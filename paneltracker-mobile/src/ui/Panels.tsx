@@ -8,6 +8,8 @@ import { store } from "../store";
 import { ipWarning, isSasSection, needsEvidence, nextResult, SAS_COLS, SasDevice, sasMatrix } from "../sas";
 import { Thumb, Viewer } from "./Punches";
 import { renameCheck } from "../sync";
+import { isInjectionSection } from "../injection";
+import { CreateInjection, InjectionBlock } from "./Injection";
 import { projectCrumbs } from "./Home";
 import { Icon, Lamp, LAMP, Meter, PANEL_LAMP, Plate, SearchBox, STATUS_LAMP, TopBar, useNav, useSession, useStore, INK } from "./common";
 
@@ -96,6 +98,7 @@ export function PanelDetail({ id }: { id: string }) {
   const status = panelStatus(p, st, { open, total: punches.length, Critical: 0, overdue: 0 });
   const sas = sasMatrix(checks);
   const [view, setViewState] = useState<string>(() => localStorage.getItem(VIEW_KEY) || "matrix");
+  const [newInj, setNewInj] = useState(false);
   const setView = (v: string) => { localStorage.setItem(VIEW_KEY, v); setViewState(v); };
   const matrix = sas.length > 0 && view === "matrix";
   const inMatrix = new Set<string>();
@@ -128,7 +131,7 @@ export function PanelDetail({ id }: { id: string }) {
   }
 
   async function markRestOk() {
-    const rest = checks.filter((c) => !c.result);
+    const rest = checks.filter((c) => !c.result && !isInjectionSection(c.section));   // uji injeksi butuh nilai ukur
     if (!rest.length || !confirm(t("Tandai {0} item yang belum dicek sebagai OK?", rest.length))) return;
     for (const c of rest) await store.edit("panel_checks", c.uuid, { result: "OK", checked_by: who, checked_at: nowLocal() });
     nav.toast(t("{0} item ditandai OK.", rest.length));
@@ -166,8 +169,10 @@ export function PanelDetail({ id }: { id: string }) {
             <button class="btn sm" onClick={() => nav.go({ name: "punches", panel: id })}>
               <Lamp color={open ? LAMP.red : LAMP.off} />{t("Punch panel")} ({open}/{punches.length})</button>
             {!ro && <button class="btn sm primary" onClick={() => nav.go({ name: "punch", preset: { panel_uuid: id } })}><Icon name="plus" size={18} />{t("Punch")}</button>}
-            {!ro && st.pending > 0 && <button class="btn sm" onClick={markRestOk}>{t("Sisa item OK")}</button>}
+            {!ro && checks.some((c) => !c.result && !isInjectionSection(c.section)) &&
+              <button class="btn sm" onClick={markRestOk}>{t("Sisa item OK")}</button>}
             {!ro && !p.accepted_at && st.total > 0 && <button class="btn sm dark" onClick={accept}><Icon name="shield" size={18} />{t("Terima panel")}</button>}
+            {!ro && <button class="btn sm" onClick={() => setNewInj(true)}><Icon name="bolt" size={18} />{t("Uji injeksi CT/VT")}</button>}
           </div>
         </div>
 
@@ -183,6 +188,9 @@ export function PanelDetail({ id }: { id: string }) {
         {checks.length > 0 && shown.length === 0 && <div class="empty"><b>{t("Tidak ada item")}</b>{t("Tidak ada item untuk filter ini.")}</div>}
         {sections.map(([sec, rows]) => {
           const all = checks.filter((c) => (c.section || "") === sec);
+          if (isInjectionSection(sec)) {
+            return <InjectionBlock key={sec} section={sec} rows={all} ro={ro} who={who} panel={p!} byCheck={byCheck} />;
+          }
           const ss = checkStats(all);
           return (
             <div key={sec}>
@@ -194,6 +202,7 @@ export function PanelDetail({ id }: { id: string }) {
           );
         })}
       </div>
+      {newInj && <CreateInjection panel={p} checks={checks} who={who} onClose={() => setNewInj(false)} />}
     </>
   );
 }
@@ -241,7 +250,7 @@ function EditItem({ c, onDone }: { c: Row; onDone: () => void }) {
 
 // ======================================================================= foto evidence DI/DO
 /** Bukti DI masuk / DO bekerja / hasil ukur: foto HMI, LED BCU, layar alat ukur — disimpan per item checklist. */
-function Evidence({ c, ro }: { c: Row; ro: boolean }) {
+export function Evidence({ c, ro }: { c: Row; ro: boolean }) {
   const nav = useNav();
   const cam = useRef<HTMLInputElement>(null);
   const gal = useRef<HTMLInputElement>(null);

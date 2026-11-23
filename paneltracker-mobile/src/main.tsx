@@ -11,6 +11,19 @@ import { DEFAULT_KEY, DEFAULT_URL, IS_TEST } from "./config";
 import { session } from "./session";
 import { store } from "./store";
 import { App } from "./ui/App";
+import { applyPendingAtStart, checkForUpdate, markBundleOk } from "./updater";
+import { App as CapApp } from "@capacitor/app";
+
+/** Cek update APK di belakang layar; saat siap, App menampilkan tombol "Muat ulang" (event pt-update). */
+function watchUpdates() {
+  const run = () => checkForUpdate((v) => {
+    (window as any).__ptUpdate = v;
+    dispatchEvent(new CustomEvent("pt-update", { detail: v }));
+  });
+  run();
+  addEventListener("online", run);
+  CapApp.addListener("appStateChange", ({ isActive }) => { if (isActive) run(); }).catch(() => {});
+}
 
 async function boot() {
   const root = document.getElementById("app")!;
@@ -19,9 +32,14 @@ async function boot() {
     const q = new URLSearchParams(location.search);
     if (IS_TEST && q.get("server")) session.configure(q.get("server")!, "sb_publishable_test");
     else session.configure(DEFAULT_URL, DEFAULT_KEY);
+    if (await applyPendingAtStart()) return;        // APK: pindah ke bundle update yang sudah diunduh (WebView reload)
     await store.open();
     session.load();
     render(<App />, root);
+    if (Capacitor.isNativePlatform()) {
+      markBundleOk();
+      watchUpdates();
+    }
     if (!Capacitor.isNativePlatform() && !IS_TEST && "serviceWorker" in navigator && location.protocol === "https:") {
       // versi web (PWA): kulit aplikasi di-cache supaya tetap terbuka tanpa sinyal
       navigator.serviceWorker.register("./sw.js").catch(() => {});

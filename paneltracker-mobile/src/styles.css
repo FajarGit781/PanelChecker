@@ -380,3 +380,50 @@ td.na-cell { color: var(--faint); }
 .step .edit-item { align-self: flex-start; border: 0; background: none; color: var(--faint); padding: 2px 0 6px 6px; }
 .edit-form label { display: block; font: 600 12px var(--cond); color: var(--muted); margin: 4px 0 2px; }
 .edit-form textarea, .edit-form input { width: 100%; box-sizing: border-box; font: inherit; padding: 8px; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+
+/* ---- update otomatis APK ---- */
+.update-strip { display: flex; align-items: center; gap: 8px; background: var(--blue-l); color: #12416b; font: 500 13px var(--sans);
+  padding: 6px 10px; border-bottom: 1px solid #b9d0e8; }
+.update-strip button { border: 1px solid #1f6fb2; background: #1f6fb2; color: #fff; border-radius: 6px; padding: 5px 10px; font: 600 13px var(--sans); }
+.update-strip button.x { margin-left: auto; background: transparent; color: #12416b; border-color: transparent; }
+
+/* ---- uji injeksi CT/VT ---- */
+.inj { margin-bottom: 12px; }
+.inj-setup { font-size: 13px; color: var(--muted); background: var(--sheet); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 10px 12px; margin-bottom: 8px; }
+.inj-setup .btn { display: inline-flex; align-items: center; gap: 6px; }
+.inj-ph { display: flex; align-items: center; gap: 8px; padding: 10px 12px 8px; }
+.inj-ph b { font: 700 16px var(--cond); }
+.inj-del { border: 1px solid var(--rule); background: #fff; border-radius: 6px; width: 32px; height: 32px; display: grid; place-items: center; color: var(--muted); }
+.pill { font: 600 12px var(--cond); padding: 3px 8px; border-radius: 4px; background: #e6e9e6; color: var(--muted); white-space: nowrap; }
+.pill.OK { background: var(--green-l); color: var(--green-t); }
+.pill.NG { background: var(--red-l); color: var(--red-t); }
+.inj-ocr { display: flex; gap: 8px; padding: 0 12px 10px; }
+.inj-ocr .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+table.inj-t { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.inj-t th, .inj-t td { padding: 5px 8px; border-top: 1px solid var(--rule); text-align: left; vertical-align: middle; }
+.inj-t thead th { font: 600 11px var(--cond); text-transform: uppercase; letter-spacing: .04em; color: var(--faint); background: #f1f3f1; }
+.inj-t tbody th { font: 600 14px var(--cond); width: 1%; white-space: nowrap; }
+.inj-t td.ex { font: 600 14px var(--sans); white-space: nowrap; }
+.inj-t td.ex small { font-weight: 400; color: var(--muted); font-size: 11px; }
+.inj-t td.ac input { width: 100%; min-width: 72px; max-width: 120px; min-height: 40px; border: 1px solid #b3b9b5; border-radius: 6px;
+  padding: 6px 8px; font: 600 15px var(--sans); text-align: right; background: #fff; }
+.inj-t td.ac .er { font-size: 11px; color: var(--muted); text-align: right; max-width: 120px; }
+.inj-t td.st { white-space: nowrap; }
+.inj-t td.st .punch-chip, .inj-t td.st .add-punch { margin-top: 4px; display: inline-flex; }
+.inj-t tr.NG td.ac input { border-color: var(--lamp-red); background: #fff7f6; }
+.inj-t tr.OK td.ac input { border-color: #9fcfae; }
+.inj-pt .evidence { margin-top: 4px; }
+.inj-form { padding: 0 16px; display: grid; gap: 8px; margin-bottom: 8px; }
+.inj-form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fld { display: grid; gap: 4px; font: 500 13px var(--sans); color: var(--muted); min-width: 0; }
+.fld input { min-width: 0; flex: 1; min-height: 42px; border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; font: 500 15px var(--sans); color: var(--ink); background: #fff; }
+.fld i { font-style: normal; color: var(--muted); white-space: nowrap; }
+.inj-photo { display: block; max-width: calc(100% - 32px); max-height: 220px; margin: 0 16px; border-radius: 8px; object-fit: contain; background: #111; }
+.inj-raw { white-space: pre-wrap; font: 12px ui-monospace, monospace; color: var(--muted); margin: 6px 0 0; }
+.inj-rv { display: flex; gap: 10px; align-items: center; padding: 8px 16px; border-top: 1px solid var(--rule); }
+.inj-rv input { width: 20px; height: 20px; accent-color: #1a7f37; }
+.inj-rv .main { flex: 1; min-width: 0; }
+.inj-rv .t { font-size: 15px; }
+.inj-rv .s { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+
