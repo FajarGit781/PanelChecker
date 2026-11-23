@@ -395,4 +395,9 @@ export const EN: Record<string, string> = {
   "Memuat mesin OCR": "Loading OCR engine",
   "Memuat data bahasa": "Loading language data",
   "Membaca teks": "Reading text",
+  "CT primer": "CT primary",
+  "CT sekunder": "CT secondary",
+  "VT primer": "VT primary",
+  "VT sekunder": "VT secondary",
+  "Sudut φ (+ = lagging)": "Angle φ (+ = lagging)",
 };

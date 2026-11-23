@@ -94,11 +94,15 @@ class Store {
 
   // ------------------------------------------------------------ foto
   async photo(id: string): Promise<Blob | undefined> {
-    return await this.db.get("photos", id);
+    const v: any = await this.db.get("photos", id);
+    if (!v) return undefined;
+    if (v instanceof Blob) return v;                                   // format lama
+    return new Blob([v.b], { type: v.t || "image/jpeg" });
   }
 
+  /** Foto disimpan sebagai ArrayBuffer (bukan Blob): Safari/iPhone mode privat & WebKit tertentu menolak Blob di IndexedDB. */
   async setPhoto(id: string, blob: Blob | null) {
-    if (blob) await this.db.put("photos", blob, id);
+    if (blob) await this.db.put("photos", { t: blob.type || "image/jpeg", b: await blob.arrayBuffer() }, id);
     else await this.db.delete("photos", id);
   }
 

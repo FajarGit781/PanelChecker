@@ -163,7 +163,7 @@ function PointCard({ p, s, ro, who, panel, byCheck, onDelete }: { p: PointGroup;
       {ocr && <div class="msg warn" role="status" style={{ margin: "0 12px 10px" }}>{t("Membaca foto…")} {ocr.stage} {ocr.pct ? `${ocr.pct}%` : ""}
         <div class="small">{t("Diproses di HP ini, gratis, foto tidak dikirim ke mana pun. Pertama kali ±10 detik untuk memuat mesin OCR.")}</div></div>}
       <table class="inj-t">
-        <thead><tr><th>{t("Besaran")}</th><th>{t("Expected")}</th><th>{t("Actual")}</th><th>{t("Status")}</th></tr></thead>
+        <thead><tr><th>{t("Besaran")} · {t("Expected")}</th><th>{t("Actual")}</th><th>{t("Status")}</th></tr></thead>
         <tbody>
           {keys.map((k) => {
             const c = p.rows[k]!;
@@ -173,8 +173,7 @@ function PointCard({ p, s, ro, who, panel, byCheck, onDelete }: { p: PointGroup;
             const openP = ps.filter((i) => i.status !== "Closed");
             return (
               <tr class={r} key={k}>
-                <th>{keyLabel(k)}</th>
-                <td class="ex">{I.fmt(e, I.DEC[k])}<small> {unitLabel(k)} ±{I.fmt(tol, I.DEC[k])}</small></td>
+                <th>{keyLabel(k)}<div class="ex">{I.fmt(e, I.DEC[k])}<small> {unitLabel(k)} ±{I.fmt(tol, I.DEC[k])}</small></div></th>
                 <td class="ac"><input inputMode="decimal" value={vals[k] || ""} readOnly={ro} aria-label={t("Actual {0}", keyLabel(k))}
                   onInput={(ev: any) => setVals({ ...vals, [k]: ev.currentTarget.value })} onBlur={() => save(k)}
                   onKeyDown={(ev: any) => { if (ev.key === "Enter") ev.currentTarget.blur(); }} />
@@ -247,15 +246,20 @@ function ReviewSheet({ review, keys, exp, current, onApply, onClose }: {
 function num(v: string): number { const x = parseFloat(String(v).replace(",", ".")); return Number.isFinite(x) ? x : NaN; }
 
 function SetupFields({ v, set }: { v: Record<string, string>; set: (v: Record<string, string>) => void }) {
+  const inp = (k: string, label: string) => (
+    <input inputMode="decimal" aria-label={label} value={v[k]} onInput={(e: any) => set({ ...v, [k]: e.currentTarget.value })} />
+  );
   const f = (k: string, label: string, suffix = "") => (
     <label class="fld"><span>{label}</span>
-      <div class="row" style={{ gap: 6 }}><input inputMode="decimal" value={v[k]} onInput={(e: any) => set({ ...v, [k]: e.currentTarget.value })} />{suffix && <i>{suffix}</i>}</div>
+      <div class="in">{inp(k, label)}{suffix && <i>{suffix}</i>}</div>
     </label>
   );
   return (
     <div class="inj-form">
-      <div class="two">{f("ct_p", t("Rasio CT"), "A /")}{f("ct_s", " ", "A")}</div>
-      <div class="two">{f("vt_p", t("Rasio VT"), "kV /")}{f("vt_s", " ", t("V (L-L)"))}</div>
+      <div class="fld"><span>{t("Rasio CT")}</span>
+        <div class="ratio">{inp("ct_p", t("CT primer"))}<i>A /</i>{inp("ct_s", t("CT sekunder"))}<i>A</i></div></div>
+      <div class="fld"><span>{t("Rasio VT")}</span>
+        <div class="ratio">{inp("vt_p", t("VT primer"))}<i>kV /</i>{inp("vt_s", t("VT sekunder"))}<i>V</i></div></div>
       {f("tol", t("Toleransi I, V, P, Q"), "%")}
       <div class="two">{f("tol_pf", t("Toleransi PF (±)"))}{f("tol_f", t("Toleransi frekuensi (±)"), "Hz")}</div>
       <div class="small muted">{t("P dan Q dinilai terhadap daya semu S (MVA), supaya Q≈0 pada φ = 0° tidak menghasilkan error % tak hingga.")}</div>
@@ -353,14 +357,14 @@ function PointSheet({ g, s, section, panel, who, onClose }: { g: ReturnType<type
 function PointFields({ v, set, list }: { v: Record<string, string>; set: (v: Record<string, string>) => void; list?: boolean }) {
   const f = (k: string, label: string, suffix: string, mode = "decimal") => (
     <label class="fld"><span>{label}</span>
-      <div class="row" style={{ gap: 6 }}><input inputMode={mode as any} value={v[k]} onInput={(e: any) => set({ ...v, [k]: e.currentTarget.value })} /><i>{suffix}</i></div>
+      <div class="in"><input inputMode={mode as any} value={v[k]} onInput={(e: any) => set({ ...v, [k]: e.currentTarget.value })} /><i>{suffix}</i></div>
     </label>
   );
   return (
     <div class="inj-form">
       {f("pi", t("Injeksi arus (% In)"), "%", list ? "text" : "decimal")}
       {list && <div class="small muted" style={{ marginTop: -4 }}>{t("Satu titik uji per angka, dipisah koma")}</div>}
-      <div class="two">{f("pv", t("Injeksi tegangan (% Vn)"), "%")}{f("phi", t("Sudut φ (V–I, + = lagging)"), "°", "text")}</div>
+      <div class="two">{f("pv", t("Injeksi tegangan (% Vn)"), "%")}{f("phi", t("Sudut φ (+ = lagging)"), "°", "text")}</div>
       {f("hz", t("Frekuensi"), "Hz")}
     </div>
   );

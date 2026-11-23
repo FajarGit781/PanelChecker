@@ -75,13 +75,28 @@ APP = f"http://127.0.0.1:{web.server_address[1]}/index.html?server={URL}"
 from playwright.sync_api import sync_playwright  # noqa: E402
 ERR = []
 with sync_playwright() as p:
-    b = p.chromium.launch()
-    ctx = b.new_context(viewport={"width": 412, "height": 892}, device_scale_factor=2, is_mobile=True, has_touch=True)
+    if os.environ.get("PT_IPHONE"):      # Safari iPhone (WebKit, layar sempit 375 px)
+        b = p.webkit.launch()
+        ctx = b.new_context(**{**p.devices["iPhone 13"], "viewport": {"width": 375, "height": 812}})
+    else:
+        b = p.chromium.launch()
+        ctx = b.new_context(viewport={"width": 412, "height": 892}, device_scale_factor=2, is_mobile=True, has_touch=True)
     pg = ctx.new_page()
     pg.on("pageerror", lambda e: ERR.append(str(e)))
     pg.on("console", lambda m: m.type == "error" and ERR.append(m.text))
     pg.on("dialog", lambda d: d.accept())
-    shot = lambda n: (time.sleep(0.4), pg.screenshot(path=f"{OUT}/{n}.png"))
+    OVER = {}
+    OVERFLOW_JS = """() => { const W = document.documentElement.clientWidth, out = [];
+      for (const el of document.querySelectorAll('.inj *, .sheet-modal *')) { const r = el.getBoundingClientRect();
+        if (r.width && (r.right > W + 1 || r.left < -1)) out.push(el.tagName + '.' + el.className + ' ' + Math.round(r.left) + '..' + Math.round(r.right)); }
+      for (const f of document.querySelectorAll('.fld')) { const a = f.getBoundingClientRect(); for (const c of f.querySelectorAll('input,i')) {
+        const r = c.getBoundingClientRect(); if (r.right > a.right + 1) out.push('fld-overflow ' + (c.getAttribute('aria-label') || c.textContent)); } }
+      return out; }"""
+
+    def shot(n):
+        time.sleep(0.4); pg.screenshot(path=f"{OUT}/{n}.png")
+        bad = pg.evaluate(OVERFLOW_JS)
+        if bad: OVER[n] = bad
     pg.goto(APP); pg.wait_for_selector("text=Masuk ke tim")
     pg.fill("#u", "Fajar"); pg.fill("#p", "Gardu-Induk-2026x"); pg.click("button.btn.primary")
     pg.wait_for_selector(".gauges", timeout=20000); time.sleep(1.5)
@@ -126,9 +141,10 @@ with sync_playwright() as p:
     pg.click("button:has-text('Uji injeksi CT/VT')"); pg.wait_for_selector(".sheet-modal .inj-form")
     shot("inj_05_create")
     pg.locator(".sheet-modal .fld input").nth(1).fill("1600")          # CT primer
+    pg.evaluate("document.querySelector('.sheet-modal .panel').scrollTop = 10000"); shot("inj_05b_create_bottom")
     pg.click(".sheet-modal button.primary:has-text('Buat')"); time.sleep(0.8)
     check(pg.locator(".inj .inj-pt").count() == 3, "blok baru 3 titik (10, 50, 100 %)")
-    ia = pg.locator(".inj .inj-pt").nth(0).locator("td.ex").nth(0).inner_text()
+    ia = pg.locator(".inj .inj-pt").nth(0).locator(".ex").nth(0).inner_text()
     check(ia.startswith("160.0"), f"expected IA 10 % dari CT 1600/1 = 160 A: {ia}")
     if pg.locator("button:has-text('Sisa item OK')").count():
         pg.click("button:has-text('Sisa item OK')"); time.sleep(0.6)
@@ -141,8 +157,11 @@ with sync_playwright() as p:
     pg.click(".cubicle >> nth=0"); pg.wait_for_selector(".inj"); pg.locator(".inj").scroll_into_view_if_needed()
     check("quantity" in pg.inner_text(".inj").lower() and "fill actual" in pg.inner_text(".inj").lower(), "UI bahasa Inggris")
     shot("inj_07_en")
-    time.sleep(3)   # sinkron otomatis
-    pg.evaluate("() => 0")
+    for _ in range(40):   # tunggu sinkron otomatis HP (termasuk unggah foto) sampai di server
+        if any(r.get("check_uuid") for r in M.TABLES["attachments"].values() if r.get("filename", "").startswith("hmi_")):
+            break
+        time.sleep(0.5)
+    check(not OVER, f"tidak ada elemen keluar layar / bertabrakan: {OVER}")
     b.close()
 
 # ---- laptop menerima hasil dari HP
@@ -153,6 +172,8 @@ r1 = g["points"][0]["rows"]
 check(r1["IA"]["value"] == "201.5" and r1["IA"]["result"] == "OK" and r1["IB"]["result"] == "NG", "laptop: hasil T1 dari HP")
 r2 = g["points"][1]["rows"]
 check(r2["Q"]["value"] == "126.9" and r2["Q"]["result"] == "NG", "laptop: nilai baca foto T2 dari HP")
+srv_att = [r for r in M.TABLES["attachments"].values() if str(r.get("filename", "")).startswith("hmi_")]
+print("   server: lampiran hmi =", [(r.get("storage_path"), r.get("deleted")) for r in srv_att])
 check(len(lap.check_photos(r2["IA"]["id"])) == 1, "laptop: foto HMI evidence T2")
 blk2 = [r for r in lap.panel_checks(P2) if INJ.is_injection_section(r["section"])]
 check(len(blk2) == 31 and INJ.parse_setup(next(r for r in blk2 if r["unit"] == "setup")["criteria"])["ct_p"] == 1600,
