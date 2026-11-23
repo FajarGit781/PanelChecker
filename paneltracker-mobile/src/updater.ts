@@ -115,10 +115,17 @@ export async function checkForUpdate(onReady?: (version: string) => void): Promi
     const localHash = new Map((local?.files || []).map((f) => [f.p, f.h]));
     const dir = `${DIR}/${m.version}`;
     for (const f of m.files) {
-      let b64: string;
-      if (localHash.get(f.p) === f.h) {
-        b64 = await blobToB64(await (await fetch(f.p)).blob());          // sama dengan bundle yang sedang jalan
-      } else {
+      let b64 = "";
+      if (localHash.get(f.p) === f.h) {                                  // sama dengan bundle yang sedang jalan
+        try {
+          const res = await fetch(f.p);
+          if (res.ok) {
+            const bytes = new Uint8Array(await res.arrayBuffer());
+            if (await sha256Hex(bytes) === f.h) b64 = await blobToB64(new Blob([bytes]));
+          }
+        } catch { /* ambil dari server */ }
+      }
+      if (!b64) {                                                         // berubah, atau salinan lokal tidak cocok
         const res = await CapacitorHttp.get({ url: UPDATE_BASE + f.p.split("/").map(encodeURIComponent).join("/"), responseType: "arraybuffer" });
         if (res.status !== 200) throw new Error(`unduh ${f.p}: ${res.status}`);
         b64 = String(res.data);

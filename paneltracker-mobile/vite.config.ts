@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
 import { createHash } from "node:crypto";
+import { gunzipSync } from "node:zlib";
 import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
@@ -18,8 +19,10 @@ const OCR_FILES: [string, string][] = [
   ["ocr/worker.min.js", "node_modules/tesseract.js/dist/worker.min.js"],
   ["ocr/tesseract-core-simd-lstm.wasm.js", "node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js"],
   ["ocr/tesseract-core-lstm.wasm.js", "node_modules/tesseract.js-core/tesseract-core-lstm.wasm.js"],
-  ["ocr/eng.traineddata.gz", "node_modules/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz"],
 ];
+// Data bahasa disajikan TANPA .gz: build Android (aapt) men-decompress aset *.gz dan membuang akhiran .gz,
+// sehingga di APK file .gz tidak ada → OCR gagal. Tanpa kompresi, nama file sama di PWA dan APK.
+const OCR_LANG: [string, string] = ["ocr/eng.traineddata", "node_modules/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz"];
 
 const outDirRef = { dir: "dist" };
 
@@ -41,6 +44,7 @@ export default defineConfig({
       name: "pt-ocr-assets",
       generateBundle() {
         for (const [fileName, src] of OCR_FILES) this.emitFile({ type: "asset", fileName, source: readFileSync(src) });
+        this.emitFile({ type: "asset", fileName: OCR_LANG[0], source: gunzipSync(readFileSync(OCR_LANG[1])) });
       },
     },
     {

@@ -21,7 +21,7 @@ async function getWorker() {
       // workerBlobURL:false → worker dari file sendiri (CSP script-src 'self' tidak mengizinkan blob:)
       return T.createWorker("eng", 1, {
         workerPath: base + "worker.min.js", corePath: base.replace(/\/$/, ""), langPath: base.replace(/\/$/, ""),
-        workerBlobURL: false, gzip: true, cacheMethod: "none",
+        workerBlobURL: false, gzip: false, cacheMethod: "none",   // eng.traineddata tanpa .gz (lihat vite.config.ts)
         logger: (m: any) => onProg?.(STAGE[m.status] || "", Math.round((m.progress || 0) * 100)),
       });
     })();
