@@ -154,7 +154,7 @@ release_mobile() {
       -x "$M/node_modules/*" "$M/dist/*" "$M/android/app/build/*" "$M/android/build/*" \
          "$M/android/.gradle/*" "$M/android/local.properties" "*/.DS_Store"
   # Gradle hanya butuh 2 modul ini (lihat android/capacitor.settings.gradle)
-  run zip -qr "$Z" "$M/node_modules/@capacitor/android" "$M/node_modules/@capacitor/app" \
+  run zip -qr "$Z" "$M/node_modules/@capacitor/android" "$M/node_modules/@capacitor/app" "$M/node_modules/@capacitor/filesystem" \
       -x "*/.DS_Store" "*/build/*" "*/ios/*" "*/node_modules/@capacitor/*/node_modules/*"
 
   if [ "$DEPLOY" = 1 ]; then
