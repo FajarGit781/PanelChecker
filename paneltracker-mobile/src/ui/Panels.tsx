@@ -223,7 +223,7 @@ function Evidence({ c, ro }: { c: Row; ro: boolean }) {
   }
   if (ro && !ev.length) return null;
   return (
-    <div class={"evidence" + (need ? " need" : "")}>
+    <div class={"evidence" + (need ? " need" : "") + (ev.length ? "" : " empty")}>
       <div class="ev-h"><Icon name="camera" size={16} />{t("Foto evidence")} <span>{ev.length}</span>
         {need && <em>{t("belum ada bukti")}</em>}</div>
       <div class="ev-row">

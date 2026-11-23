@@ -1,8 +1,10 @@
 """Ekstrak daftar uji DI/DO per device dari schematic diagram GAIA 2 (E2010-96563-DD-SC-0xx rev A2).
 
-Per slot/lembar (ringkas, bukan per titik):
-  - BCU (C264): 1 item per slot DI ("DI slot P (DI1–DI16)"), 1 item DO per lembar control circuit (CB/DS/ES/OLTC/fan…).
-  - Relay: 1 item DI (rentang opto/BI dari drawing), DO trip/lockout, DO sinyal (DFR/common/teleproteksi/fire).
+DI per titik (permintaan user 2026-11-23), DO per peralatan/lembar:
+  - DI: 1 item per titik dengan nama sinyal dari drawing, mis. "P/DI1 · CB(-Q0) CLOSED · sh.061" (BCU, slot/DI)
+    atau "OPTO5 · 50BF INITIATION · sh.035" (relay). Titik SPARE dilewati. Lembar DI tanpa label titik
+    (mis. AVR N90) tetap 1 item per lembar.
+  - DO: BCU 1 item per lembar control circuit (CB/DS/ES/OLTC/fan…); relay DO trip/lockout & DO sinyal.
 Hasil: tools/dido_gaia2.json → dibaca tools/sas_checksheet_gaia2.py. Titik per lembar bisa dilihat di drawing (sh.xxx).
 
 Pemakaian (butuh `pip install pymupdf`, hanya untuk tool ini):
@@ -27,6 +29,43 @@ RE_CTRL_T = re.compile(r"CONTROL CIRCUIT|CTRL|CMD|COMMAND", re.I)
 RE_TRIP_T = re.compile(r"TRIP|LOCKOUT|INTERTRIP|SEND", re.I)
 RE_SIG_T = re.compile(r"SIGNALL", re.I)
 RE_PT = re.compile(r"(?m)^(DI\d+|OPTO ?\d+|BI_\d+)$")
+_LABEL = re.compile(r"^(DI\d+|OPTO ?\d+|BI_\d+)$")
+_SKIP = re.compile(r"^(/\d{3}\.\d[A-F]|[A-Z]?\d{1,3}|[+\-♦#]|SLOT_\w+|COMMON)$")
+_STOP = re.compile(r"^(-[A-Z0-9][\w.()/\-]*$|[A-Z0-9]+[+\-]$|=|NOTE|SLOT|DIU|INPUT UNIT|SHEE|SEE |DWG|RL\d|\d{2,}$|SCHEMATIC|E2010|"
+                   r"PROJECT|CONTROL & PROTN)")
+
+
+def di_points(text):
+    """Teks lembar DI → {label: nama sinyal}. Urutan teks PDF: label, ref, pin, +/-, lalu nama sinyal."""
+    lines = [x.strip() for x in text.split("\n")]
+    out, i = {}, 0
+    while i < len(lines):
+        if not _LABEL.match(lines[i]):
+            i += 1
+            continue
+        lab, j, sig = lines[i].replace(" ", ""), i + 1, []
+        while j < len(lines) and len(sig) < 4:
+            x = lines[j]
+            if _LABEL.match(x):
+                break
+            if not x or _SKIP.match(x):
+                if sig:
+                    break
+                j += 1
+                continue
+            if _STOP.match(x) or not re.search(r"[A-Za-z]", x):
+                break
+            sig.append(x)
+            j += 1
+        name = re.sub(r"\s+", " ", " ".join(sig)).strip()
+        if name or lab not in out:          # label ganda di halaman: ambil yang ada namanya
+            out[lab] = name
+        i = j
+    return out
+
+
+def _pt_no(label):
+    return int(re.sub(r"\D", "", label) or 0)
 RE_OUT = re.compile(r"(?m)^(DO\d+|BO_\d+|Output-\d+|OUTPUT ?\d+|RL\d+)$")
 RE_TAG = re.compile(r"(?m)^(-F87T|-F501|-F502|-F50BF|-F50|-F87L|-F87B[123]|-A30|-N90)(?=\s|\(|$)")
 
@@ -117,9 +156,11 @@ def extract(pdf):
                 continue
             m = re.search(r"SLOT\s*:\s*(\w)", T)
             slot = m.group(1) if (m and dev == "C264") else ""
-            e = di.setdefault((dev, slot), {"sheets": [], "pts": []})
+            e = di.setdefault((dev, slot), {"sheets": [], "pts": [], "named": []})
             e["sheets"].append(s)
             e["pts"] += RE_PT.findall(text)
+            for lab, name in sorted(di_points(text).items(), key=lambda kv: _pt_no(kv[0])):
+                e["named"].append((s, lab, name))
             continue
         if "MANUAL" in T:
             continue
@@ -142,14 +183,15 @@ def extract(pdf):
                 do.setdefault((t, "sig", ""), []).append(s)
     items = []   # [dev, deskripsi, kriteria, lembar pertama]
     for (dev, slot), e in di.items():
-        rng = pt_range(e["pts"])
-        if dev == "C264":
-            d = f"DI slot {slot}" + (f" ({rng})" if rng else "")
-            c = "Status DI masuk BCU/HMI sesuai drawing"
-        else:
-            d = "DI / opto input" + (f" ({rng})" if rng else "")
-            c = "Status input terbaca di relay sesuai drawing"
-        items.append([dev, f"{d} · {sh(e['sheets'])}", c, min(e["sheets"])])
+        c = "Status DI masuk BCU/HMI sesuai drawing" if dev == "C264" else "Status input terbaca di relay sesuai drawing"
+        if not e["named"]:       # lembar tanpa label titik → 1 item per lembar
+            items.append([dev, f"DI / input · {sh(e['sheets'])}", c, (min(e["sheets"]), 0)])
+            continue
+        for s, lab, name in e["named"]:
+            if not name or name.upper() == "SPARE":
+                continue
+            lab_txt = f"{slot}/{lab}" if slot else lab
+            items.append([dev, f"{lab_txt} · {name} · sh.{s:03d}", c, (s, _pt_no(lab))])
     for (dev, kind, lbl), sheets in do.items():
         if kind == "ctrl":
             it = [dev, f"DO {lbl} · {sh(sheets)}", "Perintah BCU/HMI → peralatan beroperasi"]
@@ -159,8 +201,8 @@ def extract(pdf):
             it = [dev, f"DO trip / lockout · {sh(sheets)}", "Kontak output bekerja (trip/lockout) sesuai drawing"]
         else:
             it = [dev, f"DO sinyal (DFR/common/alarm) · {sh(sheets)}", "Sinyal output diterima tujuan sesuai drawing"]
-        items.append(it + [min(sheets)])
-    items.sort(key=lambda it: (it[0], it[1][:2], it[3]))     # per device: DI dulu, lalu urut lembar
+        items.append(it + [(min(sheets), 0)])
+    items.sort(key=lambda it: (it[0], it[1].startswith("DO "), it[3]))   # per device: DI dulu, urut lembar & titik
     items = [it[:3] for it in items]
     tags = sorted(set(re.findall(r"=E[A-Z]{1,2}\d\d\+[A-Z]+\d", "\n".join(texts[:3]))))
     return {"doc": docno, "panels": tags, "items": items}

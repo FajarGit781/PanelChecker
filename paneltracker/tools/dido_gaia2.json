@@ -7,32 +7,327 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.061–062",
+    "P/DI1 · CB(-Q0) CLOSED · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.063–064",
+    "P/DI2 · CB(-Q0) OPEN · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.065–066",
+    "P/DI3 · LLC S101 SWITCH REMOTE · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.067–068",
+    "P/DI4 · LLC S101 SWITCH LOCAL · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.069–070",
+    "P/DI5 · CB(-Q0) HYDRAULIC PUMP FAULTY · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.071–072",
+    "P/DI6 · CB (-Q0) MOTOR RUNNING SUPERVISION · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI7 · LLC S102 SWITCH REMOTE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LLC S102 SWITCH LOCAL · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1 (-Q1) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1 (-Q1) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2 (-Q2) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2 (-Q2) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · DS LINE (-Q9) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · DS LINE (-Q9) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · HES (-Q8) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · HES (-Q8) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · ES BUS-1 (-Q51) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · ES BUS-1 (-Q51) OPEN · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ES BUS-2 (-Q52) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · ES -BUS-2 (-Q52) OPEN · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI5 · ES LINE (-Q53) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI6 · ES LINE (-Q53) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · CONTROL ON MIMIC · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · CONTROL ON BCU · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q50) CLOSE COMMAND FOR MIMIC/BCU/HMI/RCC · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · SYNCHRO CHECK SLR (OFF MODE) · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · SYNCHRO CHECK SLR (ON MODE) · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · SYNCHRO CHECK SLR (OVERRIDE MODE) · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC SUPPLY FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT RELAY (-K86-1) OPTD. · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT RELAY (-K86-2) OPTD. · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · LINE DIFF. PROTN.(-F87L) RELAY FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · DIR. OVER CURRENT & EARTH FAULT (-F50) RELAY FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · LINE DIFF. PROTN.(-F87L) RELAY FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TCS-1 FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TCS-2 FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · MAIN PROTN.(-F87L) OPTD. · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · BACKUP PROTN. (-F50) OPTD. · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI9 · BREAKER FAILURE PROTN. (- F50BF) OPTD. · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · LCC S202 INTERLOCK/ RELEASE · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · SELECTED BUS CVT MCB TRIP · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB LOCKOUT OPTD. · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: INTERLOCK(ENABLE) · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · CB(-Q0) CLOSE BLOCKED · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI16 · CB(-Q0) TRIP BLOCKED · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · [B0] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · [B1] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · [B2] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · [B3] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · [B4] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · [B5] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · [B6] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · [B7] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · [B8] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI12 · [B9] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI13 · [B10] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · DIRECT TRIP SEND FROM CHANNEL-1/2 · sh.069",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · LINE NO VOLTAGE · sh.069",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI6 · T5 STAR WIND MCB TRIP (W1&W2) · sh.069",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI1 · BUS COUPLER SYSTEM-A CB CLOSE STATUS · sh.071",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI2 · BUS SECTION 1, 2 & BUS COUPLER B CB CLOSE · sh.071",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -92,12 +387,132 @@
    ],
    [
     "P5F30_HV",
-    "DI / opto input (DI1–DI5) · sh.040–041",
+    "DI1 · CONTROL SUPPLY FAILURE · sh.040",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI3 · SELECTED MCB CVT TRIP · sh.040",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI4 · RELAY RESET · sh.040",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI5 · RELAY IN SERVICE · sh.040",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.035–037",
+    "OPTO1 · CB (-Q0) OPEN · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS (-Q1) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS (-Q2) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO4 · DS Line (-Q9) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · CB. SF6-DENSITY ST. 2 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO14 · [B6] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO15 · [B7] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO16 · [B8] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO17 · [B9] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO18 · [B10] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO23 · SF6 2nd STAGE DIRECT INTERTRIP · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICE · sh.037",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -112,7 +527,57 @@
    ],
    [
     "PCS931",
-    "DI / opto input (BI_01–BI_16) · sh.032–034",
+    "BI_03 · CB(-Q0) CLOSE · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_05 · CARRIER RECEIVED FROM CHANNEL -1 · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_06 · DEF TRIP/DIRECT TRIP RECEIVED FROM CHANNEL-1 · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_07 · DEF TRIP/DIRECT TRIP RECEIVED FROM CHANNEL -1/2 · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_08 · AUTO RECLOSE BLOCKED/ OFF · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_01 · SYNC.SLR (OFF MODE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_02 · SYNC.SLR(ON MODE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_03 · SYNC.SLR (OVERRIDE MODE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_04 · CB CLOSE COMMAND · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_07 · RELAY IN SERVICE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_08 · RELAY RESET · sh.033",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -137,32 +602,327 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.061–062",
+    "P/DI1 · CB(-Q0) CLOSED · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.063–064",
+    "P/DI2 · CB(-Q0) OPEN · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.065–066",
+    "P/DI3 · LLC S101 SWITCH REMOTE · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.067–068",
+    "P/DI4 · LLC S101 SWITCH LOCAL · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.069–070",
+    "P/DI5 · CB(-Q0) HYDRAULIC PUMP FAULTY · sh.061",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.071–072",
+    "P/DI6 · CB (-Q0) MOTOR RUNNING SUPERVISION · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI7 · LLC S102 SWITCH REMOTE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LLC S102 SWITCH LOCAL · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1 (-Q1) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1 (-Q1) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2 (-Q2) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2 (-Q2) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · DS LINE (-Q9) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · DS LINE (-Q9) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · HES (-Q8) OPEN · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · HES (-Q8) CLOSE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · ES BUS-1 (-Q51) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · ES BUS-1 (-Q51) OPEN · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ES BUS-2 (-Q52) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · ES -BUS-2 (-Q52) OPEN · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI5 · ES LINE (-Q53) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI6 · ES LINE (-Q53) CLOSE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · CONTROL ON MIMIC · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · CONTROL ON BCU · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q50) CLOSE COMMAND FOR MIMIC/BCU/HMI/RCC · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · SYNCHRO CHECK SLR (OFF MODE) · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · SYNCHRO CHECK SLR (ON MODE) · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · SYNCHRO CHECK SLR (OVERRIDE MODE) · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC SUPPLY FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT RELAY (-K86-1) OPTD. · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT RELAY (-K86-2) OPTD. · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · LINE DIFF. PROTN.(-F87L) RELAY FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · DIR. OVER CURRENT & EARTH FAULT (-F50) RELAY FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · LINE DIFF. PROTN.(-F87L) RELAY FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TCS-1 FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TCS-2 FAULTY · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · MAIN PROTN.(-F87L) OPTD. · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · BACKUP PROTN. (-F50) OPTD. · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI9 · BREAKER FAILURE PROTN. (- F50BF) OPTD. · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · LCC S202 INTERLOCK/ RELEASE · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · SELECTED BUS CVT MCB TRIP · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB LOCKOUT OPTD. · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: INTERLOCK(ENABLE) · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · CB(-Q0) CLOSE BLOCKED · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI16 · CB(-Q0) TRIP BLOCKED · sh.066",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · [B0] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · [B1] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · [B2] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · [B3] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · [B4] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · [B5] - SF6 GAS LOW 1st STAGE · sh.067",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · [B6] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · [B7] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · [B8] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI12 · [B9] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI13 · [B10] - SF6 GAS LOW 1st STAGE · sh.068",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · DIRECT TRIP SEND FROM CHANNEL-1/2 · sh.069",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · LINE NO VOLTAGE · sh.069",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI6 · T5 STAR WIND MCB TRIP (W1&W2) · sh.069",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI1 · BUS COUPLER SYSTEM-A CB CLOSE STATUS · sh.071",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI2 · BUS SECTION 1, 2 & BUS COUPLER B CB CLOSE · sh.071",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -222,12 +982,132 @@
    ],
    [
     "P5F30_HV",
-    "DI / opto input (DI1–DI5) · sh.040–041",
+    "DI1 · CONTROL SUPPLY FAILURE · sh.040",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI3 · SELECTED MCB CVT TRIP · sh.040",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI4 · RELAY RESET · sh.040",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI5 · RELAY IN SERVICE · sh.040",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.035–037",
+    "OPTO1 · CB (-Q0) OPEN · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS (-Q1) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS (-Q2) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO4 · DS Line (-Q9) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · CB. SF6-DENSITY ST. 2 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO14 · [B6] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO15 · [B7] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO16 · [B8] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO17 · [B9] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO18 · [B10] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO23 · SF6 2nd STAGE DIRECT INTERTRIP · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICE · sh.037",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -242,7 +1122,57 @@
    ],
    [
     "PCS931",
-    "DI / opto input (BI_01–BI_16) · sh.032–034",
+    "BI_03 · CB(-Q0) CLOSE · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_05 · CARRIER RECEIVED FROM CHANNEL -1 · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_06 · DEF TRIP/DIRECT TRIP RECEIVED FROM CHANNEL-1 · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_07 · DEF TRIP/DIRECT TRIP RECEIVED FROM CHANNEL -1/2 · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_08 · AUTO RECLOSE BLOCKED/ OFF · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_01 · SYNC.SLR (OFF MODE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_02 · SYNC.SLR(ON MODE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_03 · SYNC.SLR (OVERRIDE MODE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_04 · CB CLOSE COMMAND · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_07 · RELAY IN SERVICE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "PCS931",
+    "BI_08 · RELAY RESET · sh.033",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -274,37 +1204,517 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.075–076",
+    "P/DI1 · CB(-Q0) CLOSED · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.077–078",
+    "P/DI2 · CB(-Q0) OPEN · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.079–080",
+    "P/DI3 · LLC S101 SWITCH CB REMOTE POSITION · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.081–082",
+    "P/DI4 · LLC S101 SWITCH CB LOCAL POSITION · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.083–084",
+    "P/DI5 · CB(-Q0) HYDRAULIC PUMP FAULTY · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.085–086",
+    "P/DI6 · MOTOR RUNNING SUPERVISION · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot J (DI1–DI16) · sh.087–088",
+    "P/DI7 · LLC S102 SWITCH DS/ES/HES REMOTE POSITION · sh.075",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LLC S102 SWITCH DS/ES/HES LOCAL POSITION · sh.075",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1 (-Q1) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1 (-Q1) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2 (-Q2) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2 (-Q2) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · DS LINE (-Q9) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · DS LINE (-Q9) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · HES (-Q8) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · HES (-Q8) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · DS BUS-1(-Q51) CLOSE · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · DS BUS-1(-Q51) OPEN · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · DS BUS-2(-Q52) CLOSE · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · DS BUS-2(-Q52) OPEN · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI5 · ES DS LINE (-Q53) CLOSE · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI6 · ES DS LINE (-Q53) OPEN · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · CONTROL ON MIMIC · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · CONTROL ON BCU · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q50) CLOSE COMMAND FOR MIMIC/ BCU/HMI/RCC · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · CB(-Q20) CLOSE COMMAND FOR MIMIC/BCU/HMI/RCC · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · AVR FAILURE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · INTERTRIP RECEIVED FROM INCOMING 20kV CUBICLE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC SUPPLY FAILURE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT RELAY (-K86-1) OPTD. · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT RELAY (-K86-2) OPTD. · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · -F87T RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · -F501 RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · -F502 RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · 50BF RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TCS-1 FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TCS-2 FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · TRANSFORMER MAIN PROTN.OPTD. · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · TRANSFORMER BACKUP PROTN.OPTD. · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI9 · BREAKER FAILURE PROTECTION OPTD. · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · LCC S202 INTERLOCK / RELEASE · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · SELECTED BUS CVT MCB TRIP · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB LOCKOUT OPTD. · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: INTERLOCK (ENABLE) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · OLTC CONTROL MODE:BAY CONTROL MIMIC:(BCM) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI16 · OLTC CONTROL MODE:AUTOMATIC VOLTAGE REGULATOR(AVR) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · [B0] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · [B1] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · [B2] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · [B3] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · [B4] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · [B5] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · [B6] - SF6 GAS LOW 1st STAGE · sh.082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · [B7] - SF6 GAS LOW 1st STAGE · sh.082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · [B8] - SF6 GAS LOW 1st STAGE · sh.082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · 20kV CB (-Q20) CLOSE · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · 20kV CB (-Q20) OPEN · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI3 · 20kV CB (-Q20) REMOTE POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI4 · 20kV CB (-Q20) LOCAL POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI5 · 20kV CB TRUCK SERVICE / IN POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI6 · 20kV CB TRUCK TEST / OUT POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI7 · 20kV INCOMER PANEL AC/ DC SUPPLY FAIL · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI8 · 20kV VT MCB TRIP · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI9 · OLTC IN REMOTE MODE · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI10 · OLTC IN LOCAL MODE · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI11 · TAP CHANGE IN PROGRESS · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI12 · TAP CHANGE INCOMPLETE · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI13 · HEATER SUPPLY FAILURE (F3) · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI14 · TAP AT END POSITION SWITCH (MAX) · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI15 · TAP AT END POSITION SWITCH (MIN) · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI16 · Q1 OFF SIGNAL · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI1 · BUS COUPLER A CB(- Q0) CLOSE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI2 · BUS SECTION 1, 2 & BUS COUPLER B CB CLOSE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI3 · TRANSFORMER COOLING FAN SWITCH IN REMOTE MODE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI4 · TRANSFORMER COOLING FAN SWITCH IN LOCAL MODE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI5 · AC POWER SUPPLY FAILURE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI6 · DC POWER SUPPLY FAILURE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI7 · TRANSFORMER COOLING FANS IN SERVICE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI8 · SUPPLY BREATHER MAIN TANK FAILURE ALARM · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI9 · HV WINDING TEMPERATURE INDICATOR ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI10 · LV WINDING TEMPERATURE INDICATOR ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI11 · BREATHER MAIN TANK POWER FAILURE · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI12 · BREATHER MAIN TANK HEATER ON · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI13 · OIL LEVEL INDICATOR OLTC ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI14 · OIL LEVEL INDICATOR MAIN TANK ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI15 · BREATHER OLTC POWER FAILURE · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI16 · BREATHER OLTC HEATER ON · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI1 · OIL TEMPERATURE INDICATOR MAINTANK ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI2 · BUCHHOLZ RELAY MAIN TANK ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI3 · SUPPLY BREATHER OLTC FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI4 · COOLING FAN SUPPLY FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI5 · TRANSFORMER COOLING FAN SWITCH IN AUTO MODE · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI6 · TRANSFORMER COOLING FAN SWITCH IN MANUAL MODE · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI7 · OLTC POWER SUPPLY FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI8 · OLTC CONTROL SUPPLY FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI13 · 20kV ES (-QCE) CLOSE · sh.088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI14 · 20kV ES (-QCE) OPEN · sh.088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI15 · TRANSFORMER FIRE PROTN. ACTIVATED · sh.088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI16 · TRANSFORMER FIRE PROTN. FAILURE · sh.088",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -369,7 +1779,22 @@
    ],
    [
     "P5F30_HV",
-    "DI / opto input (DI1–DI5) · sh.044–045",
+    "DI1 · CONTROL SUPPLY FAILURE · sh.044",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI3 · SELECTED MCB CVT TRIP · sh.044",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI4 · RELAY RESET · sh.044",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI5 · RELAY IN SERVICE · sh.044",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -384,7 +1809,17 @@
    ],
    [
     "P5F30_LV",
-    "DI / opto input (DI1–DI5) · sh.046–047",
+    "DI1 · INTERTRIP FROM 20kV SIDE · sh.046",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DI4 · RELAY RESET · sh.046",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DI5 · RELAY IN SERVICE · sh.046",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -399,7 +1834,57 @@
    ],
    [
     "P643",
-    "DI / opto input (OPTO1–OPTO16) · sh.042–043",
+    "OPTO1 · BUCHHOLZ RELAY TRIP (MAIN TANK) · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO2 · MAIN TANK/CABLE BOX (MPRD) TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO3 · OIL TEMPERATURE TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO4 · HV WINDING TEMPERATURE TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO5 · LV WINDING TEMPERATURE TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO6 · PROTECTIVE RELAY TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO7 · OLTC (MPRD) TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO8 · OIL LEVEL INDICATOR MAIN TANK TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO9 · OIL LEVEL INDICATOR OLTC TRIP · sh.043",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO15 · RELAY RESET · sh.043",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO16 · RELAY IN SERVICE · sh.043",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -414,7 +1899,102 @@
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.048–050",
+    "OPTO1 · CB (-Q0) OPEN · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS BUS-1 (-Q1) CLOSE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS BUS-2 (-Q2) CLOSE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO4 · DS LINE (-Q9) CLOSE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · [B0] - SF6 GAS LOW 2nd STAGE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO14 · [B6] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO15 · [B7] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO16 · [B8] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO23 · SF6 2nd STAGE DIRECT INTERTRIP · sh.050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICE · sh.050",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -429,7 +2009,7 @@
    ],
    [
     "RTF",
-    "DI / opto input · sh.051–052",
+    "DI / input · sh.051–052",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -454,37 +2034,517 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.075–076",
+    "P/DI1 · CB(-Q0) CLOSED · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.077–078",
+    "P/DI2 · CB(-Q0) OPEN · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.079–080",
+    "P/DI3 · LLC S101 SWITCH CB REMOTE POSITION · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.081–082",
+    "P/DI4 · LLC S101 SWITCH CB LOCAL POSITION · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.083–084",
+    "P/DI5 · CB(-Q0) HYDRAULIC PUMP FAULTY · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.085–086",
+    "P/DI6 · MOTOR RUNNING SUPERVISION · sh.075",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot J (DI1–DI16) · sh.087–088",
+    "P/DI7 · LLC S102 SWITCH DS/ES/HES REMOTE POSITION · sh.075",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LLC S102 SWITCH DS/ES/HES LOCAL POSITION · sh.075",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1 (-Q1) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1 (-Q1) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2 (-Q2) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2 (-Q2) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · DS LINE (-Q9) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · DS LINE (-Q9) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · HES (-Q8) CLOSE · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · HES (-Q8) OPEN · sh.076",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · DS BUS-1(-Q51) CLOSE · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · DS BUS-1(-Q51) OPEN · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · DS BUS-2(-Q52) CLOSE · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · DS BUS-2(-Q52) OPEN · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI5 · ES DS LINE (-Q53) CLOSE · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI6 · ES DS LINE (-Q53) OPEN · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · CONTROL ON MIMIC · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · CONTROL ON BCU · sh.077",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q50) CLOSE COMMAND FOR MIMIC/ BCU/HMI/RCC · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · CB(-Q20) CLOSE COMMAND FOR MIMIC/BCU/HMI/RCC · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · AVR FAILURE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · INTERTRIP RECEIVED FROM INCOMING 20kV CUBICLE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC SUPPLY FAILURE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT RELAY (-K86-1) OPTD. · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT RELAY (-K86-2) OPTD. · sh.078",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · -F87T RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · -F501 RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · -F502 RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · 50BF RELAY FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TCS-1 FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TCS-2 FAULTY · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · TRANSFORMER MAIN PROTN.OPTD. · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · TRANSFORMER BACKUP PROTN.OPTD. · sh.079",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI9 · BREAKER FAILURE PROTECTION OPTD. · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · LCC S202 INTERLOCK / RELEASE · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · SELECTED BUS CVT MCB TRIP · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB LOCKOUT OPTD. · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: INTERLOCK (ENABLE) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · OLTC CONTROL MODE:BAY CONTROL MIMIC:(BCM) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI16 · OLTC CONTROL MODE:AUTOMATIC VOLTAGE REGULATOR(AVR) · sh.080",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · [B0] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · [B1] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · [B2] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · [B3] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · [B4] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · [B5] - SF6 GAS LOW 1st STAGE · sh.081",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · [B6] - SF6 GAS LOW 1st STAGE · sh.082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · [B7] - SF6 GAS LOW 1st STAGE · sh.082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · [B8] - SF6 GAS LOW 1st STAGE · sh.082",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · 20kV CB (-Q20) CLOSE · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · 20kV CB (-Q20) OPEN · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI3 · 20kV CB (-Q20) REMOTE POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI4 · 20kV CB (-Q20) LOCAL POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI5 · 20kV CB TRUCK SERVICE / IN POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI6 · 20kV CB TRUCK TEST / OUT POSITION · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI7 · 20kV INCOMER PANEL AC/ DC SUPPLY FAIL · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI8 · 20kV VT MCB TRIP · sh.083",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI9 · OLTC IN REMOTE MODE · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI10 · OLTC IN LOCAL MODE · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI11 · TAP CHANGE IN PROGRESS · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI12 · TAP CHANGE INCOMPLETE · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI13 · HEATER SUPPLY FAILURE (F3) · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI14 · TAP AT END POSITION SWITCH (MAX) · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI15 · TAP AT END POSITION SWITCH (MIN) · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI16 · Q1 OFF SIGNAL · sh.084",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI1 · BUS COUPLER A CB(- Q0) CLOSE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI2 · BUS SECTION 1, 2 & BUS COUPLER B CB CLOSE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI3 · TRANSFORMER COOLING FAN SWITCH IN REMOTE MODE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI4 · TRANSFORMER COOLING FAN SWITCH IN LOCAL MODE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI5 · AC POWER SUPPLY FAILURE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI6 · DC POWER SUPPLY FAILURE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI7 · TRANSFORMER COOLING FANS IN SERVICE · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI8 · SUPPLY BREATHER MAIN TANK FAILURE ALARM · sh.085",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI9 · HV WINDING TEMPERATURE INDICATOR ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI10 · LV WINDING TEMPERATURE INDICATOR ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI11 · BREATHER MAIN TANK POWER FAILURE · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI12 · BREATHER MAIN TANK HEATER ON · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI13 · OIL LEVEL INDICATOR OLTC ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI14 · OIL LEVEL INDICATOR MAIN TANK ALARM · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI15 · BREATHER OLTC POWER FAILURE · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "K/DI16 · BREATHER OLTC HEATER ON · sh.086",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI1 · OIL TEMPERATURE INDICATOR MAINTANK ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI2 · BUCHHOLZ RELAY MAIN TANK ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI3 · SUPPLY BREATHER OLTC FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI4 · COOLING FAN SUPPLY FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI5 · TRANSFORMER COOLING FAN SWITCH IN AUTO MODE · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI6 · TRANSFORMER COOLING FAN SWITCH IN MANUAL MODE · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI7 · OLTC POWER SUPPLY FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI8 · OLTC CONTROL SUPPLY FAILURE ALARM · sh.087",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI13 · 20kV ES (-QCE) CLOSE · sh.088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI14 · 20kV ES (-QCE) OPEN · sh.088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI15 · TRANSFORMER FIRE PROTN. ACTIVATED · sh.088",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "J/DI16 · TRANSFORMER FIRE PROTN. FAILURE · sh.088",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -549,7 +2609,17 @@
    ],
    [
     "P5F30_HV",
-    "DI / opto input (DI1–DI5) · sh.044–045",
+    "DI3 · SELECTED MCB CVT TRIP · sh.044",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI4 · RELAY RESET · sh.044",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_HV",
+    "DI5 · RELAY IN SERVICE · sh.044",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -564,7 +2634,17 @@
    ],
    [
     "P5F30_LV",
-    "DI / opto input (DI1–DI5) · sh.046–047",
+    "DI1 · INTERTRIP FROM 20kV SIDE · sh.046",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DI4 · RELAY RESET · sh.046",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P5F30_LV",
+    "DI5 · RELAY IN SERVICE · sh.046",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -579,7 +2659,57 @@
    ],
    [
     "P643",
-    "DI / opto input (OPTO1–OPTO16) · sh.042–043",
+    "OPTO1 · BUCHHOLZ RELAY TRIP (MAIN TANK) · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO2 · MAIN TANK/CABLE BOX (MPRD) TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO3 · OIL TEMPERATURE TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO4 · HV WINDING TEMPERATURE TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO5 · LV WINDING TEMPERATURE TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO6 · PROTECTIVE RELAY TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO7 · OLTC (MPRD) TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO8 · OIL LEVEL INDICATOR MAIN TANK TRIP · sh.042",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO9 · OIL LEVEL INDICATOR OLTC TRIP · sh.043",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO15 · RELAY RESET · sh.043",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P643",
+    "OPTO16 · RELAY IN SERVICE · sh.043",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -594,7 +2724,102 @@
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.048–050",
+    "OPTO1 · CB (-Q0) OPEN · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS BUS-1 (-Q1) CLOSE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS BUS-2 (-Q2) CLOSE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO4 · DS LINE (-Q9) CLOSE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · [B0] - SF6 GAS LOW 2nd STAGE · sh.048",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO14 · [B6] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO15 · [B7] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO16 · [B8] - SF6 GAS LOW 2nd STAGE · sh.049",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO23 · SF6 2nd STAGE DIRECT INTERTRIP · sh.050",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICE · sh.050",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -609,7 +2834,7 @@
    ],
    [
     "RTF",
-    "DI / opto input · sh.051–052",
+    "DI / input · sh.051–052",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -627,32 +2852,342 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.055–056",
+    "P/DI1 · CB(-Q0) CLOSE · sh.055",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.057–058",
+    "P/DI2 · CB(-Q0) OPEN · sh.055",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.059–060",
+    "P/DI3 · LLC S101 SWITCH CB REMOTE POSITION · sh.055",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.061–062",
+    "P/DI4 · LLC S101 SWITCH CB LOCAL POSITION · sh.055",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.063–064",
+    "P/DI5 · CB(-Q0) HYDRAULIC PUMP FAULTY · sh.055",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.065–066",
+    "P/DI6 · MOTOR RUNNING SUPERVISION · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI7 · LLC S102 SWITCH DS/ES/HES REMOTE POSITION · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LLC S102 SWITCH DS/ES/HES LOCAL POSITION · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1 (-Q1) CLOSE · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1 (-Q1) OPEN · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2 (-Q2) CLOSE · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2 (-Q2) OPEN · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · HES BUS-1 (-Q15) CLOSE · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · HES BUS-1 (-Q15) OPEN · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · HES BUS-2 (-Q25) CLOSE · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · HES BUS-2 (-Q25) OPEN · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · ES BUS-1 (-Q51) CLOSE · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · ES BUS-1 (-Q51) OPEN · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ES BUS-2 (-Q52) CLOSE · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · ES BUS-2 (-Q52) OPEN · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · MIMIC MODE (ENABLE) · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · BCU MODE (ENABLE) · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q0) CLOSE COMMAND FROM MIMIC/BCU/HMI/RCC · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · SYNCHRO CHECK SLR (OFF MODE) · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · SYNCHRO CHECK SLR (ON MODE) · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · SYNCHRO CHECK SLR (OVERRIDE MODE) · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC MCB TRIP · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT-1 RELAY (-K86-1) OPTD. · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT-2 RELAY (-K86-2) OPTD. · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · BUS-1 CVT PROTECTION CORE MCB TRIP · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · BUS-2 CVT PROTECTION CORE MCB TRIP · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · -F50 RELAY FAULTY · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · -F50BF RELAY FAULTY · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TCS-1 FAULTY · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TCS-2 FAULTY · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · NON DIR.O/C AND E/F PROTN.(-F50)OPTD. · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · NON DIR.O/C AND E/F PROTN.(-F50BF)OPTD. · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · INTERLOCK/RELEASE · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · BUS-1&2 CVT METERING CORE MCB TRIP · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB LOCKOUT OPTD. · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: INTERLOCK (ENABLE) · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · BAY IN LIVE TRANSFER MODE · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · [B0] - SF6 GAS LOW 1st STAGE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · [B1] - SF6 GAS LOW 1st STAGE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · [B2] - SF6 GAS LOW 1st STAGE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · [B3] - SF6 GAS LOW 1st STAGE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · [B4] - SF6 GAS LOW 1st STAGE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · [B5] - SF6 GAS LOW 1st STAGE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · [B6] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · [B7] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · [B8] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI12 · [B9] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI13 · [B10] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI14 · [B11] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI15 · [B12] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · ETHERNET SWITCH FAILURE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · COMMON IED I/O FAILURE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI3 · 110 VDC SOURCE MCB FAILURE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI9 · BUS COUPLER SYSTEM-B CB CLOSE STATUS · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI10 · BUS COUPLER SYSTEM-B CB OPEN STATUS & KLTB OPTD. · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI11 · BUS SECTION 1&2 CLOSE STATUS · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI12 · BUS SECTION 1&2 OPEN STATUS · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI13 · ALL BAY DS 1 SYSTEM A OPEN STATUS · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI14 · ALL BAY DS 2 SYSTEM A OPEN STATUS · sh.064",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -707,12 +3242,172 @@
    ],
    [
     "P143",
-    "DI / opto input (OPTO1–OPTO16) · sh.033–034",
+    "OPTO1 · BUS-1 PROTECTION CORE MCB TRIP · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO2 · BUS-2 PROTECTION CORE MCB TRIP · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO3 · SYNCHRO CHECK MODE OFF (DISABLE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO4 · SYNCHRO CHECK MODE ON (ENABLE) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO5 · SYNCHRO CHECK MODE OVERRIDE (BYPASS) · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO6 · CONTROL SUPPLY FAILURE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO7 · BAY IN LIVE TRANSFER MODE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO9 · BUS SECTION 1A1B DS & CB OPEN · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO10 · NO LIVE TRANSFER COUPLER 1B2B · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO11 · BUS SECTION 2A2B DS & CB OPEN · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO15 · BC RELAY RESET · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO16 · RELAY IN SERVICE · sh.034",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.035–037",
+    "OPTO1 · CB (-Q0) OPEN · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS (-Q1) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS (-Q2) CLOSE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · [B0] - SF6 GAS LOW 2nd STAGE · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO14 · [B6] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO15 · [B7] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO16 · [B8] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO17 · [B9] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO18 · [B10] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO19 · [B11] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO20 · [B12] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICE · sh.037",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -735,32 +3430,342 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.056–057",
+    "P/DI1 · CB(-Q0) CLOSE · sh.056",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.058–059",
+    "P/DI2 · CB(-Q0) OPEN · sh.056",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.060–061",
+    "P/DI3 · LLC S101 SWITCH CB REMOTE POSITION · sh.056",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.062–063",
+    "P/DI4 · LLC S101 SWITCH CB LOCAL POSITION · sh.056",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.064–065",
+    "P/DI5 · CB(-Q0) HYDRAULIC PUMP FAULTY · sh.056",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.066–067",
+    "P/DI6 · MOTOR RUNNING SUPERVISION · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI7 · LLC S102 SWITCH DS/ES/HES REMOTE POSITION · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LLC S102 SWITCH DS/ES/HES LOCAL POSITION · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1 (-Q1) CLOSE · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1 (-Q1) OPEN · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2 (-Q2) CLOSE · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2 (-Q2) OPEN · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · HES BUS-1 (-Q15) CLOSE · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · HES BUS-1 (-Q15) OPEN · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · HES BUS-2 (-Q25) CLOSE · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · HES BUS-2 (-Q25) OPEN · sh.057",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · ES BUS-1 (-Q51) CLOSE · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · ES BUS-1 (-Q51) OPEN · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ES BUS-2 (-Q52) CLOSE · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · ES BUS-2 (-Q52) OPEN · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · MIMIC MODE (ENABLE) · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · BCU MODE (ENABLE) · sh.058",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q0) CLOSE COMMAND FROM MIMIC/BCU/HMI/RCC · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · SYNCHRO CHECK SLR (OFF MODE) · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · SYNCHRO CHECK SLR (ON MODE) · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · SYNCHRO CHECK SLR (OVERRIDE MODE) · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC MCB TRIP · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT-1 RELAY (-K86-1) OPTD. · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT-2 RELAY (-K86-2) OPTD. · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · BUS-1 CVT PROTECTION CORE MCB TRIP · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · BUS-2 CVT PROTECTION CORE MCB TRIP · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · -F50 RELAY FAULTY · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · -F50BF RELAY FAULTY · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TCS-1 FAULTY · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TCS-2 FAULTY · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · NON DIR.O/C AND E/F PROTN.(-F50)OPTD. · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · NON DIR.O/C AND E/F PROTN.(-F50BF)OPTD. · sh.060",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · INTERLOCK/RELEASE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · BUS-1&2 CVT METERING CORE MCB TRIP · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB LOCKOUT OPTD. · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: INTERLOCK (ENABLE) · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · BAY IN LIVE TRANSFER MODE · sh.061",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · [B0] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · [B1] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · [B2] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · [B3] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · [B4] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · [B5] - SF6 GAS LOW 1st STAGE · sh.062",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · [B6] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · [B7] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · [B8] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI12 · [B9] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI13 · [B10] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI14 · [B11] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI15 · [B12] - SF6 GAS LOW 1st STAGE · sh.063",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · ETHERNET SWITCH FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · COMMON IED I/O FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI3 · 110 VDC SOURCE MCB FAILURE · sh.064",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI9 · BUS COUPLER SYSTEM-B CB CLOSE STATUS · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI10 · BUS COUPLER SYSTEM-B CB OPEN STATUS & KLTB OPTD. · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI11 · BUS SECTION 1&2 CLOSE STATUS · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI12 · BUS SECTION 1&2 OPEN STATUS · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI13 · ALL BAY DS 1 SYSTEM A OPEN STATUS · sh.065",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI14 · ALL BAY DS 2 SYSTEM A OPEN STATUS · sh.065",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -815,12 +3820,172 @@
    ],
    [
     "P143",
-    "DI / opto input (OPTO1–OPTO16) · sh.034–035",
+    "OPTO1 · BUS-1 PROTECTION CORE MCB TRIP · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO2 · BUS-2 PROTECTION CORE MCB TRIP · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO3 · SYNCHRO CHECK MODE OFF (DISABLE) · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO4 · SYNCHRO CHECK MODE ON (ENABLE) · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO5 · SYNCHRO CHECK MODE OVERRIDE (BYPASS) · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO6 · CONTROL SUPPLY FAILURE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO7 · BAY IN LIVE TRANSFER MODE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO9 · BUS SECTION 1A1B DS & CB OPEN · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO10 · NO LIVE TRANSFER COUPLER 1B2B · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO11 · BUS SECTION 2A2B DS & CB OPEN · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO15 · BC RELAY RESET · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO16 · RELAY IN SERVICE · sh.035",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.036–038",
+    "OPTO1 · CB (-Q0) OPEN · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS (-Q1) CLOSE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS (-Q2) CLOSE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · [B0] - SF6 GAS LOW 2nd STAGE · sh.036",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO14 · [B6] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO15 · [B7] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO16 · [B8] - SF6 GAS LOW 2nd STAGE · sh.037",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO17 · [B9] - SF6 GAS LOW 2nd STAGE · sh.038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO18 · [B10] - SF6 GAS LOW 2nd STAGE · sh.038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO19 · [B11] - SF6 GAS LOW 2nd STAGE · sh.038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO20 · [B12] - SF6 GAS LOW 2nd STAGE · sh.038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.038",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICE · sh.038",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -843,32 +4008,287 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.050–051",
+    "P/DI1 · CB(-Q50) CLOSE · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.052–053",
+    "P/DI2 · CB(-Q50) OPEN · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.054–055",
+    "P/DI3 · CB(-Q50) REMOTE POSITION · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.056–057",
+    "P/DI4 · CB(-Q50) LOCAL POSITION · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.058–059",
+    "P/DI5 · CB.HYDR. PUMP FAULT · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.060–061",
+    "P/DI6 · MOTOR RUNNING SUPERVISION · sh.050",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI7 · LCC S102 SWITCH DS/ES/HES REMOTE POSITION · sh.050",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LCC S102 SWITCH DS/ES/HES LOCAL POSITION · sh.050",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-1A (-Q1) CLOSE · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-1A (-Q1) OPEN · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-1B (-Q2) CLOSE · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-1B (-Q2) OPEN · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · ES BUS-1A (-Q51) CLOSE · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · ES BUS-1A (-Q51) OPEN · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ES BUS-1B (-Q52) CLOSE · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · ES BUS-1B (-Q52) OPEN · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · MIMIC MODE (ENABLE) · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · BCU MODE (ENABLE) · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q0) CLOSE COMMAND FROM MIMIC/BCU/HMI/RCC · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · SYNCHRO CHECK SLR (OFF MODE) · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · SYNCHRO CHECK SLR (ON MODE) · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · SYNCHRO CHECK SLR (OVERRIDE MODE) · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC MCB TRIP · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT-1 RELAY (-K86-1) OPTD. · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT-2 RELAY (-K86-2) OPTD. · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · BUS-1A CVT PROTECTION CORE MCB TRIP · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · BUS-1B CVT PROTECTION CORE MCB TRIP · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · -F50 RELAY FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · -F50BF RELAY FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TC-1 FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TC-2 FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · NON DIR.O/C AND E/F PROTN.(-F50)OPTD. · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · NON DIR.O/C AND E/F PROTN.(-F50BF)OPTD. · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · INTERLOCK/RELEASE · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · BUS-1A & 1B CVT METERING CORE MCB TRIP · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB 1A2A LOCKOUT OPTD. · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: INTERLOCK (ENABLE) · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · BAY IN LIVE TRANSFER MODE · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI16 · BB 1B2B LOCKOUT OPTD. · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · CB. SF6-DENSITY ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · GAS COMPARTMENT B1 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · GAS COMPARTMENT B2 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · GAS COMPARTMENT B3 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · GAS COMPARTMENT B4 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · GAS COMPARTMENT B5 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI9 · BUS COUPLER SYSTEM-B CB CLOSE STATUS · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI10 · BUS COUPLER SYSTEM-B CB OPEN STATUS · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI11 · DS BUS-A OPEN SIGNAL · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI12 · DS BUS 1 SYSTEM A OPEN · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI13 · DS BUS 1 SYSTEM B OPEN · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI14 · DS BUS-B OPEN SIGNAL · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI15 · BUS COUPLER SYSTEM-A CB CLOSE STATUS · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI16 · BUS COUPLER SYSTEM-B CB CLOSE STATUS · sh.059",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -913,12 +4333,117 @@
    ],
    [
     "P143",
-    "DI / opto input (OPTO1–OPTO16) · sh.031–032",
+    "OPTO1 · BUS-1A PROTECTION CORE MCB TRIP · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO2 · BUS-1B PROTECTION CORE MCB TRIP · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO3 · SYNCHRO CHECK MODE OFF (DISABLE) · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO4 · SYNCHRO CHECK MODE ON (ENABLE) · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO5 · SYNCHRO CHECK MODE OVERRIDE (BYPASS) · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO6 · CONTROL SUPPLY FAILURE · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO15 · RELAY RESET · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO16 · RELAY IN SERVICE · sh.032",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.033–035",
+    "OPTO1 · CB (-Q0) OPEN · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS (-Q1) CLOSE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS (-Q2) CLOSE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · [B0] - SF6 GAS LOW 2nd STAGE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICES · sh.035",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -941,32 +4466,287 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.050–051",
+    "P/DI1 · CB(-Q50) CLOSE · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.052–053",
+    "P/DI2 · CB(-Q50) OPEN · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.054–055",
+    "P/DI3 · CB(-Q50) REMOTE POSITION · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.056–057",
+    "P/DI4 · CB(-Q50) LOCAL POSITION · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.058–059",
+    "P/DI5 · CB.HYDR. PUMP FAULT · sh.050",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.060–061",
+    "P/DI6 · MOTOR RUNNING SUPERVISION · sh.050",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI7 · LCC S102 SWITCH DS/ES/HES REMOTE POSITION · sh.050",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI8 · LCC S102 SWITCH DS/ES/HES LOCAL POSITION · sh.050",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · DS BUS-2A (-Q1) CLOSE · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · DS BUS-2A (-Q1) OPEN · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · DS BUS-2B (-Q2) CLOSE · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · DS BUS-2B (-Q2) OPEN · sh.051",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI1 · ES BUS-2A (-Q51) CLOSE · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI2 · ES BUS-2A (-Q51) OPEN · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ES BUS-2B (-Q52) CLOSE · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · ES BUS-2B (-Q52) OPEN · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · MIMIC MODE (ENABLE) · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · BCU MODE (ENABLE) · sh.052",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · CB(-Q0) CLOSE COMMAND FROM MIMIC/BCU/HMI/RCC · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · SYNCHRO CHECK SLR (OFF MODE) · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · SYNCHRO CHECK SLR (ON MODE) · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · SYNCHRO CHECK SLR (OVERRIDE MODE) · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · CRP AC MCB TRIP · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · PROTECTION SUPPLY FAILURE · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · LOCKOUT-1 RELAY (-K86-1) OPTD. · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · LOCKOUT-2 RELAY (-K86-2) OPTD. · sh.053",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · BUS-2A CVT PROTECTION CORE MCB TRIP · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · BUS-2B CVT PROTECTION CORE MCB TRIP · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · -F50 RELAY FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · -F50BF RELAY FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · TC-1 FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · TC-2 FAULTY · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · NON DIR.O/C AND E/F PROTN.(-F50)OPTD. · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · NON DIR.O/C AND E/F PROTN.(-F50BF)OPTD. · sh.054",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · INTERLOCK/RELEASE · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · BUS-2A & 2B CVT METERING CORE MCB TRIP · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · BB 1A2A LOCKOUT OPTD. · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · SOFTWARE INTERLOCK MODE: INTERLOCK (ENABLE) · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · SOFTWARE INTERLOCK MODE: BYPASS (DISABLE) · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI15 · BAY IN LIVE TRANSFER MODE · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI16 · BB 1B2B LOCKOUT OPTD. · sh.055",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · CB. SF6-DENSITY ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · AC MCB TRIP · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · DC MOTOR SUPPLY MCB TRIP · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · CB. SF6-DENSITY ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · GAS COMPARTMENT B2 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI6 · GAS COMPARTMENT B3 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI7 · GAS COMPARTMENT B4 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI8 · GAS COMPARTMENT B5 ST. 1 · sh.056",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI9 · BUS COUPLER SYSTEM-B CB CLOSE STATUS · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI10 · BUS COUPLER SYSTEM-B CB OPEN STATUS · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI11 · DS BUS-A OPEN SIGNAL · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI12 · DS BUS 1 SYSTEM A OPEN · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI13 · DS BUS 1 SYSTEM B OPEN · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI14 · DS BUS-B OPEN SIGNAL · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI15 · BUS COUPLER SYSTEM-A CB CLOSE STATUS · sh.059",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI16 · BUS COUPLER SYSTEM-B CB CLOSE STATUS · sh.059",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
@@ -1011,12 +4791,117 @@
    ],
    [
     "P143",
-    "DI / opto input (OPTO1–OPTO16) · sh.031–032",
+    "OPTO1 · BUS-2A PROTECTION CORE MCB TRIP · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO2 · BUS-2B PROTECTION CORE MCB TRIP · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO3 · SYNCHRO CHECK MODE OFF (DISABLE) · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO4 · SYNCHRO CHECK MODE ON (ENABLE) · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO5 · SYNCHRO CHECK MODE OVERRIDE (BYPASS) · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO6 · CONTROL SUPPLY FAILURE · sh.031",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO15 · RELAY RESET · sh.032",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P143",
+    "OPTO16 · RELAY IN SERVICE · sh.032",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
     "P841",
-    "DI / opto input (OPTO1–OPTO24) · sh.033–035",
+    "OPTO1 · CB (-Q0) OPEN · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO2 · DS (-Q1) CLOSE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO3 · DS (-Q2) CLOSE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO5 · 50BF INITIATION · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO6 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 1 · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO7 · ADJ. CB 50BF 2ND STAGE RECIVED FROM BUS 2 · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO8 · [B0] - SF6 GAS LOW 2nd STAGE · sh.033",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO9 · [B1] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO10 · [B2] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO11 · [B3] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO12 · [B4] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO13 · [B5] - SF6 GAS LOW 2nd STAGE · sh.034",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO21 · RELAY RESET · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO22 · SF6 2nd STAGE TRIP · sh.035",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P841",
+    "OPTO24 · RELAY IN SERVICES · sh.035",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -1037,42 +4922,302 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.010–011",
+    "P/DI1 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.012–013",
+    "P/DI2 · SW FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.014–015",
+    "P/DI3 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.016–017",
+    "P/DI4 · SW FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.018–019",
+    "P/DI5 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.020–021",
+    "P/DI6 · SW FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot J (DI1–DI16) · sh.022–023",
+    "P/DI7 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot I (DI1–DI16) · sh.024–025",
+    "P/DI8 · SW FAULT · sh.010",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ACDB SOURCE 230VAC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · UPS SOURCE 230VAC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI5 · ETHERNET SWITCH 1 FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI6 · DCDB SOURCE 110VDC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · DCDB SOURCE 48VDC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · GATEWAY FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · GPS FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · MCB AC FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · MCB DC FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · PROTECTION RELAY FAULT · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · SW FAULT · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · MCB AC FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · DUMMY CIRCUIT BREAKER CLOSE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · DUMMY CIRCUIT BREAKER OPEN · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · FEEDER TRIP · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · INCOMING-1 UNDER/OVER VOLTAGE · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · INCOMING-1 NORMAL · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · INCOMING-1 MCCB OFF · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · INCOMING-1 MCCB ON · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · INCOMING-1 TRIP · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · ALARM SIGNAL · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · TRIP SIGNAL · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI9 · FEEDER MCB TRIP · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · INCOMING UNDER/OVER VOLTAGE · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · INCOMING NORMAL · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · INCOMING MCCB OPEN · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · INCOMING MCCB CLOSE · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · INCOMING MCCB TRIP · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · INCOMING & FEEDER MCB TRIP · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · INCOMING-1 MCCB OFF · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · INCOMING-1 MCCB ON · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · BYPASS MCCB OFF · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · BYPASS MCCB ON · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · FEEDER MCCB TRIP · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · INCOMING-1 UNDER/OVER VOLTAGE · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · INCOMING-1 NORMAL · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI12 · INCOMING-1 MCCB OPEN · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI13 · INCOMING-1 MCCB CLOSE · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI14 · INCOMING-1 MCCB TRIP · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI15 · INCOMING-2 UNDER/OVER VOLTAGE · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI16 · INCOMING-2 NORMAL · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · INCOMING-2 MCCB OPEN · sh.018",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · INCOMING-2 MCCB CLOSE · sh.018",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI3 · INCOMING-2 MCCB TRIP · sh.018",
     "Status DI masuk BCU/HMI sesuai drawing"
    ]
   ]
@@ -1083,42 +5228,302 @@
   "items": [
    [
     "C264",
-    "DI slot P (DI1–DI16) · sh.010–011",
+    "P/DI1 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot O (DI1–DI16) · sh.012–013",
+    "P/DI2 · SW FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot N (DI1–DI16) · sh.014–015",
+    "P/DI3 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot M (DI1–DI16) · sh.016–017",
+    "P/DI4 · SW FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot L (DI1–DI16) · sh.018–019",
+    "P/DI5 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot K (DI1–DI16) · sh.020–021",
+    "P/DI6 · SW FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot J (DI1–DI16) · sh.022–023",
+    "P/DI7 · BCU FAULT · sh.010",
     "Status DI masuk BCU/HMI sesuai drawing"
    ],
    [
     "C264",
-    "DI slot I (DI1–DI16) · sh.024–025",
+    "P/DI8 · SW FAULT · sh.010",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI9 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI10 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI11 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI12 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI13 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI14 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI15 · BCU FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "P/DI16 · SW FAULT · sh.011",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI3 · ACDB SOURCE 230VAC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI4 · UPS SOURCE 230VAC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI5 · ETHERNET SWITCH 1 FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI6 · DCDB SOURCE 110VDC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI7 · DCDB SOURCE 48VDC MCB FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI8 · GATEWAY FAILURE · sh.012",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI9 · GPS FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI10 · MCB AC FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI11 · MCB DC FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI12 · PROTECTION RELAY FAULT · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI13 · SW FAULT · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI14 · MCB AC FAILURE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI15 · DUMMY CIRCUIT BREAKER CLOSE · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "O/DI16 · DUMMY CIRCUIT BREAKER OPEN · sh.013",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI1 · FEEDER TRIP · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI2 · INCOMING-1 UNDER/OVER VOLTAGE · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI3 · INCOMING-1 NORMAL · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI4 · INCOMING-1 MCCB OFF · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI5 · INCOMING-1 MCCB ON · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI6 · INCOMING-1 TRIP · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI7 · ALARM SIGNAL · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI8 · TRIP SIGNAL · sh.014",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI9 · FEEDER MCB TRIP · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI10 · INCOMING UNDER/OVER VOLTAGE · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI11 · INCOMING NORMAL · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI12 · INCOMING MCCB OPEN · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI13 · INCOMING MCCB CLOSE · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "N/DI14 · INCOMING MCCB TRIP · sh.015",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI1 · INCOMING & FEEDER MCB TRIP · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI2 · INCOMING-1 MCCB OFF · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI3 · INCOMING-1 MCCB ON · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI4 · BYPASS MCCB OFF · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI5 · BYPASS MCCB ON · sh.016",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI9 · FEEDER MCCB TRIP · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI10 · INCOMING-1 UNDER/OVER VOLTAGE · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI11 · INCOMING-1 NORMAL · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI12 · INCOMING-1 MCCB OPEN · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI13 · INCOMING-1 MCCB CLOSE · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI14 · INCOMING-1 MCCB TRIP · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI15 · INCOMING-2 UNDER/OVER VOLTAGE · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "M/DI16 · INCOMING-2 NORMAL · sh.017",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI1 · INCOMING-2 MCCB OPEN · sh.018",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI2 · INCOMING-2 MCCB CLOSE · sh.018",
+    "Status DI masuk BCU/HMI sesuai drawing"
+   ],
+   [
+    "C264",
+    "L/DI3 · INCOMING-2 MCCB TRIP · sh.018",
     "Status DI masuk BCU/HMI sesuai drawing"
    ]
   ]
@@ -1129,7 +5534,102 @@
   "items": [
    [
     "P746_1",
-    "DI / opto input (OPTO1–OPTO32) · sh.019–022",
+    "OPTO1 · CB (-Q0) CLOSE · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO2 · CB (-Q0) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO3 · ISOLATOR(-Q1) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO4 · ISOLATOR(-Q2) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO6 · CB(-Q0) CLOSE COMMAND · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO7 · CB (-Q0) CLOSE · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO8 · CB (-Q0) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO9 · ISOLATOR(-Q1) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO10 · ISOLATOR(-Q2) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO13 · CB(-Q0) CLOSE · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO14 · CB(-Q0) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO15 · ISOLATOR(-Q1) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO16 · ISOLATOR(-Q2) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO19 · CB(-Q0) CLOSE · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO20 · CB(-Q0) OPEN · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO21 · ISOLATOR(-Q1) OPEN · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO22 · ISOLATOR(-Q2) OPEN · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO30 · RELAY IN TEST MODE · sh.022",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO31 · RELAY RESET · sh.022",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO32 · PROTECTION / RELAY IN SERVICE · sh.022",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -1139,7 +5639,102 @@
    ],
    [
     "P746_2",
-    "DI / opto input (OPTO1–OPTO32) · sh.023–026",
+    "OPTO1 · CB (-Q0) CLOSE · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO2 · CB (-Q0) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO3 · ISOLATOR(-Q1) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO4 · ISOLATOR(-Q2) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO7 · CB (-Q0) CLOSE · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO8 · CB (-Q0) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO9 · ISOLATOR(-Q1) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO10 · ISOLATOR(-Q2) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO13 · CB(-Q0) CLOSE · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO14 · CB(-Q0) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO15 · ISOLATOR(-Q1) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO16 · ISOLATOR(-Q2) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO19 · CB(-Q0) CLOSE · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO20 · CB(-Q0) OPEN · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO21 · ISOLATOR(-Q1) OPEN · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO22 · ISOLATOR(-Q2) OPEN · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO24 · CB(-Q0) CLOSE COMMAND · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO30 · RELAY IN TEST MODE · sh.026",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO31 · RELAY RESET · sh.026",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO32 · PROTECTION / RELAY IN SERVICE · sh.026",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -1149,7 +5744,42 @@
    ],
    [
     "P746_3",
-    "DI / opto input (OPTO1–OPTO32) · sh.027–030",
+    "OPTO1 · CB (-Q0) CLOSE · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO2 · CB (-Q0) OPEN · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO3 · ISOLATOR (-Q1) OPEN · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO4 · ISOLATOR (-Q2) OPEN · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO6 · CB(-Q0) CLOSE COMMAND · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO30 · RELAY IN TEST MODE · sh.030",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO31 · RELAY RESET · sh.030",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO32 · PROTECTION / RELAY IN SERVICE · sh.030",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -1165,7 +5795,102 @@
   "items": [
    [
     "P746_1",
-    "DI / opto input (OPTO1–OPTO32) · sh.019–022",
+    "OPTO1 · CB (-Q0) CLOSE · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO2 · CB (-Q0) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO3 · ISOLATOR(-Q1) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO4 · ISOLATOR(-Q2) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO6 · CB(-Q0) CLOSE COMMAND · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO7 · CB (-Q0) CLOSE · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO8 · CB (-Q0) OPEN · sh.019",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO9 · ISOLATOR(-Q1) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO10 · ISOLATOR(-Q2) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO13 · CB(-Q0) CLOSE · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO14 · CB(-Q0) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO15 · ISOLATOR(-Q1) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO16 · ISOLATOR(-Q2) OPEN · sh.020",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO19 · CB(-Q0) CLOSE · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO20 · CB(-Q0) OPEN · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO21 · ISOLATOR(-Q1) OPEN · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO22 · ISOLATOR(-Q2) OPEN · sh.021",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO30 · RELAY IN TEST MODE · sh.022",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO31 · RELAY RESET · sh.022",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_1",
+    "OPTO32 · PROTECTION / RELAY IN SERVICE · sh.022",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -1175,7 +5900,102 @@
    ],
    [
     "P746_2",
-    "DI / opto input (OPTO1–OPTO32) · sh.023–026",
+    "OPTO1 · CB (-Q0) CLOSE · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO2 · CB (-Q0) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO3 · ISOLATOR(-Q1) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO4 · ISOLATOR(-Q2) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO7 · CB (-Q0) CLOSE · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO8 · CB (-Q0) OPEN · sh.023",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO9 · ISOLATOR(-Q1) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO10 · ISOLATOR(-Q2) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO13 · CB(-Q0) CLOSE · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO14 · CB(-Q0) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO15 · ISOLATOR(-Q1) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO16 · ISOLATOR(-Q2) OPEN · sh.024",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO19 · CB(-Q0) CLOSE · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO20 · CB(-Q0) OPEN · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO21 · ISOLATOR(-Q1) OPEN · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO22 · ISOLATOR(-Q2) OPEN · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO24 · CB (-Q0 ) CLOSE COMMAND · sh.025",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO30 · RELAY IN TEST MODE · sh.026",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO31 · RELAY RESET · sh.026",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_2",
+    "OPTO32 · PROTECTION / RELAY IN SERVICE · sh.026",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
@@ -1185,7 +6005,42 @@
    ],
    [
     "P746_3",
-    "DI / opto input (OPTO1–OPTO32) · sh.027–030",
+    "OPTO1 · CB(-Q0) CLOSE · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO2 · CB (-Q0) OPEN · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO3 · ISOLATOR (-Q1) OPEN · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO4 · ISOLATOR (-Q2) OPEN · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO6 · CB (-Q0) CLOSE COMMAND · sh.027",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO30 · RELAY IN TEST MODE · sh.030",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO31 · RELAY RESET · sh.030",
+    "Status input terbaca di relay sesuai drawing"
+   ],
+   [
+    "P746_3",
+    "OPTO32 · PROTECTION / RELAY IN SERVICE · sh.030",
     "Status input terbaca di relay sesuai drawing"
    ],
    [
