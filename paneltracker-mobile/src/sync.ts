@@ -4,6 +4,7 @@ import { Api } from "./api";
 import { BATCH, PAGE } from "./config";
 import { nextIssueCode, Row, stamp } from "./logic";
 import { store, Table } from "./store";
+import { shrinkIfLarge } from "./image";
 import { t as tr } from "./i18n";
 
 // kolom yang dikirim ke server per tabel (selain uuid, updated_at, deleted)
@@ -18,13 +19,14 @@ const COLS: Record<Table, string[]> = {
   issues: ["project_uuid", "site_uuid", "panel_uuid", "check_uuid", "code", "title", "description", "category",
     "severity", "status", "pic", "raised_by", "raised_date", "due_date", "closed_date", "verified_by", "action",
     "created_at"],
-  attachments: ["issue_uuid", "kind", "filename", "caption", "storage_path", "created_at"],
+  attachments: ["issue_uuid", "check_uuid", "kind", "filename", "caption", "storage_path", "created_at"],
 };
 const ORDER: Table[] = ["projects", "sites", "panels", "panel_checks", "issues", "attachments"];
 const REQUIRED: Partial<Record<Table, string>> = {
   sites: "project_uuid", panels: "site_uuid", panel_checks: "panel_uuid", issues: "project_uuid",
-  attachments: "issue_uuid",
 };
+/** Lampiran: foto punch (issue_uuid) atau foto evidence item checklist (check_uuid). */
+const hasParent = (t: Table, r: Row) => t !== "attachments" || !!(r.issue_uuid || r.check_uuid);
 
 export interface SyncStats { pulled: number; pushed: number; photos_up: number; photos_down: number; skipped: number;
   seconds: number }
@@ -36,6 +38,11 @@ export class SyncEngine {
     const t0 = Date.now();
     const st: SyncStats = { pulled: 0, pushed: 0, photos_up: 0, photos_down: 0, skipped: 0, seconds: 0 };
     this.progress(tr("Mengambil perubahan dari cloud…"));
+    if ((await store.meta("att_check_uuid_v1", "")) !== "1") {
+      // v1.2: lampiran bisa berupa foto evidence (check_uuid). Versi lama melewatkan baris itu → tarik ulang sekali.
+      await store.setMeta("cursor_attachments", "");
+      await store.setMeta("att_check_uuid_v1", "1");
+    }
     for (const t of ORDER) st.pulled += await this.pull(t);
     await this.pullTeam();
     if (this.push) {
@@ -78,9 +85,11 @@ export class SyncEngine {
 
   private async prepare(t: Table, r: Row): Promise<Row | null> {
     const local = store.get(t, r.uuid);
-    if (local && (local.updated_at || "") >= (r.updated_at || "")) return null;  // lokal sama/lebih baru
+    const relink = t === "attachments" && local && r.check_uuid && !local.check_uuid && !local._dirty;
+    if (local && (local.updated_at || "") >= (r.updated_at || "") && !relink) return null;  // lokal sama/lebih baru
     const req = REQUIRED[t];
     if (req && !r[req]) return null;
+    if (!hasParent(t, r)) return null;
     const row: Row = { uuid: r.uuid, updated_at: r.updated_at, deleted: Number(r.deleted || 0), _dirty: 0 };
     for (const c of COLS[t]) row[c] = r[c] ?? null;
     if (t === "issues" && !local) await this.resolveCodeClash(row);
@@ -124,9 +133,11 @@ export class SyncEngine {
     if (t === "attachments") {
       for (const r of store.dirty(t)) {
         if (r.storage_path || r.deleted) continue;
-        const blob = await store.photo(r.uuid);
+        let blob = await store.photo(r.uuid);
         if (!blob) continue;
-        const path = `${r.issue_uuid || "umum"}/${r.uuid}.jpg`;
+        const small = await shrinkIfLarge(blob);   // foto lama/besar dikompres dulu (hemat storage 1 GB)
+        if (small !== blob) { await store.setPhoto(r.uuid, small); blob = small; }
+        const path = r.issue_uuid ? `${r.issue_uuid}/${r.uuid}.jpg` : r.check_uuid ? `check/${r.check_uuid}/${r.uuid}.jpg` : `umum/${r.uuid}.jpg`;
         this.progress(tr("Upload foto {0}…", r.filename || ""));
         await this.api.upload(path, blob, blob.type === "image/png" ? "image/png" : "image/jpeg");
         // updated_at ikut diperbarui supaya perangkat lain yang sudah punya metadata ikut mengunduh foto
@@ -141,7 +152,7 @@ export class SyncEngine {
       const payload: Row[] = [], sent: Row[] = [];
       for (const r of chunk) {
         const req = REQUIRED[t];
-        if (req && !r[req]) { st.skipped++; continue; }
+        if ((req && !r[req]) || !hasParent(t, r)) { st.skipped++; continue; }
         if (t === "attachments" && !r.storage_path && !r.deleted) { st.skipped++; continue; }  // foto belum terupload
         payload.push(this.payload(t, r));
         sent.push(r);

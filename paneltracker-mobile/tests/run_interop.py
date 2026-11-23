@@ -40,6 +40,17 @@ old = lap.q1("SELECT * FROM issue WHERE uuid=?", (info["old"],))
 assert old["status"] == "In Progress" and old["action"] == "dikerjakan dari HP", dict(old)
 att = lap.q1("SELECT * FROM attachment WHERE issue_id=?", (iss["id"],))
 assert att and att["data"] and bytes(att["data"])[:2] == b"\xff\xd8", "foto HP sampai ke laptop"
+cid = lap.q1("SELECT id FROM panel_check WHERE uuid=?", (info["check"],))["id"]
+ev = lap.check_photos(cid)
+assert len(ev) == 1 and lap.attachment_data(ev[0]["id"])[:2] == b"\xff\xd8", "foto evidence HP sampai ke laptop"
+assert not lap.attachments(iss["id"]) or all(a["kind"] != "evidence" for a in lap.attachments(iss["id"]))
+# laptop menambah foto evidence di item lain → diterima viewer HP
+from PySide6.QtGui import QImage, QColor
+from app.ui.dialogs import _image_to_jpeg
+_img = QImage(64, 48, QImage.Format_RGB32); _img.fill(QColor("orange"))
+other = [c for c in lap.panel_checks(chk["panel_id"]) if c["id"] != cid][0]
+lap.add_check_photo(other["id"], "laptop_ev.jpg", _image_to_jpeg(_img))
+print("evidence laptop → cloud:", dsync(lap))
 ov = {o["panel"]["tag"]: o for o in lap.panel_overview(pid)}
 print("desktop lihat panel", info["panel"], ov[info["panel"]]["status"], ov[info["panel"]]["stats"]["NG"], "NG")
 # laptop ubah → viewer HP menerima

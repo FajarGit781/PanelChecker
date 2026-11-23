@@ -421,7 +421,7 @@ class IssueDialog(QDialog):
                                  f"[{label}] {cap or fn}")
             it.setData(Qt.UserRole, (aid, idx))
             self.photos.addItem(it)
-        self.photo_note.setText(tr('{0} foto. Foto disimpan di dalam database (ikut ter-backup). Foto besar otomatis diperkecil ke maks 1600 px.', len(rows)))
+        self.photo_note.setText(tr('{0} foto. Foto disimpan di dalam database (ikut ter-backup). Foto otomatis dikompres (maks 1280 px, ±150 KB) supaya hemat storage cloud.', len(rows)))
 
     def _add_photo(self):
         files, _ = QFileDialog.getOpenFileNames(self, tr('Pilih foto'), "", tr('Gambar (*.jpg *.jpeg *.png *.bmp)'))
@@ -580,7 +580,7 @@ class EvidenceDialog(QDialog):
                                  if not pm.isNull() else QIcon(), r["caption"] or r["filename"] or "")
             it.setData(Qt.UserRole, r["id"])
             self.photos.addItem(it)
-        self.note.setText(tr('{0} foto evidence. Foto ikut sinkron ke cloud & tercetak di Report Uji DI/DO.', len(rows)))
+        self.note.setText(tr('{0} foto evidence. Foto dikompres, ikut sinkron ke cloud & tercetak di report.', len(rows)))
 
     def _cur(self):
         it = self.photos.currentItem()
@@ -636,32 +636,15 @@ class EvidenceDialog(QDialog):
             self._load()
 
 
-def _image_to_jpeg(img, max_px=1600) -> bytes:
-    from PySide6.QtCore import QBuffer, QByteArray, QIODevice
-    if img.width() > max_px or img.height() > max_px:
-        img = img.scaled(max_px, max_px, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-    ba = QByteArray()
-    buf = QBuffer(ba)
-    buf.open(QIODevice.WriteOnly)
-    img.save(buf, "JPG", 85)
-    return bytes(ba)
+def _image_to_jpeg(img, max_px=1280) -> bytes:
+    from ..imaging import compress
+    return compress(img, max_px=max_px)
 
 
-def _load_image_resized(path, max_px=1600) -> bytes:
-    from PySide6.QtCore import QBuffer, QByteArray, QIODevice
-    from PySide6.QtGui import QImage, QImageReader
-    reader = QImageReader(path)
-    reader.setAutoTransform(True)  # rotasi EXIF dari HP
-    img = reader.read()
-    if img.isNull():
-        return b""
-    if img.width() > max_px or img.height() > max_px:
-        img = img.scaled(max_px, max_px, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-    ba = QByteArray()
-    buf = QBuffer(ba)
-    buf.open(QIODevice.WriteOnly)
-    img.save(buf, "JPG", 85)
-    return bytes(ba)
+def _load_image_resized(path, max_px=1280) -> bytes:
+    """Foto dari file → JPEG terkompresi (maks 1280 px, ±150 KB) supaya storage cloud 1 GB muat banyak."""
+    from ..imaging import compress
+    return compress(path, max_px=max_px)
 
 
 # ---------------------------------------------------------------- Settings

@@ -178,13 +178,13 @@ def _sheet_paths(z: zipfile.ZipFile) -> dict[str, str]:
     return out
 
 
-def _resize(data: bytes, max_px=1600) -> bytes:
+def _resize(data: bytes, max_px=1280) -> bytes:
+    """Foto dari Excel FAT → JPEG terkompresi (lihat app/imaging.py)."""
     try:
-        from PySide6.QtCore import QBuffer, QByteArray, QIODevice, Qt
-        from PySide6.QtGui import QImage
-        img = QImage()
-        if not img.loadFromData(data):
-            return data
+        from .imaging import compress
+        return compress(data, max_px=max_px) or data
+    except Exception:
+        return data
         if img.width() > max_px or img.height() > max_px:
             img = img.scaled(max_px, max_px, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         if img.hasAlphaChannel():

@@ -584,6 +584,8 @@ class CheckSheetDialog(QDialog):
         self.punch.setChecked(True)
         self.sign = QCheckBox(tr('Sertakan kolom tanda tangan'))
         self.sign.setChecked(True)
+        self.evph = QCheckBox(tr('Sertakan foto evidence pengukuran'))
+        self.evph.setChecked(True)
         self.title = QLineEdit()
         self.title.setPlaceholderText(tr('Lembar Uji Panel'))
         from ..i18n import LANGS
@@ -594,6 +596,7 @@ class CheckSheetDialog(QDialog):
         o3.addWidget(self.blank, 0, 0)
         o3.addWidget(self.punch, 0, 1)
         o3.addWidget(self.sign, 0, 2)
+        o3.addWidget(self.evph, 0, 3)
         o3.addWidget(QLabel(tr('Judul report')), 1, 0)
         o3.addWidget(self.title, 1, 1)
         o3.addWidget(QLabel(tr('Bahasa report PDF')), 1, 2)
@@ -725,12 +728,14 @@ class CheckSheetDialog(QDialog):
         self.count.setText(txt)
         self.ok.setEnabled(n_pan > 0)
         self.punch.setEnabled(not self.blank.isChecked())
+        self.evph.setEnabled(not self.blank.isChecked())
 
     def options(self):
         return {"panel_ids": self.panel_ids(), "sections": self.sections(), "items": self._mode(),
                 "blank": self.blank.isChecked(), "with_punch": self.punch.isChecked() and not self.blank.isChecked(),
                 "with_sign": self.sign.isChecked(), "title": self.title.text().strip() or None,
-                "note": self._note(), "lang": self.rlang.currentData()}
+                "note": self._note(), "lang": self.rlang.currentData(),
+                "with_photos": self.evph.isChecked() and not self.blank.isChecked()}
 
 
 # ---------------------------------------------------------------- Report Uji DI/DO

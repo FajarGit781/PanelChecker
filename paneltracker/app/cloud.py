@@ -379,8 +379,14 @@ class SyncEngine:
                     folder = issue_uuid or (f"check/{check_uuid}" if check_uuid else "umum")
                     path = f"{folder}/{r['uuid']}.jpg"
                     self.progress(tr("Upload foto {0}…", r['filename'] or ''))
-                    ctype = "image/png" if bytes(r["data"][:4]) == b"\x89PNG" else "image/jpeg"
-                    self.c.upload(path, bytes(r["data"]), ctype)
+                    from .imaging import shrink_if_large
+                    data = bytes(r["data"])
+                    small = shrink_if_large(data)      # foto lama/besar dikompres dulu (hemat storage 1 GB)
+                    if small is not data:
+                        self.db.conn.execute("UPDATE attachment SET data=? WHERE id=?", (small, r["id"]))
+                        data = small
+                    ctype = "image/png" if data[:4] == b"\x89PNG" else "image/jpeg"
+                    self.c.upload(path, data, ctype)
                     # updated_at ikut diperbarui supaya laptop lain yang sudah punya metadata ikut mengunduh foto
                     self.db.conn.execute("UPDATE attachment SET storage_path=?, updated_at=? WHERE id=?",
                                          (path, stamp(), r["id"]))

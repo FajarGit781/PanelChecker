@@ -510,7 +510,7 @@ class ReportBuilder:
         return out
 
     def check_sheets(self, path, panel_ids, sections=None, items="all", blank=False, with_punch=True,
-                     with_sign=True, title=None, note=""):
+                     with_sign=True, title=None, note="", with_photos=True):
         """Lembar uji per panel (portrait A4). Item uji DI/DO tidak ikut — dicetak terpisah (dido_report).
 
         sections/items: filter isi (lihat check_item_filter); panel yang tidak punya item setelah difilter dilewati.
@@ -531,6 +531,7 @@ class ReportBuilder:
                 continue
             checks = self.check_item_filter([c for c in db.panel_checks(pnid) if not is_dido_section(c["section"])],
                                             sections, items)
+            ev_counts = db.check_photo_counts(pnid)
             if filtered and not checks:
                 continue
             if not first:
@@ -575,6 +576,11 @@ class ReportBuilder:
             for i in db.issues(self.pid, panel_id=pnid):
                 if i["check_id"]:
                     punches.setdefault(i["check_id"], []).append(i["code"])
+            photos = {}
+            if not blank:
+                for c in checks:
+                    if c["id"] in ev_counts:
+                        photos[c["id"]] = db.check_photos(c["id"])
             rows = [[tr('No'), tr('Item pengecekan'), tr('Kriteria'), tr('Hasil'), tr('Nilai'), tr('Catatan / Punch'), tr('Oleh · Tgl')]]
             st = []
             cur = None
@@ -594,6 +600,9 @@ class ReportBuilder:
                 note = esc(c["remark"])
                 if c["id"] in punches:
                     note += ("<br/>" if note else "") + f"<font color='#B91C1C'>→ {', '.join(punches[c['id']])}</font>"
+                if photos.get(c["id"]):
+                    note += ("<br/>" if note else "") + \
+                        f"<font color='#0F766E'>{esc(tr('Foto evidence: {0}', len(photos[c['id']])))}</font>"
                 crit = esc(c["criteria"]) + (f" {esc(c['unit'])}" if c["unit"] else "")
                 d_ = parse_date(c["checked_at"])
                 by = f"{esc(c['checked_by'])} · {d_.strftime('%d/%m/%y')}" if c["checked_by"] and d_ else \
@@ -611,6 +620,9 @@ class ReportBuilder:
             tb.setStyle(_base_style([("ALIGN", (0, 0), (0, -1), "CENTER"), ("ALIGN", (3, 0), (3, -1), "CENTER"),
                                      ("VALIGN", (0, 0), (-1, -1), "MIDDLE")] + st))
             story.append(tb if checks else Paragraph(tr('<i>Panel belum memiliki checklist.</i>'), P))
+            if with_photos and photos:
+                self._evidence_photos(story, [c for c in checks if c["id"] in photos], photos, W,
+                                      tr('Foto Evidence Pengukuran'), lambda c: c["section"])
             iss = db.issues(self.pid, panel_id=pnid) if with_punch and not blank else []
             if iss:
                 story.append(CondPageBreak(30 * mm))
@@ -639,6 +651,38 @@ class ReportBuilder:
             story.append(Paragraph(tr('<i>Tidak ada item yang cocok dengan filter.</i>'), P))
         self._build(path, title or tr('Lembar Uji Panel'), story, pagesize)
         return printed
+
+    # ------------------------------------------------------------ foto evidence (grid 2 kolom)
+    def _evidence_photos(self, story, checks, photos, W, title, group_of):
+        """Lampiran foto evidence: 2 foto per baris, caption = grup · item (· caption foto)."""
+        db = self.db
+        story.append(CondPageBreak(60 * mm))
+        story.append(Paragraph(title, H2))
+        gap = 4 * mm
+        cw = (W - gap) / 2
+        pw, ph = cw - 4 * mm, 62 * mm
+        cells = []
+        for c in checks:
+            grp = group_of(c)
+            for a in photos.get(c["id"], []):
+                data = db.attachment_data(a["id"])
+                try:
+                    iw, ih = ImageReader(io.BytesIO(data)).getSize()
+                except Exception:
+                    continue
+                k = min(pw / iw, ph / ih)
+                cap = (f"<b>{esc(grp)}</b> · " if grp else "") + esc(c["description"]) + \
+                    (f" — {esc(c['value'])} {esc(c['unit'] or '')}" if c["value"] else "") + \
+                    (f"<br/><i>{esc(a['caption'])}</i>" if a["caption"] else "")
+                cells.append(Table([[Image(io.BytesIO(data), iw * k, ih * k)], [Paragraph(cap, PS)]],
+                                   colWidths=[cw], style=[("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                                                          ("BOX", (0, 0), (-1, -1), 0.5, GRID)]))
+        for k in range(0, len(cells), 2):
+            pair = cells[k:k + 2] + [""] * (2 - len(cells[k:k + 2]))
+            g = Table([pair], colWidths=[cw + gap / 2] * 2)
+            g.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                                   ("RIGHTPADDING", (0, 0), (-1, -1), gap / 2)]))
+            story += [g, Spacer(1, 3 * mm)]
 
     # ------------------------------------------------------------ uji DI/DO
     def dido_report(self, path, panel_ids, items="all", with_photos=True, with_sign=True, title=None):
@@ -720,32 +764,8 @@ class ReportBuilder:
             story.append(Paragraph(tr("<font size=6.5 color='#586064'>Foto: jumlah foto evidence · "
                                       "<font color='#C2410C'><b>!</b></font> = OK tanpa foto evidence</font>"), P))
             if with_photos and n_ev:
-                story.append(CondPageBreak(60 * mm))
-                story.append(Paragraph(tr('Foto Evidence'), H2))
-                gap = 4 * mm
-                cw = (W - gap) / 2
-                pw, ph = cw - 4 * mm, 62 * mm
-                cells = []
-                for c in checks:
-                    dev = c["section"].split("DI/DO", 1)[-1].strip()
-                    for a in photos[c["id"]]:
-                        data = db.attachment_data(a["id"])
-                        try:
-                            iw, ih = ImageReader(io.BytesIO(data)).getSize()
-                        except Exception:
-                            continue
-                        k = min(pw / iw, ph / ih)
-                        cap = f"<b>{esc(dev)}</b> · {esc(c['description'])}" + \
-                              (f"<br/><i>{esc(a['caption'])}</i>" if a["caption"] else "")
-                        cells.append(Table([[Image(io.BytesIO(data), iw * k, ih * k)], [Paragraph(cap, PS)]],
-                                           colWidths=[cw], style=[("ALIGN", (0, 0), (-1, -1), "CENTER"),
-                                                                  ("BOX", (0, 0), (-1, -1), 0.5, GRID)]))
-                for k in range(0, len(cells), 2):
-                    pair = cells[k:k + 2] + [""] * (2 - len(cells[k:k + 2]))
-                    g = Table([pair], colWidths=[cw + gap / 2] * 2)
-                    g.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0),
-                                           ("RIGHTPADDING", (0, 0), (-1, -1), gap / 2)]))
-                    story += [g, Spacer(1, 3 * mm)]
+                self._evidence_photos(story, checks, photos, W, tr('Foto Evidence'),
+                                      lambda c: c["section"].split("DI/DO", 1)[-1].strip())
             if with_sign:
                 story.append(self._signatures(W))
         if not printed:

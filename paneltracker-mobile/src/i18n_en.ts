@@ -310,4 +310,9 @@ export const EN: Record<string, string> = {
   "belum": "not checked",
   "Tap sel: kosong → ✓ OK → ✗ NG → N/A. Ketik IP langsung; item IP otomatis OK bila IP valid & tidak dobel.": "Tap a cell: empty → ✓ OK → ✗ NG → N/A. Type the IP directly; the IP item is set to OK automatically when it is valid and not duplicated.",
   "Format IP tidak valid": "Invalid IP format",
+  // v1.2 foto evidence uji DI/DO
+  "Foto evidence": "Evidence photos",
+  "belum ada bukti": "no evidence yet",
+  "Ambil foto evidence": "Take evidence photo",
+  "Item OK. Tambahkan foto evidence (tombol kamera).": "Item OK. Add an evidence photo (camera button).",
 };

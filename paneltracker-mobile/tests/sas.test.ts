@@ -36,3 +36,30 @@ describe("matriks SAS", () => {
     expect(ipWarning("10.0.0.5", "Sesuai IP plan", used)).toBe("");
   });
 });
+
+describe("blok non-device & DI/DO", () => {
+  it("Rasio CT/VT dan DI/DO tidak masuk matriks; isDidoSection", async () => {
+    const { isDidoSection } = await import("../src/sas");
+    const rows = [
+      mk("I. SAS · -A30 MiCOM C264 (BCU)", "IP address sudah dikonfigurasi"),
+      mk("J. SAS · Rasio CT/VT", "-A30 MiCOM C264 (BCU) · CT ratio"),
+      mk("K. SAS · DI/DO -A30 MiCOM C264 (BCU)", "DI slot P (DI1–DI16) · sh.061–062"),
+    ];
+    expect(sasMatrix(rows).map((d) => d.name)).toEqual(["-A30 MiCOM C264 (BCU)"]);
+    expect(isDidoSection("K. SAS · DI/DO -A30 MiCOM C264 (BCU)")).toBe(true);
+    expect(isDidoSection("J. SAS · Rasio CT/VT")).toBe(false);
+    expect(isDidoSection("I. SAS · -A30 MiCOM C264 (BCU)")).toBe(false);
+  });
+});
+
+describe("item yang butuh foto evidence", () => {
+  it("DI/DO & measurement test; bukan IP / revisi", async () => {
+    const { isMeasurement, needsEvidence } = await import("../src/sas");
+    expect(["VDC", "VAC", "MΩ", "rasio"].every(isMeasurement)).toBe(true);
+    expect(["", "IP", "rev", "rev CID"].some(isMeasurement)).toBe(false);
+    expect(needsEvidence("K. SAS · DI/DO -A30 MiCOM C264 (BCU)", "")).toBe(true);
+    expect(needsEvidence("C. Power Supply", "VDC")).toBe(true);
+    expect(needsEvidence("I. SAS · -A30 MiCOM C264 (BCU)", "IP")).toBe(false);
+    expect(needsEvidence("A. Visual & Mekanikal", "")).toBe(false);
+  });
+});

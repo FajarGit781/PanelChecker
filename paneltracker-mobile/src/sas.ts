@@ -17,6 +17,23 @@ export function isSasSection(section: string): boolean {
   return SEC_RE.test(section || "");
 }
 
+/** Seksi uji DI/DO ("X. SAS · DI/DO <device>"): report & foto evidence terpisah. */
+export function isDidoSection(section: string): boolean {
+  return /^[A-Z]{1,2}\. SAS · DI\/DO /.test(section || "");
+}
+
+const NOT_MEASURE = new Set(["ip", "rev", "rev cid"]);
+/** Item measurement test = punya satuan ukur (VDC, VAC, MΩ, ms, rasio, …), bukan IP / revisi file. */
+export function isMeasurement(unit: string): boolean {
+  const u = (unit || "").trim().toLowerCase();
+  return !!u && !NOT_MEASURE.has(u);
+}
+
+/** Item yang diberi foto evidence: uji DI/DO & measurement test (sama dengan desktop). */
+export function needsEvidence(section: string, unit: string): boolean {
+  return isDidoSection(section) || isMeasurement(unit);
+}
+
 export interface SasDevice {
   section: string;
   name: string;
@@ -40,7 +57,8 @@ export function sasMatrix(checks: Row[]): SasDevice[] {
     if (col && !d.cells[col.key]) d.cells[col.key] = c;
     else d.extra.push(c);
   }
-  return out;
+  // blok tanpa kolom matriks (Rasio CT/VT, DI/DO …) bukan device → tetap tampil di daftar
+  return out.filter((d) => Object.keys(d.cells).length > 0);
 }
 
 /** Tap sel: kosong → OK → NG → N/A → kosong. */

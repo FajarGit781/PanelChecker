@@ -4,7 +4,8 @@
 - laptop yang dulu menarik foto tanpa check_uuid (versi lama) ditautkan ulang setelah upgrade
 - check sheet biasa tidak memuat item DI/DO; dido_report memuat item DI/DO + foto
 - matriks SAS tidak memuat blok Rasio CT/VT & DI/DO sebagai device
-- UI: tombol evidence hanya di baris DI/DO, dialog evidence menambah foto dari clipboard
+- UI: tombol evidence di baris DI/DO & measurement test, dialog evidence menambah foto dari clipboard
+- foto dikompres (≤1280 px, ≤150 KB) saat disimpan & sebelum upload; lembar uji memuat foto pengukuran
 """
 import io
 import os
@@ -159,6 +160,46 @@ check(r_dev.ebtn is None and r_di.ebtn is not None and r_di.ebtn.text() == "1", 
 r_new = CheckRow(_View(), A.check(A.add_check_item(pn, SEC_DIDO, "DO DS BUS-1 (-Q1) · sh.050", "x")), 3, [])
 r_new.apply_result("OK")
 check("belum ada foto" in r_new.ebtn.toolTip(), "OK tanpa foto → tombol mengingatkan")
+
+# ---------------------------------------------------------------- measurement test & kompresi
+from app import imaging  # noqa: E402
+check(SM.is_measurement("VDC") and SM.is_measurement("rasio") and not SM.is_measurement("IP")
+      and not SM.is_measurement("rev CID") and not SM.is_measurement(""), "is_measurement")
+meas = next(r for r in A.panel_checks(pn) if r["unit"] == "VDC")
+r_meas = CheckRow(_View(), meas, 4, [])
+check(r_meas.ebtn is not None and "foto evidence" in r_meas.ebtn.toolTip(), "tombol evidence di item pengukuran (VDC)")
+A.set_check(meas["id"], result="")
+check("pengukuran" in CheckRow(_View(), A.check(meas["id"]), 4, []).ebtn.toolTip(), "tooltip evidence pengukuran")
+ip_rows = [r for r in A.panel_checks(pn) if not SM.needs_evidence(r["section"], r["unit"])]
+check(ip_rows and CheckRow(_View(), ip_rows[0], 5, []).ebtn is None, "item biasa tanpa tombol evidence")
+
+# foto HP 4000x3000 penuh detail → ≤150 KB, ≤1280 px
+import random  # noqa: E402
+from PySide6.QtGui import QPainter  # noqa: E402
+big = QImage(4000, 3000, QImage.Format_RGB32)
+pa = QPainter(big)
+rnd = random.Random(1)
+for _ in range(4000):
+    pa.fillRect(rnd.randrange(4000), rnd.randrange(3000), rnd.randrange(5, 200), rnd.randrange(5, 200),
+                QColor(rnd.randrange(256), rnd.randrange(256), rnd.randrange(256)))
+pa.end()
+raw = imaging._jpeg(big, 95)
+small = imaging.compress(raw)
+chk = QImage.fromData(small)
+check(len(small) <= imaging.TARGET and max(chk.width(), chk.height()) <= 1280,
+      f"kompresi {len(raw) // 1024} KB → {len(small) // 1024} KB, {chk.width()}x{chk.height()}")
+check(imaging.shrink_if_large(jpeg("red")) == jpeg("red"), "foto kecil tidak dikompres ulang")
+# foto lama besar di DB → dikompres sebelum upload
+mid = A.add_check_photo(meas["id"], "meter.jpg", raw)
+SyncEngine(A, ca).run()
+up = [v for k, v in M.STORAGE.items() if A.q1("SELECT uuid FROM attachment WHERE id=?", (mid,))["uuid"] in k]
+check(up and len(up[0]) <= imaging.TARGET and len(A.attachment_data(mid)) <= imaging.TARGET,
+      "foto besar dikompres sebelum upload (storage & lokal)")
+# lembar uji: lampiran foto pengukuran
+p1 = f"{tmp}/cs_ph.pdf"; p0 = f"{tmp}/cs_noph.pdf"
+ReportBuilder(A, pid).check_sheets(p1, [pn])
+ReportBuilder(A, pid).check_sheets(p0, [pn], with_photos=False)
+check(os.path.getsize(p1) > os.path.getsize(p0) + 5000, "lembar uji memuat foto evidence pengukuran")
 
 srv.shutdown()
 print("ALL OK" if ok else "ADA YANG GAGAL")

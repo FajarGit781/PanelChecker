@@ -5,7 +5,7 @@ import { Api } from "../src/api";
 import { checkStats, nextIssueCode, passwordProblems, stamp } from "../src/logic";
 import { store } from "../src/store";
 import { SyncEngine } from "../src/sync";
-import { panelOverview } from "../src/data";
+import { evidenceOf, panelOverview } from "../src/data";
 
 const URL_ = process.env.MOCK_URL!;
 const PHASE = process.env.PHASE!;
@@ -40,13 +40,18 @@ describe("mobile ↔ desktop", () => {
       const att = await store.create("attachments", { issue_uuid: iss.uuid, kind: "before", filename: "hp.jpg", caption: "", storage_path: null });
       const jpg = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3, 4, 5, 0xff, 0xd9]);
       await store.setPhoto(att.uuid, new Blob([jpg], { type: "image/jpeg" }));
+      // foto evidence DI/DO langsung di item checklist (tanpa punch)
+      const ev = await store.create("attachments", { check_uuid: check.uuid, issue_uuid: null, kind: "evidence", filename: "ev.jpg", caption: "", storage_path: null });
+      await store.setPhoto(ev.uuid, new Blob([jpg], { type: "image/jpeg" }));
+      expect(evidenceOf(check.uuid).length).toBe(1);
       // ubah status punch yang sudah ada
       const old = issues.find((i) => i.status === "Open" && !i.deleted)!;
       await store.edit("issues", old.uuid, { status: "In Progress", action: "dikerjakan dari HP" });
-      expect(store.pendingCount()).toBe(4);
+      expect(store.pendingCount()).toBe(5);
       const st2 = await new SyncEngine(api).run();
       console.log("push:", JSON.stringify(st2));
-      expect(st2.photos_up).toBe(1);
+      expect(st2.photos_up).toBe(2);
+      expect(store.get("attachments", ev.uuid)!.storage_path).toBe(`check/${check.uuid}/${ev.uuid}.jpg`);
       expect(store.pendingCount()).toBe(0);
       // foto dari desktop bisa diunduh
       const withPath = store.all("attachments").filter((a) => a.storage_path && a.uuid !== att.uuid);
@@ -61,6 +66,12 @@ describe("mobile ↔ desktop", () => {
       expect(st.pulled).toBeGreaterThan(100);
       expect(store.all("issues").some((i) => i.title === "Temuan dari HP")).toBe(true);
       expect(store.all("issues").some((i) => i.title === "Diubah di laptop")).toBe(true);
+      // foto evidence dari HP & dari laptop diterima viewer, tertaut ke item checklist
+      const ev = store.all("attachments").filter((a) => a.check_uuid && !a.issue_uuid);
+      expect(ev.length).toBe(2);
+      expect(ev.every((a) => a.storage_path && store.get("panel_checks", a.check_uuid))).toBe(true);
+      const blob = await SyncEngine.ensurePhoto(api, ev.find((a) => a.filename === "laptop_ev.jpg")!);
+      expect(blob && blob.size).toBeGreaterThan(100);
       console.log("viewer ok", JSON.stringify(st));
     }
     if (PHASE === "unit") {

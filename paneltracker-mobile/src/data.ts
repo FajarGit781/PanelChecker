@@ -37,6 +37,12 @@ export function attachmentsOf(issueId: string): Row[] {
     .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
 }
 
+/** Foto evidence satu item checklist (uji DI/DO). */
+export function evidenceOf(checkId: string): Row[] {
+  return store.all("attachments").filter((a) => a.check_uuid === checkId && !a.issue_uuid)
+    .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
+}
+
 export interface PanelOv { panel: Row; stats: Stats; punch: PunchCount; status: string }
 
 export function panelOverview(pid: string, siteId?: string | null): PanelOv[] {

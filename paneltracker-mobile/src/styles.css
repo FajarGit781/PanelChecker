@@ -357,3 +357,11 @@ td.ip { min-width: 0; }
 .ipwarn { font-size: 11px; color: var(--red-t); text-align: left; margin-top: 3px; max-width: 150px; line-height: 1.2; }
 td.na-cell { color: var(--faint); }
 .mx-hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
+
+/* foto evidence uji DI/DO */
+.evidence { margin: 0 12px 12px; padding: 8px; border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
+.evidence.need { border-color: var(--lamp-amber); background: var(--amber-l); }
+.evidence .ev-h { display: flex; align-items: center; gap: 6px; font: 600 13px var(--cond); color: var(--muted); margin-bottom: 6px; }
+.evidence .ev-h span { color: var(--ink); }
+.evidence .ev-h em { margin-left: auto; font-style: normal; color: var(--amber-t); font-weight: 600; }
+.evidence .ev-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }

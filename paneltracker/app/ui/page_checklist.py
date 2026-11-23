@@ -115,9 +115,9 @@ class CheckRow(QFrame):
             self.remark.setPlaceholderText("")
         h.addWidget(self.res, 0, Qt.AlignTop)
 
-        # foto evidence: hanya item uji DI/DO (bukti DI masuk / DO bekerja)
+        # foto evidence: item uji DI/DO (DI masuk / DO bekerja) & measurement test (layar alat ukur)
         self.ebtn = None
-        if SM.is_dido_section(row["section"]):
+        if SM.needs_evidence(row["section"], row["unit"]):
             self.ebtn = QToolButton()
             self.ebtn.setFixedWidth(46)
             self.ebtn.setCursor(Qt.PointingHandCursor)
@@ -178,7 +178,9 @@ class CheckRow(QFrame):
         self.ebtn.setStyleSheet(f"QToolButton {{ color:{col}; font-weight:700; }}")
         self.ebtn.setToolTip(tr('{0} foto evidence. Klik untuk tambah / lihat.', n) if n else
                              (tr('Item sudah OK tapi belum ada foto evidence. Klik untuk menambah.') if need
-                              else tr('Tambah foto evidence (DI masuk / DO bekerja)')))
+                              else tr('Tambah foto evidence (DI masuk / DO bekerja)')
+                              if SM.is_dido_section(self.row["section"])
+                              else tr('Tambah foto evidence pengukuran (layar alat ukur)')))
 
     def _evidence(self):
         from .dialogs import EvidenceDialog

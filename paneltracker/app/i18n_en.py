@@ -287,9 +287,9 @@ EN = {
     "Serial number": "Serial number",
     "— (tidak terkait panel / umum site) —": "— (not panel-specific / general site) —",
     "Foto / Lampiran": "Photos / Attachments",
-    "{0} foto. Foto disimpan di dalam database (ikut ter-backup). Foto besar otomatis diperkecil ke maks 1600 px.":
-        "{0} photos. Photos are stored inside the database (included in backups). Large photos are resized to max "
-        "1600 px.",
+    "{0} foto. Foto disimpan di dalam database (ikut ter-backup). Foto otomatis dikompres (maks 1280 px, ±150 KB) supaya hemat storage cloud.":
+        "{0} photos. Photos are stored inside the database (included in backups). Photos are compressed automatically "
+        "(max 1280 px, ~150 KB) to save cloud storage.",
     "Pilih foto": "Choose photos",
     "Gambar (*.jpg *.jpeg *.png *.bmp)": "Images (*.jpg *.jpeg *.png *.bmp)",
     "Gambar (*.png *.jpg *.jpeg *.bmp)": "Images (*.png *.jpg *.jpeg *.bmp)",
@@ -724,4 +724,9 @@ EN = {
     "{0}  —  {1}/{2} diuji · {3} item berfoto": "{0}  —  {1}/{2} tested · {3} items with photos",
     "Terpisah dari Lembar Uji: hasil uji DI per slot BCU / opto relay dan DO kontrol/trip/sinyal per device (sesuai lembar schematic), lengkap dengan foto evidence DI masuk / DO bekerja.": "Separate from the Test Sheet: DI test results per BCU slot / relay opto and DO control/trip/signal per device (per schematic sheet), with evidence photos of DI received / DO operated.",
     "Belum ada panel dengan item uji DI/DO.": "No panels with DI/DO test items yet.",
+    "{0} foto evidence. Foto dikompres, ikut sinkron ke cloud & tercetak di report.": "{0} evidence photo(s). Photos are compressed, synced to the cloud and printed in reports.",
+    "Tambah foto evidence pengukuran (layar alat ukur)": "Add measurement evidence photo (meter display)",
+    "Foto evidence: {0}": "Evidence photos: {0}",
+    "Foto Evidence Pengukuran": "Measurement Evidence Photos",
+    "Sertakan foto evidence pengukuran": "Include measurement evidence photos",
 }

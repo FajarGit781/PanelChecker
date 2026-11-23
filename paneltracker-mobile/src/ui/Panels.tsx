@@ -1,9 +1,12 @@
-import { useEffect, useState } from "preact/hooks";
-import { checksOf, issuesOf, panelOverview, sitesOf } from "../data";
+import { useEffect, useRef, useState } from "preact/hooks";
+import { checksOf, evidenceOf, issuesOf, panelOverview, sitesOf } from "../data";
+import { resizeImage } from "../image";
+import { session } from "../session";
 import { t } from "../i18n";
 import { checkStats, nowLocal, panelStatus, Row, today } from "../logic";
 import { store } from "../store";
-import { ipWarning, isSasSection, nextResult, SAS_COLS, SasDevice, sasMatrix } from "../sas";
+import { ipWarning, isSasSection, needsEvidence, nextResult, SAS_COLS, SasDevice, sasMatrix } from "../sas";
+import { Thumb, Viewer } from "./Punches";
 import { projectCrumbs } from "./Home";
 import { Icon, Lamp, LAMP, Meter, PANEL_LAMP, Plate, SearchBox, STATUS_LAMP, TopBar, useNav, useSession, useStore, INK } from "./common";
 
@@ -118,6 +121,8 @@ export function PanelDetail({ id }: { id: string }) {
     if (val === "NG" && !(byCheck.get(c.uuid) || []).some((i) => i.status !== "Closed")) {
       nav.toast(t("Item NG dicatat. Lengkapi punch untuk temuan ini."));
       nav.go({ name: "punch", preset: punchPreset(p!, c) });
+    } else if (val === "OK" && needsEvidence(c.section, c.unit) && evidenceOf(c.uuid).length === 0) {
+      nav.toast(t("Item OK. Tambahkan foto evidence (tombol kamera)."));
     }
   }
 
@@ -189,6 +194,51 @@ export function PanelDetail({ id }: { id: string }) {
         })}
       </div>
     </>
+  );
+}
+
+// ======================================================================= foto evidence DI/DO
+/** Bukti DI masuk / DO bekerja / hasil ukur: foto HMI, LED BCU, layar alat ukur — disimpan per item checklist. */
+function Evidence({ c, ro }: { c: Row; ro: boolean }) {
+  const nav = useNav();
+  const cam = useRef<HTMLInputElement>(null);
+  const gal = useRef<HTMLInputElement>(null);
+  const [viewer, setViewer] = useState<{ blob?: Blob; att: Row } | null>(null);
+  const ev = evidenceOf(c.uuid);
+  const need = c.result === "OK" && ev.length === 0;
+  async function onFiles(e: any) {
+    const files: File[] = [...(e.currentTarget.files || [])];
+    e.currentTarget.value = "";
+    for (const file of files) {
+      try {
+        const blob = await resizeImage(file);
+        const att = await store.create("attachments", { check_uuid: c.uuid, issue_uuid: null, kind: "evidence",
+          filename: `evidence_${new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14)}.jpg`, caption: "", storage_path: null });
+        await store.setPhoto(att.uuid, blob);
+      } catch {
+        nav.toast(t("Foto tidak bisa dibaca. Coba ambil ulang."));
+      }
+    }
+    if (files.length && navigator.onLine) session.sync();
+  }
+  if (ro && !ev.length) return null;
+  return (
+    <div class={"evidence" + (need ? " need" : "")}>
+      <div class="ev-h"><Icon name="camera" size={16} />{t("Foto evidence")} <span>{ev.length}</span>
+        {need && <em>{t("belum ada bukti")}</em>}</div>
+      <div class="ev-row">
+        {ev.map((a) => <Thumb key={a.uuid} att={a} onOpen={(b) => setViewer({ blob: b, att: a })} />)}
+        {!ro && <button class="shoot" onClick={() => cam.current?.click()} aria-label={t("Ambil foto evidence")}><Icon name="camera" />{t("Kamera")}</button>}
+        {!ro && <button class="shoot" onClick={() => gal.current?.click()} aria-label={t("Pilih dari galeri")}><Icon name="image" />{t("Galeri")}</button>}
+      </div>
+      <input ref={cam} type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={onFiles} />
+      <input ref={gal} type="file" accept="image/*" multiple style={{ display: "none" }} onChange={onFiles} />
+      {viewer && <Viewer blob={viewer.blob} ro={ro} onClose={() => setViewer(null)} onDelete={async () => {
+        if (!confirm(t("Hapus foto ini?"))) return;
+        await store.edit("attachments", viewer.att.uuid, { deleted: 1 });
+        setViewer(null);
+      }} />}
+    </div>
   );
 }
 
@@ -338,6 +388,7 @@ function Step({ c, no, ro, punches, onResult, panel }: { c: Row; no: number; ro:
             onInput={(e: any) => setRemark(e.currentTarget.value)} onBlur={() => save("remark", remark)} />
         </div>
       )}
+      {needsEvidence(c.section, c.unit) && <Evidence c={c} ro={ro} />}
       {(punches.length > 0 || (!ro && c.result === "NG" && open.length === 0)) && (
         <div class="links">
           {punches.map((i) => (

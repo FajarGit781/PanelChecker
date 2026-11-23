@@ -33,6 +33,21 @@ def is_dido_section(section) -> bool:
     return bool(_DIDO.match(section or ""))
 
 
+# satuan yang bukan hasil ukur (konfigurasi): IP address, revisi file
+_NOT_MEASURE = {"ip", "rev", "rev cid"}
+
+
+def is_measurement(unit) -> bool:
+    """Item measurement test = punya satuan ukur (VDC, VAC, MΩ, ms, rasio, …)."""
+    u = (unit or "").strip().lower()
+    return bool(u) and u not in _NOT_MEASURE
+
+
+def needs_evidence(section, unit) -> bool:
+    """Item yang diberi foto evidence: uji DI/DO dan measurement test."""
+    return is_dido_section(section) or is_measurement(unit)
+
+
 def device_name(section) -> str:
     m = _SEC.match(section or "")
     return m.group(1) if m else (section or "")

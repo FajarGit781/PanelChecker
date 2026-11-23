@@ -264,7 +264,7 @@ function useObjectUrl(blob?: Blob) {
   return url;
 }
 
-function Thumb({ att, onOpen }: { att: Row; onOpen: (b?: Blob) => void }) {
+export function Thumb({ att, onOpen }: { att: Row; onOpen: (b?: Blob) => void }) {
   const [blob, setBlob] = useState<Blob | undefined>();
   const [state, setState] = useState("loading");
   useEffect(() => {
@@ -288,7 +288,7 @@ function PendingThumb({ blob, onOpen }: { blob: Blob; onOpen: () => void }) {
   return <button class="thumb" onClick={onOpen}><img src={url} alt="" /><span class="up"><Lamp color={LAMP.amber} /></span></button>;
 }
 
-function Viewer({ blob, ro, onClose, onDelete }: { blob?: Blob; ro: boolean; onClose: () => void; onDelete: () => void }) {
+export function Viewer({ blob, ro, onClose, onDelete }: { blob?: Blob; ro: boolean; onClose: () => void; onDelete: () => void }) {
   const url = useObjectUrl(blob);
   return (
     <div class="viewer" onClick={onClose}>
