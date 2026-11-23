@@ -7,6 +7,7 @@ import { checkStats, nowLocal, panelStatus, Row, today } from "../logic";
 import { store } from "../store";
 import { ipWarning, isSasSection, needsEvidence, nextResult, SAS_COLS, SasDevice, sasMatrix } from "../sas";
 import { Thumb, Viewer } from "./Punches";
+import { renameCheck } from "../sync";
 import { projectCrumbs } from "./Home";
 import { Icon, Lamp, LAMP, Meter, PANEL_LAMP, Plate, SearchBox, STATUS_LAMP, TopBar, useNav, useSession, useStore, INK } from "./common";
 
@@ -197,6 +198,47 @@ export function PanelDetail({ id }: { id: string }) {
   );
 }
 
+// ======================================================================= edit nama item
+/** Ganti nama / kriteria item (mis. nama sinyal DI/DO yang berubah). Lewat PATCH definisi saja → hasil cek yang
+ *  sedang diisi tim di perangkat lain tidak tertimpa. Butuh online. */
+function EditItem({ c, onDone }: { c: Row; onDone: () => void }) {
+  const nav = useNav();
+  const [desc, setDesc] = useState<string>(c.description || "");
+  const [crit, setCrit] = useState<string>(c.criteria || "");
+  const [busy, setBusy] = useState(false);
+  async function save() {
+    if (!desc.trim()) { nav.toast(t("Nama item tidak boleh kosong.")); return; }
+    if (desc.trim() === (c.description || "") && crit.trim() === (c.criteria || "")) { onDone(); return; }
+    if (!navigator.onLine || !session.api) {
+      nav.toast(t("Edit nama item butuh sinyal (online) supaya hasil cek tim tidak tertimpa."));
+      return;
+    }
+    setBusy(true);
+    try {
+      await renameCheck(session.api, c, { description: desc, criteria: crit });
+      nav.toast(t("Item diperbarui."));
+      onDone();
+    } catch (e: any) {
+      nav.toast(t("Gagal menyimpan: {0}", e?.message || String(e)));
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <div class="edit-form">
+      <label>{t("Nama item")}</label>
+      <textarea rows={2} value={desc} onInput={(e: any) => setDesc(e.currentTarget.value)} />
+      <label>{t("Kriteria")}</label>
+      <input value={crit} onInput={(e: any) => setCrit(e.currentTarget.value)} />
+      <div class="row" style={{ gap: 8, marginTop: 8 }}>
+        <button class="btn sm grow" disabled={busy} onClick={onDone}>{t("Batal")}</button>
+        <button class="btn sm primary grow" disabled={busy} onClick={save}>{busy ? t("Menyimpan…") : t("Simpan")}</button>
+      </div>
+      <div class="small muted" style={{ marginTop: 6 }}>{t("Hanya nama & kriteria yang dikirim; hasil cek tidak berubah.")}</div>
+    </div>
+  );
+}
+
 // ======================================================================= foto evidence DI/DO
 /** Bukti DI masuk / DO bekerja / hasil ukur: foto HMI, LED BCU, layar alat ukur — disimpan per item checklist. */
 function Evidence({ c, ro }: { c: Row; ro: boolean }) {
@@ -364,15 +406,17 @@ function Step({ c, no, ro, punches, onResult, panel }: { c: Row; no: number; ro:
   };
   const open = punches.filter((i) => i.status !== "Closed");
   const showNotes = !ro || c.value || c.remark;
+  const [editing, setEditing] = useState(false);
   return (
     <div class={"step " + (c.result || "")}>
       <div class="top">
         <div class="no">{no}</div>
         <div class="grow">
-          <div class="d">{c.description}</div>
+          {editing ? <EditItem c={c} onDone={() => setEditing(false)} /> : <div class="d">{c.description}</div>}
           {c.criteria && <div class="crit">{t("Kriteria")}: <b>{c.criteria}{c.unit ? ` ${c.unit}` : ""}</b></div>}
           {c.checked_by && <div class="by">{t("Dicek {0}, {1}", c.checked_by, String(c.checked_at || "").slice(0, 10))}</div>}
         </div>
+        {!ro && !editing && <button class="edit-item" aria-label={t("Edit nama item")} onClick={() => setEditing(true)}><Icon name="edit" size={18} /></button>}
       </div>
       <div class="push">
         {(["OK", "NG", "NA"] as const).map((k) => (

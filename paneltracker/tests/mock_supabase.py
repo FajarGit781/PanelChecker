@@ -93,6 +93,25 @@ class H(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Max-Age", "600")
         self.end_headers()
 
+    def do_PATCH(self):
+        """PostgREST PATCH ?uuid=eq.X: hanya kolom yang dikirim yang berubah (dipakai edit nama item)."""
+        u = urllib.parse.urlparse(self.path)
+        n = int(self.headers.get("Content-Length") or 0)
+        body = json.loads(self.rfile.read(n) or b"{}")
+        email = self._user()
+        if not email:
+            return self._send(401, {"message": "JWT invalid"})
+        if MEMBERS.get(email) not in ("engineer", "vendor", "admin"):
+            return self._send(403, {"message": "denied"})
+        t = u.path.split("/rest/v1/")[1]
+        uid = urllib.parse.parse_qs(u.query)["uuid"][0].split("eq.", 1)[1]
+        with LOCK:
+            r = TABLES[t].get(uid)
+            if r is not None:
+                r.update(body)
+                r["server_updated_at"] = server_now()
+        return self._send(204)
+
     def do_PUT(self):
         u = urllib.parse.urlparse(self.path)
         n = int(self.headers.get("Content-Length") or 0)

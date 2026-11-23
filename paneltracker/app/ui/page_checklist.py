@@ -6,7 +6,7 @@ from ..i18n import tr
 from PySide6.QtCore import QSize, Qt, QTimer
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
-    QAbstractItemView, QComboBox, QDialog, QDialogButtonBox, QFormLayout, QFrame, QGridLayout, QHBoxLayout, QInputDialog,
+    QAbstractItemView, QApplication, QComboBox, QDialog, QDialogButtonBox, QFormLayout, QFrame, QGridLayout, QHBoxLayout, QInputDialog,
     QLabel, QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton, QScrollArea, QSizePolicy, QSplitter,
     QToolButton, QVBoxLayout, QWidget, QButtonGroup,
 )
@@ -281,9 +281,31 @@ class CheckRow(QFrame):
 
     def _edit(self):
         d = CheckItemDialog(self, self.view.sections(), self.row)
-        if d.exec():
-            self.view.main.db.update_check_item(self.cid, **d.values())
-            self.view.load(self.view.panel_id)
+        if not d.exec():
+            return
+        main = self.view.main
+        sync = getattr(main, "sync", None)
+        if sync is not None and sync.cfg.logged_in:
+            # tim bisa sedang mengisi hasil di HP/laptop lain → kirim definisi item saja (hasil tidak tertimpa)
+            if sync.busy():
+                warn(self, tr('Sinkron sedang berjalan. Tunggu sebentar lalu ulangi edit item.'))
+                return
+            from ..cloud import SupabaseClient, rename_check
+            QApplication.setOverrideCursor(Qt.WaitCursor)
+            try:
+                c = SupabaseClient(sync.cfg.url, sync.cfg.key, timeout=20)
+                c.restore(sync.cfg.get("refresh_token"))
+                sync.cfg.set("refresh_token", c.refresh_token)
+                rename_check(main.db, c, self.cid, **d.values())
+            except Exception as e:  # noqa: BLE001
+                QApplication.restoreOverrideCursor()
+                warn(self, tr('Edit item tidak tersimpan. Edit nama/kriteria item butuh koneksi ke cloud supaya '
+                              'hasil cek tim tidak tertimpa.\n\n{0}', e))
+                return
+            QApplication.restoreOverrideCursor()
+        else:
+            main.db.update_check_item(self.cid, **d.values())
+        self.view.load(self.view.panel_id)
 
     def _delete(self):
         if ask(self, tr("Hapus item '{0}' dari checklist panel ini?", self.row['description'])):

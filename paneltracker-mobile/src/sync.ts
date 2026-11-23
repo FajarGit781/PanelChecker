@@ -25,6 +25,20 @@ const ORDER: Table[] = ["projects", "sites", "panels", "panel_checks", "issues",
 const REQUIRED: Partial<Record<Table, string>> = {
   sites: "project_uuid", panels: "site_uuid", panel_checks: "panel_uuid", issues: "project_uuid",
 };
+/** Definisi item checklist: bisa diedit terpisah dari hasil cek (lihat renameCheck). */
+export const CHECK_DEF_FIELDS = ["section", "description", "criteria", "unit"];
+
+/** Edit nama/kriteria item dengan aman: hanya kolom definisi dikirim (PATCH, tanpa updated_at), jadi hasil cek
+ *  di cloud dan di perangkat lain tidak tertimpa. Lokal: definisi diubah tanpa updated_at/_dirty baru. */
+export async function renameCheck(api: Api, c: Row, defs: Row) {
+  const fields: Row = {};
+  for (const f of CHECK_DEF_FIELDS) if (f in defs) fields[f] = String(defs[f] ?? "").trim();
+  if ("description" in fields && !fields.description) throw new Error("Nama item tidak boleh kosong");
+  await api.patch("panel_checks", c.uuid, fields);
+  const cur = store.get("panel_checks", c.uuid);
+  if (cur) await store.putRaw("panel_checks", [{ ...cur, ...fields }]);
+}
+
 /** Lampiran: foto punch (issue_uuid) atau foto evidence item checklist (check_uuid). */
 const hasParent = (t: Table, r: Row) => t !== "attachments" || !!(r.issue_uuid || r.check_uuid);
 
@@ -86,7 +100,16 @@ export class SyncEngine {
   private async prepare(t: Table, r: Row): Promise<Row | null> {
     const local = store.get(t, r.uuid);
     const relink = t === "attachments" && local && r.check_uuid && !local.check_uuid && !local._dirty;
-    if (local && (local.updated_at || "") >= (r.updated_at || "") && !relink) return null;  // lokal sama/lebih baru
+    if (local && (local.updated_at || "") >= (r.updated_at || "") && !relink) {
+      // edit nama/kriteria item (PATCH tanpa updated_at): terapkan definisinya saja; hasil cek lokal
+      // (termasuk yang belum terkirim) tidak disentuh
+      if (t === "panel_checks" && CHECK_DEF_FIELDS.some((f) => (local[f] || "") !== (r[f] || ""))) {
+        const row = { ...local };
+        for (const f of CHECK_DEF_FIELDS) row[f] = r[f] || "";
+        return row;
+      }
+      return null;  // lokal sama/lebih baru
+    }
     const req = REQUIRED[t];
     if (req && !r[req]) return null;
     if (!hasParent(t, r)) return null;

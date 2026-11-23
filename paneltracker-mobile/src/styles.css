@@ -372,3 +372,7 @@ td.na-cell { color: var(--faint); }
 .evidence.empty .shoot { aspect-ratio: auto; height: 40px; padding: 0 10px; flex-direction: row; gap: 4px; font-size: 13px; }
 .evidence.empty .ev-h { white-space: nowrap; min-width: 0; }
 .evidence.empty .ev-h em { display: none; }
+/* edit nama item */
+.step .edit-item { align-self: flex-start; border: 0; background: none; color: var(--faint); padding: 2px 0 6px 6px; }
+.edit-form label { display: block; font: 600 12px var(--cond); color: var(--muted); margin: 4px 0 2px; }
+.edit-form textarea, .edit-form input { width: 100%; box-sizing: border-box; font: inherit; padding: 8px; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }

@@ -315,4 +315,12 @@ export const EN: Record<string, string> = {
   "belum ada bukti": "no evidence yet",
   "Ambil foto evidence": "Take evidence photo",
   "Item OK. Tambahkan foto evidence (tombol kamera).": "Item OK. Add an evidence photo (camera button).",
+  // v1.2.2 edit nama item
+  "Edit nama item": "Edit item name",
+  "Nama item": "Item name",
+  "Nama item tidak boleh kosong.": "Item name cannot be empty.",
+  "Edit nama item butuh sinyal (online) supaya hasil cek tim tidak tertimpa.": "Editing an item name needs a connection (online) so the team's results are not overwritten.",
+  "Item diperbarui.": "Item updated.",
+  "Gagal menyimpan: {0}": "Save failed: {0}",
+  "Hanya nama & kriteria yang dikirim; hasil cek tidak berubah.": "Only the name & criteria are sent; test results are unchanged.",
 };

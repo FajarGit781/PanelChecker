@@ -18,8 +18,8 @@ srv, URL = M.start()
 def dsync(db):
     c = SupabaseClient(URL, "k"); c.sign_in("a@test.id", "Kuat-Sekali-123a"); return SyncEngine(db, c).run()
 lap = Database(f"{D}/laptop.db"); pid = create_demo(lap); print("desktop push:", dsync(lap))
-def mobile(phase):
-    env = dict(os.environ, MOCK_URL=URL, PHASE=phase)
+def mobile(phase, **extra):
+    env = dict(os.environ, MOCK_URL=URL, PHASE=phase, **extra)
     r = subprocess.run(["npx", "vitest", "run", "tests/interop.test.ts", "--reporter=dot"], cwd=_MOBILE,
                        env=env, capture_output=True, text=True, timeout=300)
     out = r.stdout + r.stderr
@@ -62,5 +62,15 @@ try:
     c.upsert("issues", [{"uuid": "x", "updated_at": "2030", "deleted": 0}]); print("!! viewer bisa menulis")
 except Exception as e:
     print("viewer ditolak server:", str(e)[:60])
+# edit nama item dari HP saat laptop punya hasil yang belum terkirim (dan sebaliknya, di sisi HP)
+cb_row = [c for c in lap.panel_checks(chk["panel_id"]) if not c["result"]][0]
+lap.set_check(cb_row["id"], result="OK", remark="hasil laptop belum sinkron")
+rc, out = mobile("rename", CHECK_B=cb_row["uuid"]); assert rc == 0, out[-3000:]
+print("desktop pull setelah rename HP:", dsync(lap))
+rb = lap.check(cb_row["id"])
+assert rb["description"] == "Nama baru dari HP" and rb["result"] == "OK" and rb["remark"] == "hasil laptop belum sinkron", dict(rb)
+sv = M.TABLES["panel_checks"][cb_row["uuid"]]
+assert sv["description"] == "Nama baru dari HP" and sv["result"] == "OK", sv
+print("rename HP: nama baru + hasil laptop utuh")
 srv.shutdown()
 print("INTEROP OK")

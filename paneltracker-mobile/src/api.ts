@@ -126,6 +126,12 @@ export class Api {
         { headers: { Prefer: "resolution=merge-duplicates,return=minimal" } });
   }
 
+  /** Update sebagian kolom satu baris tanpa updated_at → kolom lain di server (hasil cek) tidak tersentuh. */
+  async patch(table: string, uuid: string, fields: Row) {
+    await this.req("PATCH", `/rest/v1/${table}?uuid=eq.${encodeURIComponent(uuid)}`, fields,
+      { headers: { Prefer: "return=minimal" } });
+  }
+
   async teamSettings(keys: string[]): Promise<Row[]> {
     return (await this.req("GET", `/rest/v1/team_settings?select=key,value,updated_at,deleted&key=in.(${keys.join(",")})`)) || [];
   }

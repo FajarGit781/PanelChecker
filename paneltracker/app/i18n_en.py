@@ -729,4 +729,6 @@ EN = {
     "Foto evidence: {0}": "Evidence photos: {0}",
     "Foto Evidence Pengukuran": "Measurement Evidence Photos",
     "Sertakan foto evidence pengukuran": "Include measurement evidence photos",
+    "Sinkron sedang berjalan. Tunggu sebentar lalu ulangi edit item.": "Sync is running. Wait a moment, then edit the item again.",
+    "Edit item tidak tersimpan. Edit nama/kriteria item butuh koneksi ke cloud supaya hasil cek tim tidak tertimpa.\n\n{0}": "Item not saved. Editing an item name/criteria needs a cloud connection so the team's test results are not overwritten.\n\n{0}",
 }

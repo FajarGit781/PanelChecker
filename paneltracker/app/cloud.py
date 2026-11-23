@@ -234,6 +234,11 @@ class SupabaseClient:
             rows = self._req("GET", f"/rest/v1/app_users?select=email,full_name,role&email=ilike.{q}")
         return rows[0] if rows else None
 
+    def patch(self, table, uuid_, fields: dict):
+        """Update sebagian kolom satu baris (tanpa updated_at) → kolom lain di server tidak tersentuh."""
+        self._req("PATCH", f"/rest/v1/{table}?uuid=eq.{urllib.parse.quote(str(uuid_))}", fields,
+                  headers={"Prefer": "return=minimal"})
+
     def upsert(self, table, rows):
         if rows:
             self._req("POST", f"/rest/v1/{table}?on_conflict=uuid", rows,
@@ -273,6 +278,7 @@ MAP = {
                    {"issue_id": ("issue", "issue_uuid"), "check_id": ("panel_check", "check_uuid")}),
 }
 ORDER = ["project", "site", "panel", "check_template", "panel_check", "issue", "attachment"]
+CHECK_DEF_FIELDS = ("section", "description", "criteria", "unit")   # definisi item (bisa diedit terpisah dari hasil)
 REQUIRED_FK = {"site": "project_id", "panel": "site_id", "panel_check": "panel_id", "issue": "project_id"}
 
 
@@ -451,6 +457,13 @@ class SyncEngine:
         if local is not None:
             relink = (t == "attachment" and r.get("check_uuid") and not local["check_id"] and not local["dirty"])
             if (local["updated_at"] or "") >= (r["updated_at"] or "") and not relink:
+                # edit nama/kriteria item (PATCH tanpa updated_at): terapkan definisinya saja,
+                # hasil cek lokal (termasuk yang belum terkirim) tidak disentuh
+                if t == "panel_check" and any((local[f] or "") != (r.get(f) or "") for f in CHECK_DEF_FIELDS):
+                    self.db.conn.execute(
+                        f"UPDATE panel_check SET {', '.join(f + '=?' for f in CHECK_DEF_FIELDS)} WHERE id=?",
+                        (*[r.get(f) or "" for f in CHECK_DEF_FIELDS], local["id"]))
+                    return True
                 return False  # lokal sama / lebih baru → biarkan (akan di-push kalau dirty)
         vals = {c: r.get(c) for c in cols}
         for lcol, (ptable, scol) in fks.items():
@@ -569,3 +582,17 @@ class SyncEngine:
                 self.db.conn.commit()
         self.db.conn.commit()
         return n
+
+
+def rename_check(db, client: "SupabaseClient", check_id, **defs):
+    """Edit definisi item checklist (seksi/nama/kriteria/satuan) dengan aman saat tim sedang mengisi hasil:
+    hanya kolom definisi yang dikirim (PATCH, tanpa updated_at), jadi hasil/nilai/catatan di cloud dan di
+    perangkat lain tidak tertimpa. Lokal: definisi diubah tanpa mengubah updated_at/dirty."""
+    defs = {k: (v or "").strip() for k, v in defs.items() if k in CHECK_DEF_FIELDS}
+    if not defs.get("description", "x"):
+        raise ValueError("description kosong")
+    row = db.check(check_id)
+    client.patch("panel_checks", row["uuid"], defs)
+    db.conn.execute(f"UPDATE panel_check SET {', '.join(k + '=?' for k in defs)} WHERE id=?",
+                    (*defs.values(), check_id))
+    db.conn.commit()

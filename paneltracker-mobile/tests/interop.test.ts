@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { Api } from "../src/api";
 import { checkStats, nextIssueCode, passwordProblems, stamp } from "../src/logic";
 import { store } from "../src/store";
-import { SyncEngine } from "../src/sync";
+import { renameCheck, SyncEngine } from "../src/sync";
 import { evidenceOf, panelOverview } from "../src/data";
 
 const URL_ = process.env.MOCK_URL!;
@@ -73,6 +73,32 @@ describe("mobile ↔ desktop", () => {
       const blob = await SyncEngine.ensurePhoto(api, ev.find((a) => a.filename === "laptop_ev.jpg")!);
       expect(blob && blob.size).toBeGreaterThan(100);
       console.log("viewer ok", JSON.stringify(st));
+    }
+    if (PHASE === "rename") {
+      await store.wipe();
+      const api = await login("a@test.id", "Kuat-Sekali-123a");
+      await new SyncEngine(api).run();
+      const B = store.get("panel_checks", process.env.CHECK_B!)!;
+      expect(B).toBeTruthy();
+      // HP isi hasil item A (belum sinkron), perangkat lain mengganti nama item A
+      const A = store.all("panel_checks").find((c) => !c.result && c.uuid !== B.uuid)!;
+      await store.edit("panel_checks", A.uuid, { result: "NG", remark: "hasil HP belum sinkron", checked_by: "HP" });
+      const other = await login("a@test.id", "Kuat-Sekali-123a");
+      await other.patch("panel_checks", A.uuid, { description: "Nama baru dari perangkat lain" });
+      await new SyncEngine(api).run();
+      const a2 = store.get("panel_checks", A.uuid)!;
+      expect(a2.description).toBe("Nama baru dari perangkat lain");
+      expect(a2.result).toBe("NG");
+      expect(a2.remark).toBe("hasil HP belum sinkron");
+      expect(store.pendingCount()).toBe(0);
+      const srv = (await api.changedSince("panel_checks", "")).find((r) => r.uuid === A.uuid)!;
+      expect(srv.result).toBe("NG");
+      expect(srv.description).toBe("Nama baru dari perangkat lain");
+      // HP mengganti nama item B (laptop sedang punya hasil B yang belum terkirim)
+      await renameCheck(api, B, { description: "Nama baru dari HP" });
+      expect(store.get("panel_checks", B.uuid)!.description).toBe("Nama baru dari HP");
+      expect(store.pendingCount()).toBe(0);
+      console.log("rename ok");
     }
     if (PHASE === "unit") {
       expect(passwordProblems("P@ssw0rd", "fajar@paneltracker.local").length).toBeGreaterThan(0);
