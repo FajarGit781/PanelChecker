@@ -6,7 +6,7 @@ export const BUCKET = "panel-photos";
 export const LOGIN_DOMAIN = "paneltracker.local";
 export const PAGE = 1000;
 export const BATCH = 200;
-export const APP_VERSION = "1.1.5";
+export const APP_VERSION = "1.1.6";
 
 declare const __PT_TEST__: boolean;
 export const IS_TEST = typeof __PT_TEST__ !== "undefined" && __PT_TEST__;

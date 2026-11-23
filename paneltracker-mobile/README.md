@@ -1,4 +1,4 @@
-# Panel Tracker Mobile (Android) v1.1.5
+# Panel Tracker Mobile (Android) v1.1.6
 
 Aplikasi HP pendamping lapangan untuk Panel Tracker. Data sama dengan aplikasi laptop karena keduanya sinkron ke Supabase yang sama.
 
