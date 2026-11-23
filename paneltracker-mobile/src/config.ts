@@ -6,7 +6,7 @@ export const BUCKET = "panel-photos";
 export const LOGIN_DOMAIN = "paneltracker.local";
 export const PAGE = 1000;
 export const BATCH = 200;
-export const APP_VERSION = "1.2.3";
+export const APP_VERSION = "1.3.0";
 /** Situs PWA = sumber update otomatis APK (bundle.json + file build). */
 export const UPDATE_BASE = "https://pt-panel-app.netlify.app/";
 
