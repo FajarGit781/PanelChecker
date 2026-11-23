@@ -3,7 +3,7 @@
    - Halaman: network-first (versi terbaru bila online), cadangan dari cache bila offline.
    - File build ber-hash (assets/*): cache-first.
    - Request ke Supabase (domain lain) TIDAK pernah disentuh / di-cache. */
-const CACHE = "pt-web-v1.2.2";
+const CACHE = "pt-web-v1.2.3";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {
