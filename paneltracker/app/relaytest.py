@@ -84,10 +84,10 @@ CURVES = {  # IEC 60255-151 / IEEE C37.112: (k, alpha, B) → t = TMS·(k/(M^α�
 # parameter per jenis: (kunci, label, satuan)
 PARAMS = {
     "idmt": [("kurva", "Kurva", ""), ("Is", "Is (sekunder)", "A"), ("TMS", "TMS / waktu DT", "")],
-    "dt": [("P", "Pickup", "@"), ("t", "Waktu trip", "s")],
+    "dt": [("P", "Pickup (sekunder)", "@"), ("t", "Waktu trip", "s")],
     "diff": [("Is1", "Is1", "In"), ("K1", "Slope K1", "%"), ("Is2", "Is2 (tekuk)", "In"), ("K2", "Slope K2", "%")],
     "pct": [("P", "Setting", "%")],
-    "bf": [("I", "I> CB fail", "A"), ("t1", "t1 retrip", "s"), ("t2", "t2 backtrip", "s")],
+    "bf": [("I", "I> CB fail (sekunder)", "A"), ("t1", "t1 retrip", "s"), ("t2", "t2 backtrip", "s")],
     "ar": [("td", "Dead time", "s"), ("tr", "Reclaim time", "s")],
     "sync": [("dV", "ΔV", "V"), ("df", "Δf", "Hz"), ("dphi", "Δφ", "°")],
     "avr": [("V", "Setpoint (sekunder)", "V"), ("BW", "Bandwidth ±", "%"), ("T1", "Delay T1", "s")],

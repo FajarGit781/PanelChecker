@@ -2,7 +2,7 @@ import { issuesOf, panelOverview, projects, sitesOf } from "../data";
 import { t } from "../i18n";
 import { isOverdue, Row, today } from "../logic";
 import { store } from "../store";
-import { Icon, Lamp, LAMP, Meter, PANEL_LAMP, PunchTag, TopBar, useNav, useStore, INK } from "./common";
+import { Icon, Lamp, LAMP, Meter, PANEL_LAMP, PunchTag, TopBar, useNav, useStore, INK, portal } from "./common";
 
 export function projectCrumbs(nav: { project: string; site: string }) {
   const pr = store.get("projects", nav.project);
@@ -109,7 +109,7 @@ export function Home() {
 export function ProjectSheet({ onClose }: { onClose: () => void }) {
   const nav = useNav();
   const ps = projects();
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" />

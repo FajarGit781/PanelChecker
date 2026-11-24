@@ -521,4 +521,6 @@ export const EN: Record<string, string> = {
   "V di dalam band → tidak ada perintah": "V inside band → no command",
   "Tidak ada Raise/Lower": "No Raise/Lower",
   "Uji Proteksi": "Protection test",
+  "Pickup (sekunder)": "Pickup (secondary)",
+  "I> CB fail (sekunder)": "I> CB fail (secondary)",
 };

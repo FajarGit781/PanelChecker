@@ -36,6 +36,10 @@ OVERFLOW = """() => { const W = document.documentElement.clientWidth, out = [];
   if (document.documentElement.scrollWidth > W + 1) out.push('page ' + document.documentElement.scrollWidth);
   for (const el of document.querySelectorAll('.prot *, .sheet-modal *')) { if (el.closest('.chips,.seg')) continue;
     const r = el.getBoundingClientRect(); if (r.width && (r.right > W + 1 || r.left < -1)) out.push(el.tagName + '.' + el.className); }
+  for (const b of document.querySelectorAll('.sheet-modal button.primary')) { const r = b.getBoundingClientRect();
+    const hit = document.elementFromPoint(r.left + r.width / 2, Math.min(r.top + r.height / 2, innerHeight - 2));
+    if (!hit || !(b === hit || b.contains(hit))) out.push('tombol Simpan tertutup oleh ' + (hit ? hit.tagName + '.' + hit.className : 'luar layar'));
+    if (r.bottom > innerHeight + 1) out.push('tombol Simpan di luar layar'); }
   return [...new Set(out)].slice(0, 8); }"""
 
 for label in ("iphone", "android"):
@@ -68,7 +72,7 @@ for label in ("iphone", "android"):
     print(f"== {label}")
     with sync_playwright() as p:
         if label == "iphone":
-            b = p.webkit.launch(); ctx = b.new_context(**{**p.devices["iPhone 13"], "viewport": {"width": 375, "height": 812}})
+            b = p.webkit.launch(); ctx = b.new_context(**{**p.devices["iPhone 13"], "viewport": {"width": 375, "height": 667}})   # layar pendek (iPhone SE): form panjang harus tetap bisa disimpan
         else:
             b = p.chromium.launch(); ctx = b.new_context(viewport={"width": 360, "height": 780}, device_scale_factor=2, is_mobile=True, has_touch=True)
         pg = ctx.new_page()
@@ -112,6 +116,7 @@ for label in ("iphone", "android"):
         pg.locator(".prot .inj-pt").nth(0).scroll_into_view_if_needed(); shot("p03_values")
         # setting 87T
         pg.locator(".prot .inj-pt").nth(1).locator("button:has-text('Setting')").click(); pg.wait_for_selector(".sheet-modal .fld input")
+        shot("p02b_setting_87T")
         for i, v in enumerate(["0.2", "30", "1", "80"]):
             pg.locator(".sheet-modal .fld input").nth(i).fill(v)
         pg.click(".sheet-modal button.primary"); time.sleep(1)

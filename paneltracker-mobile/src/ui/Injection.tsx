@@ -9,7 +9,7 @@ import { nowLocal, Row } from "../logic";
 import { session } from "../session";
 import { store } from "../store";
 import { renameCheck } from "../sync";
-import { Icon, INK, Lamp, STATUS_LAMP, useNav } from "./common";
+import { Icon, INK, Lamp, STATUS_LAMP, useNav, portal } from "./common";
 import { Evidence, punchPreset } from "./Panels";
 import { evidenceOf } from "../data";
 
@@ -288,7 +288,7 @@ function ReviewSheet({ review, keys, exp, current, onApply, onClose }: {
   const [use, setUse] = useState<Record<string, boolean>>(() => Object.fromEntries(hits.map((k) => [k, review.found[k]!.conf !== "low"])));
   const n = hits.filter((k) => use[k]).length;
   const CONF = { high: [t("Jelas"), INK.green], medium: [t("Agak ragu"), INK.amber], low: [t("Ragu"), INK.red] } as const;
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" />
@@ -318,7 +318,7 @@ function ReviewSheet({ review, keys, exp, current, onApply, onClose }: {
           {t("Tidak terbaca: {0}. Isi manual atau coba foto lain.", keys.filter((k) => !review.found[k]).map(keyLabel).join(", "))}</div>}
         <details style={{ margin: "6px 16px" }}><summary class="small muted">{t("Teks mentah hasil OCR")}</summary>
           <pre class="inj-raw">{review.raw}</pre></details>
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" disabled={!n} onClick={() => onApply(Object.fromEntries(hits.filter((k) => use[k]).map((k) => [k, review.found[k]!.value])))}>
             {t("Masukkan {0} nilai ke Actual", n)}</button>
@@ -401,12 +401,12 @@ function SetupSheet({ g, s, section, panel, who, onClose }: { g: ReturnType<type
       setBusy(false);
     }
   }
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>{t("Setup uji injeksi")}</h2>
         <SetupFields v={v} set={setV} />
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" disabled={busy} onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" disabled={busy} onClick={save}>{busy ? t("Menyimpan…") : t("Simpan")}</button>
         </div>
@@ -427,13 +427,13 @@ function PointSheet({ g, s, section, panel, who, onClose }: { g: ReturnType<type
     for (const [pi, pv, phi, hz] of pts) await addItems(panel.uuid, I.pointItems(section, s, ++n, pi, pv, phi, hz), who);
     onClose();
   }
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>{t("Tambah titik uji")}</h2>
         <PointFields v={v} set={setV as any} mode={mode} setMode={setMode} list />
         <Preview s={s} pts={typeof pts === "string" ? [] : pts} start={Math.max(0, ...g.points.map((p) => p.n)) + 1} />
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" onClick={save}>{t("Tambah")}</button>
         </div>
@@ -496,7 +496,7 @@ export function CreateInjection({ panel, checks, who, onClose }: { panel: Row; c
     if (navigator.onLine) session.sync();
     onClose();
   }
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>{t("Uji injeksi CT/VT baru")}</h2>
@@ -510,7 +510,7 @@ export function CreateInjection({ panel, checks, who, onClose }: { panel: Row; c
         <SetupFields v={v} set={setV} />
         <PointFields v={pt} set={setPt as any} list mode={mode} setMode={setMode} />
         <Preview s={readSetup(v)} pts={typeof pts === "string" ? [] : pts} />
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" onClick={save}>{t("Buat")}</button>
         </div>

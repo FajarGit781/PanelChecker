@@ -9,7 +9,7 @@ import { session } from "../session";
 import { store } from "../store";
 import { renameCheck } from "../sync";
 import { evidenceOf } from "../data";
-import { Icon, INK, Lamp, STATUS_LAMP, useNav } from "./common";
+import { Icon, INK, Lamp, STATUS_LAMP, useNav, portal } from "./common";
 import { Evidence, punchPreset } from "./Panels";
 import { ratioDevices } from "../injection";
 
@@ -235,7 +235,7 @@ function SettingSheet({ f, p, tol, who, onClose }: { f: Func; p: R.Params; tol: 
       setBusy(false);
     }
   }
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>F{f.n} · {f.code} · {t(f.name)}</h2>
@@ -258,7 +258,7 @@ function SettingSheet({ f, p, tol, who, onClose }: { f: Func; p: R.Params; tol: 
             {preview.map(([l, u, e, tt]) => <div class="inj-prev-r"><b>{t(l)}</b> → {e === null ? "—" : `${R.fmt(e, u)} ${u} ±${R.fmt(tt!, u)}`}</div>)}
           </div>
         )}
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" disabled={busy} onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" disabled={busy} onClick={save}>{busy ? t("Menyimpan…") : t("Simpan")}</button>
         </div>
@@ -292,7 +292,7 @@ function TolSheet({ g, who, onClose }: { g: ReturnType<typeof R.group>; who: str
   const f = (k: keyof typeof v, label: string, u: string) => (
     <label class="fld"><span>{label}</span><div class="in"><input inputMode="decimal" value={v[k]} onInput={(e: any) => setV({ ...v, [k]: e.currentTarget.value })} /><i>{u}</i></div></label>
   );
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>{t("Toleransi uji")}</h2>
@@ -301,7 +301,7 @@ function TolSheet({ g, who, onClose }: { g: ReturnType<typeof R.group>; who: str
           {f("p_pct", t("Pickup ±"), "%")}
           <div class="small muted">{t("Standar IEC 60255-151: waktu ±5% atau ±40 ms (ambil yang lebih besar), pickup ±5%.")}</div>
         </div>
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" disabled={busy} onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" disabled={busy} onClick={save}>{busy ? t("Menyimpan…") : t("Simpan")}</button>
         </div>
@@ -336,7 +336,7 @@ export function CreateProtection({ panel, checks, who, onClose }: { panel: Row; 
     if (navigator.onLine) session.sync();
     onClose();
   }
-  return (
+  return portal(
     <div class="sheet-modal" onClick={onClose}>
       <div class="panel" onClick={(e) => e.stopPropagation()}>
         <div class="grip" /><h2>{t("Uji proteksi relay baru")}</h2>
@@ -354,7 +354,7 @@ export function CreateProtection({ panel, checks, who, onClose }: { panel: Row; 
             </label>
           ))}
         </div>
-        <div class="row" style={{ gap: 8, margin: "10px 16px 0" }}>
+        <div class="row sheet-actions">
           <button class="btn grow" onClick={onClose}>{t("Batal")}</button>
           <button class="btn primary grow" onClick={save}>{t("Buat ({0} fungsi)", sel.length)}</button>
         </div>

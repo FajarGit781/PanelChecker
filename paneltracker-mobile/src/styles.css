@@ -470,4 +470,9 @@ table.inj-ch { width: 100%; border-collapse: collapse; margin-top: 8px; font-var
 .inj-t tr.chk td { font-size: 14px; }
 .prot-check-row { display: grid; gap: 6px; margin-top: 6px; }
 .prot-check-row .links { display: flex; flex-wrap: wrap; gap: 6px; }
+/* tombol Batal/Simpan selalu terlihat di bawah form, berapa pun panjangnya */
+.sheet-actions { position: sticky; bottom: calc(-12px - var(--safe-bottom)); z-index: 2; gap: 8px; margin: 10px 0 0;
+  padding: 10px 16px calc(12px + var(--safe-bottom)); background: var(--sheet); border-top: 1px solid var(--rule); }
+.sheet-modal { z-index: 70; }
+.viewer { z-index: 80; }
 

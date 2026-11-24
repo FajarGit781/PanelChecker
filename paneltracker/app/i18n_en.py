@@ -973,4 +973,6 @@ EN = {
     "Ibias 1 In": "Ibias 1 In",
     "Ibias 2 In": "Ibias 2 In",
     "Ibias 4 In": "Ibias 4 In",
+    "Pickup (sekunder)": "Pickup (secondary)",
+    "I> CB fail (sekunder)": "I> CB fail (secondary)",
 }

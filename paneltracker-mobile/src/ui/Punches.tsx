@@ -8,7 +8,7 @@ import { session } from "../session";
 import { store } from "../store";
 import { SyncEngine } from "../sync";
 import { projectCrumbs } from "./Home";
-import { Icon, Lamp, LAMP, PunchTag, SearchBox, SEV_COLOR, STATUS_LAMP, TopBar, useNav, useSession, useStore, INK } from "./common";
+import { Icon, Lamp, LAMP, PunchTag, SearchBox, SEV_COLOR, STATUS_LAMP, TopBar, useNav, useSession, useStore, INK, portal } from "./common";
 
 const SFILTERS: [string, (i: Row) => boolean, string?][] = [
   ["Belum close", (i) => i.status !== "Closed"],
@@ -290,7 +290,7 @@ function PendingThumb({ blob, onOpen }: { blob: Blob; onOpen: () => void }) {
 
 export function Viewer({ blob, ro, onClose, onDelete }: { blob?: Blob; ro: boolean; onClose: () => void; onDelete: () => void }) {
   const url = useObjectUrl(blob);
-  return (
+  return portal(
     <div class="viewer" onClick={onClose}>
       {url && <img src={url} alt="" />}
       <div class="bar2" onClick={(e) => e.stopPropagation()}>

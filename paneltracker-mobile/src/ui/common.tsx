@@ -1,4 +1,5 @@
-import { createContext } from "preact";
+import { createContext, VNode } from "preact";
+import { createPortal } from "preact/compat";
 import { useContext, useEffect, useReducer, useState } from "preact/hooks";
 import { session } from "../session";
 import { store } from "../store";
@@ -170,3 +171,10 @@ export function PunchTag({ i, onClick }: { i: Row; onClick: () => void }) {
     </button>
   );
 }
+
+/** Lapisan paling atas (langsung di <body>): form & penampil foto tidak boleh tertutup bar menu bawah.
+ *  Di iPhone, elemen fixed di dalam area daftar yang bisa digulir bisa tergambar di bawah bar menu. */
+export function portal(el: VNode) {
+  return createPortal(el, document.body);
+}
+
