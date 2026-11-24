@@ -10,6 +10,8 @@ import { Thumb, Viewer } from "./Punches";
 import { renameCheck } from "../sync";
 import { isInjectionSection } from "../injection";
 import { CreateInjection, InjectionBlock } from "./Injection";
+import { isProtectionSection } from "../relaytest";
+import { CreateProtection, ProtectionBlock } from "./Protection";
 import { projectCrumbs } from "./Home";
 import { Icon, Lamp, LAMP, Meter, PANEL_LAMP, Plate, SearchBox, STATUS_LAMP, TopBar, useNav, useSession, useStore, INK } from "./common";
 
@@ -99,6 +101,7 @@ export function PanelDetail({ id }: { id: string }) {
   const sas = sasMatrix(checks);
   const [view, setViewState] = useState<string>(() => localStorage.getItem(VIEW_KEY) || "matrix");
   const [newInj, setNewInj] = useState(false);
+  const [newProt, setNewProt] = useState(false);
   const setView = (v: string) => { localStorage.setItem(VIEW_KEY, v); setViewState(v); };
   const matrix = sas.length > 0 && view === "matrix";
   const inMatrix = new Set<string>();
@@ -131,7 +134,7 @@ export function PanelDetail({ id }: { id: string }) {
   }
 
   async function markRestOk() {
-    const rest = checks.filter((c) => !c.result && !isInjectionSection(c.section));   // uji injeksi butuh nilai ukur
+    const rest = checks.filter((c) => !c.result && !isInjectionSection(c.section) && !isProtectionSection(c.section));   // uji injeksi/proteksi butuh nilai ukur
     if (!rest.length || !confirm(t("Tandai {0} item yang belum dicek sebagai OK?", rest.length))) return;
     for (const c of rest) await store.edit("panel_checks", c.uuid, { result: "OK", checked_by: who, checked_at: nowLocal() });
     nav.toast(t("{0} item ditandai OK.", rest.length));
@@ -169,10 +172,11 @@ export function PanelDetail({ id }: { id: string }) {
             <button class="btn sm" onClick={() => nav.go({ name: "punches", panel: id })}>
               <Lamp color={open ? LAMP.red : LAMP.off} />{t("Punch panel")} ({open}/{punches.length})</button>
             {!ro && <button class="btn sm primary" onClick={() => nav.go({ name: "punch", preset: { panel_uuid: id } })}><Icon name="plus" size={18} />{t("Punch")}</button>}
-            {!ro && checks.some((c) => !c.result && !isInjectionSection(c.section)) &&
+            {!ro && checks.some((c) => !c.result && !isInjectionSection(c.section) && !isProtectionSection(c.section)) &&
               <button class="btn sm" onClick={markRestOk}>{t("Sisa item OK")}</button>}
             {!ro && !p.accepted_at && st.total > 0 && <button class="btn sm dark" onClick={accept}><Icon name="shield" size={18} />{t("Terima panel")}</button>}
             {!ro && <button class="btn sm" onClick={() => setNewInj(true)}><Icon name="bolt" size={18} />{t("Uji injeksi CT/VT")}</button>}
+            {!ro && <button class="btn sm" onClick={() => setNewProt(true)}><Icon name="shield" size={18} />{t("Uji proteksi relay")}</button>}
           </div>
         </div>
 
@@ -191,6 +195,9 @@ export function PanelDetail({ id }: { id: string }) {
           if (isInjectionSection(sec)) {
             return <InjectionBlock key={sec} section={sec} rows={all} ro={ro} who={who} panel={p!} byCheck={byCheck} />;
           }
+          if (isProtectionSection(sec)) {
+            return <ProtectionBlock key={sec} section={sec} rows={all} ro={ro} who={who} panel={p!} byCheck={byCheck} />;
+          }
           const ss = checkStats(all);
           return (
             <div key={sec}>
@@ -203,6 +210,7 @@ export function PanelDetail({ id }: { id: string }) {
         })}
       </div>
       {newInj && <CreateInjection panel={p} checks={checks} who={who} onClose={() => setNewInj(false)} />}
+      {newProt && <CreateProtection panel={p} checks={checks} who={who} onClose={() => setNewProt(false)} />}
     </>
   );
 }

@@ -23,6 +23,7 @@ from reportlab.platypus import (
 
 from .sas_matrix import is_dido_section
 from . import injection as INJ
+from . import relaytest as RT
 from .db import Database, ISSUE_STATUSES, PANEL_STATUSES, SEV_LABEL, SEV_SHORT, SEVERITIES, fmt_date, parse_date, today
 
 NAVY = colors.HexColor("#0E1A2B")
@@ -531,7 +532,8 @@ class ReportBuilder:
             if not p or not o:
                 continue
             checks = self.check_item_filter([c for c in db.panel_checks(pnid) if not is_dido_section(c["section"])
-                                             and not INJ.is_injection_section(c["section"])],
+                                             and not INJ.is_injection_section(c["section"])
+                                             and not RT.is_protection_section(c["section"])],
                                             sections, items)
             ev_counts = db.check_photo_counts(pnid)
             if filtered and not checks:
@@ -882,6 +884,109 @@ class ReportBuilder:
         if not printed:
             story.append(Paragraph(tr('<i>Tidak ada uji injeksi CT/VT pada panel yang dipilih.</i>'), P))
         self._build(path, title or tr('Report Uji Injeksi CT/VT'), story, pagesize)
+        return printed
+
+    # ------------------------------------------------------------ uji proteksi relay
+    def protection_report(self, path, panel_ids, with_photos=True, with_sign=True, title=None):
+        """Report Uji Proteksi Relay per panel: per relay, per fungsi setting + titik uji (expected/toleransi/actual/
+        hasil) dan uji fungsional, lalu lampiran foto evidence. Mengembalikan jumlah panel yang dicetak."""
+        db = self.db
+        pagesize = A4
+        W = pagesize[0] - 24 * mm
+        story, printed = [], 0
+        for pnid in panel_ids:
+            p = db.panel(pnid)
+            if not p:
+                continue
+            allc = db.panel_checks(pnid)
+            secs = []
+            for c in allc:
+                if RT.is_protection_section(c["section"]) and c["section"] not in secs:
+                    secs.append(c["section"])
+            if not secs:
+                continue
+            if printed:
+                story.append(PageBreak())
+            printed += 1
+            punches = {}
+            for i in db.issues(self.pid, panel_id=pnid):
+                if i["check_id"]:
+                    punches.setdefault(i["check_id"], []).append(i["code"])
+            story.append(Paragraph(tr('Report Uji Proteksi Relay — {0}', esc(p['tag'])), H1))
+            story.append(Spacer(1, 4))
+            for sec in secs:
+                rows_ = [c for c in allc if c["section"] == sec]
+                g = RT.group(rows_)
+                tests = [c for c in rows_ if c["unit"] != RT.SETUP_UNIT]
+                n = {k: sum(1 for c in tests if c["result"] == k) for k in ("OK", "NG", "NA")}
+                photos = {c["id"]: db.check_photos(c["id"]) for c in tests}
+                n_ph = sum(len(v) for v in photos.values())
+                tol = g["tol"]
+                info = [
+                    [tr('Site / GI'), p["site_name"], tr('Tag panel'), p["tag"]],
+                    [tr('Relay'), RT.device_of(sec), tr('Bay'), p["bay"]],
+                    [tr('Toleransi'), tr("waktu ±{0}% (min {1} ms) · pickup ±{2}%", RT._g(tol["t_pct"]), RT._g(tol["t_ms"]), RT._g(tol["p_pct"])),
+                     tr('Evidence'), _Raw(tr('<b>{0}</b> foto', n_ph))],
+                    [tr('Hasil'), _Raw(tr("<b>{0}/{1}</b> item diuji · <font color='#166534'><b>{2} OK</b></font> · "
+                                          "<font color='#B91C1C'><b>{3} NG</b></font> · {4} N/A",
+                                          n["OK"] + n["NG"] + n["NA"], len(tests), n["OK"], n["NG"], n["NA"])), "", ""],
+                ]
+                ti = Table([[Paragraph(f"<b>{esc(a)}</b>", P), _cell(b, P), Paragraph(f"<b>{esc(c)}</b>", P), _cell(d, P)]
+                            for a, b, c, d in info], colWidths=[W * 0.13, W * 0.40, W * 0.13, W * 0.34])
+                ti.setStyle(TableStyle([("GRID", (0, 0), (-1, -1), 0.4, GRID), ("BACKGROUND", (0, 0), (0, -1), HEAD_BG),
+                                        ("BACKGROUND", (2, 0), (2, -1), HEAD_BG), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+                story += [ti, Spacer(1, 6)]
+                rows = [[tr('Titik uji'), tr('Expected'), tr('Toleransi'), tr('Actual'), tr('Hasil'), tr('Catatan / Punch'), tr('Oleh · Tgl')]]
+                st = []
+
+                def add(c, label, exp_txt, tol_txt):
+                    note = esc(c["remark"])
+                    if c["id"] in punches:
+                        note += ("<br/>" if note else "") + f"<font color='#B91C1C'>→ {', '.join(punches[c['id']])}</font>"
+                    d_ = parse_date(c["checked_at"])
+                    by = f"{esc(c['checked_by'])} · {d_.strftime('%d/%m/%y')}" if c["checked_by"] and d_ else esc(c["checked_by"])
+                    rows.append([Paragraph(esc(label), PS), Paragraph(esc(exp_txt), PS), tol_txt,
+                                 f"{c['value']} {c['unit']}".strip() if c["value"] else "",
+                                 {"NA": "N/A"}.get(c["result"], c["result"] or ""), Paragraph(note, PS), Paragraph(by, PS)])
+                    r = len(rows) - 1
+                    if c["result"] in RES:
+                        bg, fg = RES[c["result"]]
+                        st.extend([("BACKGROUND", (4, r), (4, r), bg), ("TEXTCOLOR", (4, r), (4, r), fg),
+                                   ("FONT", (4, r), (4, r), "Helvetica-Bold", 7.5)])
+
+                for f in g["funcs"]:
+                    pr = RT.parse_params(f["fset"]["criteria"]) if f["fset"] is not None else {}
+                    hdr = f"F{f['n']} · {f['code']} · {tr(f['name'])}"
+                    if f["kind"] != "check":
+                        hdr += "  —  " + (RT.params_text(pr).replace("; ", " · ") if pr else tr("(setting belum diisi)"))
+                    rows.append([Paragraph(f"<b>{esc(hdr)}</b>", PS)] + [""] * 6)
+                    r = len(rows) - 1
+                    st += [("SPAN", (0, r), (-1, r)), ("BACKGROUND", (0, r), (-1, r), colors.HexColor("#F1F5F9"))]
+                    if f["fset"] is not None and f["fset"]["result"]:
+                        add(f["fset"], tr("Setting di relay sesuai approval?"), "", "")
+                    ex = {l: (e, t) for l, _, e, t in RT.expected(f["code"], pr, tol)}
+                    for label, c in f["points"]:
+                        if not c["unit"]:
+                            add(c, tr(label), tr(c["criteria"] or ""), "")
+                            continue
+                        e, t = ex.get(label, (None, None))
+                        add(c, tr(label), "" if e is None else f"{RT.fmt(e, c['unit'])} {c['unit']}",
+                            "" if t is None else f"± {RT.fmt(t, c['unit'])}")
+                tb = Table(rows, colWidths=[W * x for x in (0.24, 0.12, 0.10, 0.12, 0.07, 0.20, 0.15)], repeatRows=1)
+                tb.setStyle(_base_style([("ALIGN", (1, 1), (4, -1), "RIGHT"), ("ALIGN", (4, 0), (4, -1), "CENTER"),
+                                         ("VALIGN", (0, 0), (-1, -1), "MIDDLE")] + st))
+                story += [tb, Spacer(1, 3)]
+                story.append(Paragraph(tr("<font size=6.5 color='#586064'>Waktu trip IDMT: t = TMS·(k/((I/Is)^α − 1) + B) "
+                                          "(IEC 60255-151 / IEEE C37.112). Differential: Idiff = Is1 + K1·Ibias (≤ Is2), "
+                                          "lalu + K2·(Ibias − Is2).</font>"), P))
+                if with_photos and n_ph:
+                    self._evidence_photos(story, tests, photos, W, tr('Foto Evidence — {0}', esc(RT.device_of(sec))), lambda c: "")
+                story.append(Spacer(1, 8))
+            if with_sign:
+                story.append(self._signatures(W))
+        if not printed:
+            story.append(Paragraph(tr('<i>Tidak ada uji proteksi relay pada panel yang dipilih.</i>'), P))
+        self._build(path, title or tr('Report Uji Proteksi Relay'), story, pagesize)
         return printed
 
     # ------------------------------------------------------------ summary

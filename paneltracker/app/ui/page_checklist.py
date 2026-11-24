@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 from ..db import PANEL_STATUSES, fmt_date
 from .. import sas_matrix as SM
 from .. import injection as INJ
+from .. import relaytest as RT
 from . import theme as T
 from . import widgets as W
 from .dialogs import IssueDialog, PanelDialog
@@ -712,6 +713,14 @@ class PanelCheckView(QWidget):
         self.inj_blocks = []
         inj_done = set()
         for r in checks:
+            if RT.is_protection_section(r["section"]):
+                if r["section"] not in inj_done:
+                    from .protection_ui import ProtectionBlock
+                    inj_done.add(r["section"])
+                    blk = ProtectionBlock(self, r["section"], [c for c in checks if c["section"] == r["section"]], punches)
+                    v.addWidget(blk)
+                    self.inj_blocks.append(blk)
+                continue
             if INJ.is_injection_section(r["section"]):
                 # uji injeksi CT/VT: satu blok tabel per seksi (expected otomatis, actual + baca foto HMI)
                 if r["section"] not in inj_done:
@@ -886,6 +895,12 @@ class PanelCheckView(QWidget):
             self.load(self.panel_id)
             self.stats_changed()
 
+    def add_protection(self):
+        from .protection_ui import create_block
+        if create_block(self):
+            self.load(self.panel_id)
+            self.stats_changed()
+
     def add_injection(self):
         from .injection_ui import create_block
         if create_block(self):
@@ -935,9 +950,13 @@ class PanelCheckView(QWidget):
         m.addSeparator()
         if not W.RO:
             m.addAction(T.icon("plus"), tr('Tambah uji injeksi CT/VT…'), self.add_injection)
+            m.addAction(T.icon("shield"), tr('Tambah uji proteksi relay…'), self.add_protection)
         m.addAction(T.icon("printer"), tr('Cetak check sheet (PDF)…'), lambda: self.main.report_check_sheet([self.panel_id]))
         if getattr(self, "inj_blocks", None):
-            m.addAction(T.icon("printer"), tr('Cetak report uji injeksi CT/VT (PDF)…'), lambda: self.main.report_injection([self.panel_id]))
+            if any(RT.is_protection_section(b.section) for b in self.inj_blocks):
+                m.addAction(T.icon("printer"), tr('Cetak report uji proteksi relay (PDF)…'), lambda: self.main.report_protection([self.panel_id]))
+            if any(INJ.is_injection_section(b.section) for b in self.inj_blocks):
+                m.addAction(T.icon("printer"), tr('Cetak report uji injeksi CT/VT (PDF)…'), lambda: self.main.report_injection([self.panel_id]))
         m.addAction(T.icon("qr"), tr('Cetak label QR…'), lambda: self.main.report_qr([self.panel_id]))
         m.addSeparator()
         if p["accepted_at"]:

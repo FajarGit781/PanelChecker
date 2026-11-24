@@ -450,4 +450,24 @@ table.inj-ch { width: 100%; border-collapse: collapse; margin-top: 8px; font-var
 .inj-prev { margin: 0 16px 10px; border: 1px solid #c9dcef; background: var(--blue-l); border-radius: 8px; padding: 8px 10px; display: grid; gap: 6px; }
 .inj-prev-r { font-size: 14px; color: var(--ink); line-height: 1.35; }
 .inj-prev-r.warn { color: var(--red-t); }
+/* ---- uji proteksi relay ---- */
+.fcode { font: 700 12px var(--cond); background: var(--plate); color: var(--engrave); border-radius: 3px; padding: 1px 5px; letter-spacing: .3px; }
+.prot-set { display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 0 12px 8px; font-size: 13px; color: var(--muted); }
+.prot-set .warn { color: var(--amber-t); }
+.prot-set .btn { flex: none; display: inline-flex; align-items: center; gap: 6px; }
+.prot-setok { display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 0 12px 8px; flex-wrap: wrap; }
+.prot-check { padding: 0 12px 10px; }
+.prot-check .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.push.sm { padding: 0; gap: 6px; }
+.push.sm button { min-height: 38px; font-size: 14px; }
+.prot-setok .push.sm { width: 180px; }
+.inj-t td.st .push.sm { display: grid; width: 100%; grid-template-columns: 1fr; gap: 4px; }
+.inj-t td.st .push.sm button { min-height: 32px; font-size: 12px; padding: 0; }
+.inj-t .hint { font-size: 11px; color: #12416b; margin-top: 2px; }
+.fld select { min-height: 44px; border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; font: 500 16px var(--sans); background: #fff; color: var(--ink); width: 100%; }
+.prot-funcs { max-height: 46vh; overflow-y: auto; border-top: 1px solid var(--rule); margin-bottom: 4px; }
+.prot-funcs .fcode { margin-right: 4px; }
+.inj-t tr.chk td { font-size: 14px; }
+.prot-check-row { display: grid; gap: 6px; margin-top: 6px; }
+.prot-check-row .links { display: flex; flex-wrap: wrap; gap: 6px; }
 

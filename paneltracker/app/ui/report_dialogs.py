@@ -471,8 +471,10 @@ class CheckSheetDialog(QDialog):
         self.ov = self.db.panel_overview(self.pid, main.site_id)
         from ..sas_matrix import is_dido_section     # uji DI/DO punya report sendiri
         from ..injection import is_injection_section   # uji injeksi CT/VT juga punya report sendiri
+        from ..relaytest import is_protection_section
         self.checks = {o["panel"]["id"]: [c for c in self.db.panel_checks(o["panel"]["id"])
-                                          if not is_dido_section(c["section"]) and not is_injection_section(c["section"])]
+                                          if not is_dido_section(c["section"]) and not is_injection_section(c["section"])
+                                          and not is_protection_section(c["section"])]
                        for o in self.ov}
         lay = QVBoxLayout(self)
         lay.setSpacing(10)
@@ -751,23 +753,27 @@ class DidoReportDialog(QDialog):
         from PySide6.QtWidgets import QButtonGroup, QRadioButton
         from ..sas_matrix import is_dido_section
         from ..injection import is_injection_section
+        from ..relaytest import is_protection_section
         self.main = main
         self.kind = kind
         db = main.db
-        inj = kind == "injection"
-        ttl = tr('Report Uji Injeksi CT/VT') if inj else tr('Report Uji DI/DO')
-        match = is_injection_section if inj else is_dido_section
+        inj = kind in ("injection", "protection")
+        prot = kind == "protection"
+        ttl = tr('Report Uji Proteksi Relay') if prot else tr('Report Uji Injeksi CT/VT') if inj else tr('Report Uji DI/DO')
+        match = is_protection_section if prot else is_injection_section if inj else is_dido_section
         self.setWindowTitle(ttl)
         self.resize(720, 600)
         self.data = []
         for o in db.panel_overview(main.project_id, main.site_id):
             p = o["panel"]
-            cs = [c for c in db.panel_checks(p["id"]) if match(c["section"]) and (not inj or c["unit"] != "setup")]
+            cs = [c for c in db.panel_checks(p["id"]) if match(c["section"]) and (not inj or c["unit"] not in ("setup", "psetup"))]
             if cs:
                 self.data.append((p, cs, db.check_photo_counts(p["id"])))
         lay = QVBoxLayout(self)
         lay.addWidget(label(ttl, 14, True))
-        info = QLabel(tr('Hasil uji injeksi sekunder CT/VT per device: expected vs actual I, V, MW, MVAR, PF, frekuensi '
+        info = QLabel(tr('Hasil uji proteksi per relay: setting, expected vs actual pickup/waktu trip per fungsi, uji fungsional, '
+                         'beserta foto evidence.') if prot else
+                      tr('Hasil uji injeksi sekunder CT/VT per device: expected vs actual I, V, MW, MVAR, PF, frekuensi '
                          'per titik uji, beserta foto evidence layar HMI/BCU.') if inj else
                       tr('Terpisah dari Lembar Uji Panel: hasil uji DI (per slot/opto) dan DO (kontrol/trip/sinyal) '
                          'per device, beserta foto evidence.'))
@@ -844,6 +850,6 @@ class DidoReportDialog(QDialog):
         o = {"panel_ids": [p["id"] for p, _, _ in self.data if p["id"] in ids], "items": self._mode(),
              "with_photos": self.photos.isChecked(), "with_sign": self.sign.isChecked(),
              "lang": self.rlang.currentData()}
-        if self.kind == "injection":
+        if self.kind in ("injection", "protection"):
             o.pop("items")
         return o

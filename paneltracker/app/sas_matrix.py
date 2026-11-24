@@ -34,7 +34,7 @@ def is_dido_section(section) -> bool:
 
 
 # satuan yang bukan hasil ukur (konfigurasi): IP address, revisi file
-_NOT_MEASURE = {"ip", "rev", "rev cid", "setup"}   # setup = konfigurasi uji injeksi CT/VT
+_NOT_MEASURE = {"ip", "rev", "rev cid", "setup", "psetup", "fset"}   # setup = konfigurasi uji injeksi CT/VT
 
 
 def is_measurement(unit) -> bool:

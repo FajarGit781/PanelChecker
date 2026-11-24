@@ -671,6 +671,30 @@ class MainWindow(QMainWindow):
         if fp:
             self._run_report(lambda rb, f: rb.injection_report(f, ids, **o), fp, lang=lang)
 
+    def report_protection(self, ids=None):
+        """Report Uji Proteksi Relay (setting, expected vs actual per fungsi, uji fungsional, foto)."""
+        if not self._need_project():
+            return
+        from .report_dialogs import DidoReportDialog
+        d = DidoReportDialog(self, kind="protection")
+        if not d.data:
+            warn(self, tr('Belum ada panel dengan uji proteksi relay. Buat dari halaman Checking: menu ⋯ → Tambah uji proteksi relay.'))
+            return
+        if ids:
+            from PySide6.QtCore import Qt as _Qt
+            for i in range(d.pl.count()):
+                it = d.pl.item(i)
+                it.setCheckState(_Qt.Checked if it.data(_Qt.UserRole) in ids else _Qt.Unchecked)
+        if not d.exec():
+            return
+        o = d.options()
+        ids = o.pop("panel_ids")
+        lang = o.pop("lang")
+        name = "UjiProteksi" if len(ids) > 1 else "UjiProteksi_" + _safe(self.db.panel(ids[0])["tag"])
+        fp = self._report_path(name)
+        if fp:
+            self._run_report(lambda rb, f: rb.protection_report(f, ids, **o), fp, lang=lang)
+
     def report_summary(self):
         if self._need_project():
             fp = self._report_path("Ringkasan")
