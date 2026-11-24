@@ -47,6 +47,8 @@ pans = lap.panels(pid)
 for p, (tag, name, bay) in zip(pans, REAL):
     lap.update_panel(p["id"], tag=tag, name=name, bay=bay)
 P0 = pans[3]["id"]   # =EC02+WR1
+lap.add_check_item(P0, "I. SAS · -A30 MiCOM C264 (BCU)", "Device terintegrasi ke SAS (online di HMI SAS 1 & 2)", "Online")
+lap.add_check_item(P0, "I. SAS · -A30 MiCOM C264 (BCU)", "IP address sudah dikonfigurasi", "Subnet 172.16.14.x", "ip")
 secs = [r["section"] for r in lap.panel_checks(P0)]
 add_items(lap, P0, INJ.block_items("-A30 MiCOM C264 (BCU)", INJ.next_letter(secs), INJ.DEFAULT_SETUP, [(10, 100, 0, 50)]))
 c = SupabaseClient(URL, "k"); c.sign_in("seed@x.id", "Kuat-Sekali-123a"); SyncEngine(lap, c).run()
@@ -100,6 +102,13 @@ with sync_playwright() as p:
         pg.evaluate("document.querySelector('.content').scrollTop = 700"); shot("03b_panels_scroll")
         pg.fill("input[type=search]", "EC02"); time.sleep(0.3)
         pg.click(".cubicle >> nth=0"); pg.wait_for_selector(".step"); shot("04_panel_detail")
+        ipi = pg.locator("td.ip input").first
+        ipi.click(); ipi.press_sequentially("172,16,14,11"); time.sleep(0.2)
+        if ipi.input_value() != "172.16.14.11": bad[f"{label}/ip"] = [f"koma tidak jadi titik: {ipi.input_value()!r}"]
+        ipi.press("Enter"); time.sleep(0.6)
+        if pg.locator(".ipwarn").count(): bad[f"{label}/ip_warn"] = [pg.inner_text(".ipwarn")]
+        if "OK" not in (pg.locator("td.ip .mx-c").first.get_attribute("class") or ""): bad[f"{label}/ip_ok"] = ["IP valid tidak otomatis OK"]
+        shot("04b_ip")
         pg.wait_for_selector(".inj"); pg.locator(".inj").scroll_into_view_if_needed(); shot("05_injection")
         pg.click("button:has-text('Uji injeksi CT/VT')"); pg.wait_for_selector(".sheet-modal .inj-form"); shot("06_create_sheet")
         pg.click(".sheet-modal .inj-mode button:has-text('P')"); shot("06b_create_target")

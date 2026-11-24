@@ -325,6 +325,17 @@ function usedIps(panelId: string): Map<string, Map<string, string>> {
   return out;
 }
 
+/** Keyboard angka iPhone (wilayah Indonesia) hanya punya koma: di isian IP koma langsung jadi titik. */
+function ipText(el: HTMLInputElement): string {
+  const v = el.value.replace(/,/g, ".");
+  if (v !== el.value) {
+    const pos = el.selectionStart;
+    el.value = v;
+    if (pos !== null) el.setSelectionRange(pos, pos);
+  }
+  return v;
+}
+
 const MARK: Record<string, string> = { OK: "✓", NG: "✗", NA: "N/A" };
 
 function SasMatrix({ devices, ro, who, panel, byCheck }: { devices: SasDevice[]; ro: boolean; who: string; panel: Row;
@@ -393,7 +404,8 @@ function IpCell({ c, ro, ips, onSet }: { c: Row; ro: boolean; ips: Map<string, M
   for (const [ip, m] of ips) for (const [uuid, who] of m) if (uuid !== c.uuid) others.set(ip, who);
   const warn = ipWarning(v, c.criteria || "", others);
   const save = async () => {
-    const val = v.trim();
+    const val = v.trim().replace(/,/g, ".");          // IP lama yang terlanjur diketik dengan koma ikut dibetulkan
+    if (val !== v) setV(val);
     if (ro || val === (c.value || "")) return;
     await store.edit("panel_checks", c.uuid, { value: val });
     // otomatis OK hanya kalau IP valid, di subnet bay, dan tidak dobel; kalau bermasalah, biarkan teknisi memutuskan
@@ -403,7 +415,7 @@ function IpCell({ c, ro, ips, onSet }: { c: Row; ro: boolean; ips: Map<string, M
     <td class="ip">
       <div class="ipbox">
         <input inputMode="decimal" placeholder={(c.criteria || "").replace(/^Subnet /, "")} value={v} readOnly={ro}
-          class={warn ? "bad" : ""} onInput={(e: any) => setV(e.currentTarget.value)} onBlur={save}
+          class={warn ? "bad" : ""} onInput={(e: any) => setV(ipText(e.currentTarget))} onBlur={save}
           onKeyDown={(e: any) => { if (e.key === "Enter") e.currentTarget.blur(); }} />
         <button class={"mx-c sm " + (c.result || "")} disabled={ro} onClick={() => onSet(c, nextResult(c.result))}>{MARK[c.result] || "·"}</button>
       </div>
@@ -452,7 +464,8 @@ function Step({ c, no, ro, punches, onResult, panel }: { c: Row; no: number; ro:
       {showNotes && (
         <div class="notes">
           {(c.unit || c.value) && <input class="val" inputMode={c.unit === "rasio" ? "text" : "decimal"} placeholder={c.unit ? t("Nilai ({0})", c.unit) : t("Nilai")} value={value} readOnly={ro}
-            onInput={(e: any) => setValue(e.currentTarget.value)} onBlur={() => save("value", value)} />}
+            onInput={(e: any) => setValue(/^ip$/i.test(c.unit || "") || /^ip address/i.test(c.description || "") ? ipText(e.currentTarget) : e.currentTarget.value)}
+            onBlur={() => save("value", value)} />}
           <input placeholder={ro ? "" : t("Catatan")} value={remark} readOnly={ro}
             onInput={(e: any) => setRemark(e.currentTarget.value)} onBlur={() => save("remark", remark)} />
         </div>
